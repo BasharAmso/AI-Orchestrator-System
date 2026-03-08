@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# Pre-Bash Firewall — blocks dangerous commands before execution
+# Called by settings.json PreToolUse hook for all Bash tool calls
+# Exit code 2 = block the command and show error to Claude
+# Exit code 0 = allow the command to proceed
+
+set -euo pipefail
+
+INPUT=$(cat)
+PYTHON=$(python3 -c "import sys" 2>/dev/null && echo python3 || echo python)
+COMMAND=$(echo "$INPUT" | $PYTHON -c "
+import sys, json
+data = json.load(sys.stdin)
+print(data.get('command', ''))
+" 2>/dev/null || echo "")
+
+BLOCKED_PATTERNS=(
+  "rm -rf /"
+  "rm -rf \*"
+  "git reset --hard"
+  "git push --force"
+  "git push -f"
+  "DROP TABLE"
+  "DROP DATABASE"
+  "truncate "
+  "chmod 777"
+  "> /etc/"
+  "sudo rm"
+  "rm -rf \."
+  "> /dev/sda"
+  "mkfs"
+  "dd if="
+)
+
+for pattern in "${BLOCKED_PATTERNS[@]}"; do
+  if echo "$COMMAND" | grep -qiE "$pattern"; then
+    echo "BLOCKED by pre-bash-firewall: '$pattern' detected in command" >&2
+    echo "If this is intentional, ask the user to run the command manually." >&2
+    exit 2
+  fi
+done
+
+# Block pipe-to-shell patterns
+if echo "$COMMAND" | grep -qE "\|\s*(ba)?sh"; then
+  echo "BLOCKED by pre-bash-firewall: pipe-to-shell pattern detected" >&2
+  exit 2
+fi
+
+exit 0

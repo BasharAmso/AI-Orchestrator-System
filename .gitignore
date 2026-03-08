@@ -1,0 +1,46 @@
+# ==============================================
+# AI Builder System — .gitignore
+# ==============================================
+# Prevents personal/local machine paths and
+# sensitive files from leaking into the repo.
+# ==============================================
+
+# ----- Local environment files -----
+.env
+.env.local
+.env.*
+
+# ----- OS-generated files -----
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ----- IDE / Editor files -----
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ----- AI-Memory (personal cross-project knowledge) -----
+# AI-Memory is a personal folder that should NOT be included
+# in the shared repo. Each user should create their own locally.
+# See /capture-lesson command and knowledge-policy.md for setup.
+AI-Memory/
+
+# ----- Claude Code session artifacts -----
+# These are generated per-session and should not be committed.
+.claude/project/STATE.md
+.claude/project/EVENTS.md
+.claude/project/knowledge/DECISIONS.md
+.claude/project/knowledge/RESEARCH.md
+.claude/project/knowledge/GLOSSARY.md
+.claude/project/knowledge/OPEN_QUESTIONS.md
+.claude/project/RUN_POLICY.md
+
+# ----- Node / Python artifacts (if projects use them) -----
+node_modules/
+__pycache__/
+*.pyc
+dist/
+build/
