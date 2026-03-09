@@ -4,15 +4,16 @@
 
 ---
 
-## Source Path
+## Source Paths
 
-The canonical skill source directory is:
+Skills are loaded from two directories:
 
-```
-<AI-Builder-System-root>/.claude/skills/
-```
+| Directory | Purpose | Managed By |
+|-----------|---------|------------|
+| `.claude/skills/` | Built-in framework skills | Framework (overwritten on upgrade) |
+| `custom-skills/` | User-created project-specific skills | You (never overwritten) |
 
-When deployed into a project, this is the directory that contains the master skill definitions. If you need to sync skills from the framework into a project, copy from this source path.
+When deployed into a project, `.claude/skills/` contains the master skill definitions shipped with the framework. `custom-skills/` is where you add your own skills — they are safe from framework upgrades.
 
 > **Framework source (default):** `${AI_BUILDER_SYSTEM_PATH:-~/Projects/AI-Builder-System}/.claude/skills/`
 > **Setup:** Set the `AI_BUILDER_SYSTEM_PATH` environment variable to your local clone of the framework. Default assumes `~/Projects/AI-Builder-System` — update if your path differs.
@@ -23,7 +24,9 @@ When deployed into a project, this is the directory that contains the master ski
 
 ### Step 1: Scan Skill Files
 
-Find all `.md` files in `.claude/skills/` **excluding** `REGISTRY.md`.
+Find all `SKILL.md` files in both directories:
+1. `.claude/skills/*/SKILL.md` — built-in skills (excluding `REGISTRY.md`)
+2. `custom-skills/*/SKILL.md` — user-created skills (if the directory exists)
 
 ### Step 2: Extract Metadata
 
@@ -43,9 +46,9 @@ Warning: [filename] is missing field: [field name]
 
 Regenerate `.claude/skills/REGISTRY.md` with:
 
-1. **Skills Index table** — One row per skill with ID, Name, Version, File, Owner.
+1. **Skills Index table** — One row per skill with ID, Name, Version, File, Owner, Source (built-in or custom).
 2. **Trigger Lookup table** — One row per trigger mapping to its Skill ID and file.
-3. **Stats section** — Total skill count and current date.
+3. **Stats section** — Total skill count (built-in + custom), current date.
 
 If no skill files are found, use `(none)` placeholders in both tables.
 
@@ -54,8 +57,15 @@ If no skill files are found, use `(none)` placeholders in both tables.
 ```
 ## Skills Refresh Complete
 
-- **Skills Found:** [count]
+- **Built-in Skills:** [count]
+- **Custom Skills:** [count]
+- **Total Skills:** [count]
 - **Triggers Mapped:** [count]
 - **Warnings:** [count] (list any missing fields)
+- **Conflicts:** [count] (list any trigger conflicts between built-in and custom skills)
 - **Registry Updated:** .claude/skills/REGISTRY.md
 ```
+
+### Trigger Conflict Resolution
+
+If a custom skill defines the same trigger as a built-in skill, the **custom skill wins**. This lets you override framework behavior without modifying built-in files. Log a note: `"Custom skill [ID] overrides built-in trigger [TRIGGER] from [built-in ID]."`

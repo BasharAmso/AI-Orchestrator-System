@@ -14,15 +14,16 @@ The system gives your AI assistant a structured set of agents, skills, and rules
 
 ## Quick Start
 
-1. **Copy** this entire folder into a new directory.
+1. **Copy** this entire folder into a new directory (or use `/clone-framework`).
 2. **Rename** it to match your project (e.g., `my-cool-app`).
 3. **Open** the folder in VS Code with Claude Code installed.
 4. **Run these commands** in order:
 
 ```
-/bootstrap         — Verify all files are in place
-/refresh-skills    — Build the skill registry
-/run-project       — Start processing (describe your idea when prompted)
+/start             — See where you are and what to do next
+/setup             — Create project structure and runtime files
+/capture-idea      — Describe what you want to build
+/run-project       — Start processing (generates PRD, seeds tasks)
 ```
 
 That's it. The system will guide you from there.
@@ -46,21 +47,28 @@ That's it. The system will guide you from there.
 
 | Command | What It Does |
 |---------|-------------|
-| `/bootstrap` | Prepare the project environment and ensure core system files exist. |
-| `/init-project` | Create the correct folder structure and starter files for Book, Web App, or Mobile App projects. |
-| `/capture-idea` | Turn a rough idea into a structured starting point (research entry, PRD stub, tasks, event). |
+| `/start` | Detect project state and recommend what to do next. |
+| `/setup` | Create project structure, runtime files, and starter docs. Replaces the old `/bootstrap` and `/init-project`. |
+| `/capture-idea` | Turn a rough idea into a structured starting point (research, PRD stub, tasks, event). |
+| `/run-project` | Execute orchestration cycles — process events and tasks based on current mode. |
+| `/status` | Show a project dashboard: phase, mode, progress, active task, queue. |
+| `/set-mode` | Switch between Safe, Semi-Autonomous, and Autonomous execution modes. |
+| `/checkpoint` | Save session progress so the next session can pick up where you left off. |
+| `/emit-event` | Manually trigger a workflow by emitting an event. |
 | `/refresh-skills` | Rebuild the Skills Registry so the orchestrator can discover available workflows. |
-| `/run-project` | Execute one safe orchestration cycle (process one event or one task by default). |
-| `/system-check` | Run a read-only diagnostic to verify the environment is healthy. |
+| `/system-check` | Run diagnostics to verify the environment is healthy, with optional auto-repair. |
+| `/clone-framework` | Copy or upgrade the AI Builder System into another project directory. |
+| `/capture-lesson` | Save a reusable insight to global memory for cross-project learning. |
+| `/prune-knowledge` | Review knowledge files for staleness and recommend cleanup. |
 
 ### Recommended First-Time Flow
 
 ```
-1. /bootstrap        — Prepare the project environment and ensure core system files exist
-2. /init-project     — Set up folders and files for your project type
+1. /start            — See where you are and what to do next
+2. /setup            — Create project structure and runtime files
 3. /capture-idea     — Describe what you want to build
-4. /refresh-skills   — Update the skill registry
-5. /run-project      — Start the first orchestration cycle
+4. /run-project      — Process the idea (generates PRD, seeds tasks)
+5. /run-project      — Execute the first task from the queue
 ```
 
 ## Run Modes
@@ -69,9 +77,9 @@ That's it. The system will guide you from there.
 |------|-------------|
 | **Safe** | Propose actions only. No files are modified. |
 | **Semi-Autonomous** | Execute one safe cycle and pause for review. *(Default)* |
-| **Autonomous** | Execute up to five cycles before stopping. |
+| **Autonomous** | Execute up to 10 cycles before stopping (configurable in RUN_POLICY.md). |
 
-The orchestrator runs bounded autonomous cycles rather than a single step. Cycle limits and stop conditions are defined in [.claude/project/RUN_POLICY.md](.claude/project/RUN_POLICY.md). The current mode is set in [.claude/project/STATE.md](.claude/project/STATE.md).
+Switch modes with `/set-mode safe`, `/set-mode semi`, or `/set-mode auto`. Cycle limits and stop conditions are defined in [.claude/project/RUN_POLICY.md](.claude/project/RUN_POLICY.md). The current mode is shown in [.claude/project/STATE.md](.claude/project/STATE.md).
 
 ## Global Memory
 
@@ -89,4 +97,7 @@ Skills do not rewrite themselves automatically. Instead, the system logs propose
 
 ## Learn More
 
-Open [.claude/CLAUDE.md](.claude/CLAUDE.md) for the full architecture explanation, including how events, skills, agents, and the dispatch chain work together. This is also the file Claude Code reads automatically on every session.
+- **[User Guide](docs/USER_GUIDE.md)** — Step-by-step walkthrough for first-time users.
+- **[Custom Skills Guide](docs/CUSTOM_SKILLS_GUIDE.md)** — How to create your own skills.
+- **[Framework Scope](docs/FRAMEWORK_SCOPE.md)** — The conceptual "why" behind the framework.
+- **[CLAUDE.md](.claude/CLAUDE.md)** — Architecture index and context loading rules (loaded by Claude Code automatically).

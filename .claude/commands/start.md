@@ -47,4 +47,6 @@ Run `/<command>` — [one-sentence plain-language explanation of what it does an
 - [bullet 3: what to do after (optional)]
 ```
 
+**Tone:** Write as if speaking to someone who has never used the terminal before. No jargon without explanation. Every recommendation should include what the command does in one plain sentence.
+
 Do not print framework internals unless the user asks.

@@ -30,6 +30,7 @@ Initialize the run:
 - Set Current Cycle = 0 in .claude/project/STATE.md Run Cycle section.
 - Set Max Cycles This Run from the Cycle Limits table in RUN_POLICY.md for the current mode.
 - Set Last Run Status = `Running`.
+- **Update Session Lock:** Set `Session Started` to current timestamp and `Checkpointed = No` in the Session Lock section of STATE.md (see orchestrator.md § "Initialization").
 
 ### Step 1.5: Check Mode Escalation
 
@@ -41,7 +42,7 @@ Read the Mode Escalation table in `.claude/project/RUN_POLICY.md`. If the curren
 1. If there is an **Active Task** with Status = `In Progress`: resume it.
 2. If there are **unprocessed events**: select the oldest (FIFO).
 3. If no events: **promote the next task** from the Next Task Queue to Active Task.
-4. If nothing to do: check `Current Phase` in STATE.md and print phase-appropriate guidance (see `.claude/agents/orchestrator.md` § "Phase-Aware Guidance"). Stop after printing.
+4. If nothing to do: check `Current Phase` in STATE.md and print phase-appropriate guidance (see `.claude/agents/orchestrator.md` § "Phase-Aware Guidance"). Use plain-language messages that tell the user exactly what command to run next — never leave them at a dead end. Stop after printing.
 
 ### Step 3: Route and Execute
 
@@ -71,8 +72,10 @@ Follow the Autonomous Run Cycles procedure defined in `.claude/agents/orchestrat
 | Autonomous | Execute up to the cycle limit defined in RUN_POLICY.md (default **10 cycles**), evaluating stop conditions between each. |
 
 For each cycle:
-1. Select → Route → Execute → Review → Update .claude/project/STATE.md → Increment Current Cycle → Print Execution Summary.
-2. Before starting the next cycle, evaluate all stop conditions from `.claude/project/RUN_POLICY.md`.
+1. **Snapshot STATE.md** before execution (see orchestrator.md § "Pre-Cycle Snapshot").
+2. Select → Route → Execute → Review → Update .claude/project/STATE.md → Increment Current Cycle → Print Execution Summary.
+3. **On failure:** Restore STATE.md from snapshot, set task to Blocked, and stop. Print the rollback message.
+4. Before starting the next cycle, evaluate all stop conditions from `.claude/project/RUN_POLICY.md`.
 
 ### Step 6: Check Stop Conditions
 

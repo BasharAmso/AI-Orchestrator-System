@@ -44,6 +44,7 @@ Ensure `.claude/project/STATE.md` accurately reflects:
 - The current Active Task (status, outputs, files modified)
 - The Next Task Queue (correct ordering)
 - Last Run Status set to `Checkpointed`
+- **Session Lock:** Set `Checkpointed = Yes` and update `Last Activity` to the current timestamp. This signals to the next session that this session exited cleanly.
 
 ### Step 5: Log Checkpoint Event
 

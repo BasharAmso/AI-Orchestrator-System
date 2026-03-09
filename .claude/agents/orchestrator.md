@@ -135,6 +135,18 @@ This section governs runtime execution across all modes.
 3. Set **Max Cycles This Run** according to mode (from .claude/project/RUN_POLICY.md).
 4. Set **Current Cycle** = 0 in the Run Cycle section of .claude/project/STATE.md.
 5. Set **Last Run Status** = `Running`.
+6. **Update Session Lock:** In the `## Session Lock` section of STATE.md, set `Session Started` to the current timestamp and `Checkpointed` to `No`. This marks the session as active; `/checkpoint` will set `Checkpointed = Yes` when the user saves progress.
+
+### Pre-Cycle Snapshot (Rollback Safety Net)
+
+Before executing each cycle, create an in-memory snapshot of `.claude/project/STATE.md`. This enables rollback if the cycle fails.
+
+1. **Snapshot:** Read the full contents of STATE.md and hold in memory as `STATE_SNAPSHOT`.
+2. **Execute:** Run the cycle (see Per-Cycle Procedure below).
+3. **On success:** Discard the snapshot. Proceed normally.
+4. **On failure:** Restore STATE.md from `STATE_SNAPSHOT`, set the task status to `Blocked`, record the error in Blockers/Risks, and stop. Print: "Something went wrong during this cycle. Your project state has been rolled back to before the cycle started. Run `/status` to see details, or `/run-project` to retry."
+
+> **Why snapshots matter:** Without rollback, a failed cycle can leave STATE.md half-updated — the task may be marked complete but its outputs missing, or the queue may be corrupted. Snapshotting ensures every cycle is atomic: it either fully succeeds or fully reverts.
 
 ### Per-Cycle Procedure
 
@@ -337,6 +349,25 @@ Before processing any event or task:
 
 ## Error Handling
 
-1. If a skill fails: log the error, set the task status to `Blocked`, record the error in Blockers/Risks, and stop.
-2. If a required file is missing: log a warning and attempt to proceed with defaults. If critical, stop and report.
-3. Never silently swallow errors. Always surface them in the Execution Summary.
+### Core Rule
+
+Every error message must tell the user **what happened** and **what to do next**. Never leave the user at a dead end.
+
+### Error Response Table
+
+| Situation | User-Facing Message |
+|-----------|-------------------|
+| Skill fails during execution | "Something went wrong while running [skill name]. The task has been paused. Run `/status` to see details, or `/run-project` to retry." |
+| Required file missing (STATE.md, EVENTS.md) | "A core system file is missing: [filename]. Run `/setup` to recreate it — your existing work won't be overwritten." |
+| REGISTRY.md missing or stale | "The skill registry needs updating. Run `/refresh-skills` to fix this — it takes a few seconds." |
+| No events and no tasks queued | *(Use Phase-Aware Guidance above — each phase has its own suggestion.)* |
+| Task becomes Blocked | "Task [ID] is blocked: [reason]. Check the Blockers section in `/status`. You may need to resolve this manually, then run `/run-project` to continue." |
+| Unknown event type (no routing match) | "Received event [TYPE] but no skill or route handles it. The event has been logged. You can add a handler in `.claude/skills/` or proceed with `/run-project`." |
+| File change exceeds 500 lines | "A file change exceeded the 500-line safety limit. Review the proposed changes, then run `/run-project` to continue." |
+| Agent file missing for routing | "The system tried to route to agent [name], but that agent file doesn't exist. Run `/system-check` to diagnose." |
+
+### Procedure
+
+1. If a skill fails: log the error, set the task status to `Blocked`, record the error in Blockers/Risks, print the user-facing message, and stop.
+2. If a required file is missing: print the user-facing message with the fix command. Attempt to proceed with defaults if non-critical; stop and report if critical.
+3. Never silently swallow errors. Always surface them in the Execution Summary with a suggested next action.

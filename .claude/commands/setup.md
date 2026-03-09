@@ -386,6 +386,18 @@ Default recommended actions for a fresh project:
 
 ---
 
+## Session Lock
+
+| Field | Value |
+|-------|-------|
+| Session Started | — |
+| Last Activity | — |
+| Checkpointed | No |
+
+> **How it works:** When a session starts, the orchestrator writes the current timestamp to `Session Started` and sets `Checkpointed = No`. When `/checkpoint` runs, it sets `Checkpointed = Yes`. On the next session start, if `Checkpointed = No` and `Session Started` has a value, the system warns that the previous session may not have saved all progress.
+
+---
+
 ## Goal Alignment
 
 | Field | Value |

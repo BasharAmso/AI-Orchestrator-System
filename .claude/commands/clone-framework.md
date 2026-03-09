@@ -38,6 +38,7 @@ Do **not** copy these — they are runtime/project-specific and get created by `
 
 | Skipped | Reason |
 |---------|--------|
+| `custom-skills/` | User-created skills — never overwrite, even in upgrade mode |
 | `.claude/project/STATE.md` | Project-specific state |
 | `.claude/project/EVENTS.md` | Project-specific events (patched in upgrade mode, never replaced) |
 | `.claude/project/RUN_POLICY.md` | Project-specific policy (patched in upgrade mode, never replaced) |

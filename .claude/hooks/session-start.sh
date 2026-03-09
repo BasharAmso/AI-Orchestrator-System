@@ -55,6 +55,16 @@ if [ -f "$STATE_FILE" ]; then
     [ -n "$CL" ] && CYCLE_LIMIT="$CL"
   fi
 
+  # Check for stale session lock (previous session didn't checkpoint)
+  CHECKPOINTED=$(awk '/^## Session Lock/,/^---/' "$STATE_FILE" 2>/dev/null | grep '| Checkpointed |' | sed 's/.*| Checkpointed | *//;s/ *|.*//' || echo "")
+  SESSION_STARTED=$(awk '/^## Session Lock/,/^---/' "$STATE_FILE" 2>/dev/null | grep '| Session Started |' | sed 's/.*| Session Started | *//;s/ *|.*//' || echo "")
+  if [ "$CHECKPOINTED" = "No" ] && [ -n "$SESSION_STARTED" ] && [ "$SESSION_STARTED" != "—" ]; then
+    echo ""
+    echo "WARNING: Previous session (started $SESSION_STARTED) did not run /checkpoint."
+    echo "Some progress may not be saved. Run /status to check."
+    echo ""
+  fi
+
   echo "Phase: ${PHASE:-Not Started} | Mode: ${MODE:-Unknown} | Cycle Limit: $CYCLE_LIMIT"
   echo "Progress: $PROGRESS"
   if [ "$ACTIVE_DESC" != "—" ] && [ -n "$ACTIVE_DESC" ]; then

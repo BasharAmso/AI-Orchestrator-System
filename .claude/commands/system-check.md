@@ -98,9 +98,29 @@ Go beyond file presence — verify the dispatch chain and cross-references actua
 2. Every agent referenced in `orchestration-routing.md` should have a matching `.claude/agents/<name>.md` file.
 3. Result: `Cross-references: OK` or `Cross-references: X broken links`
 
-### Step 8: STATE.md Repair (Optional)
+#### 7d. Event Health Test
 
-If Step 7b found consistency issues, offer repairs. **Behavior depends on mode:**
+1. **Orphaned events:** Check if any event in `## Processed Events` has no corresponding task in the Completed Tasks Log. Flag as informational (not an error — some events don't produce tasks).
+2. **Stale unprocessed events:** If any unprocessed event has a timestamp older than 7 days, flag as stale: "Event [ID] has been pending for [N] days. It may need manual attention or removal."
+3. **Duplicate events:** Check for duplicate event IDs across both sections. Flag duplicates.
+4. Result: `Event health: OK` or `Event health: X issues found`
+
+#### 7e. Phase-Progress Consistency Test
+
+1. **Phase vs. completed tasks:** If Current Phase is `Building` but Completed Tasks Log is empty, flag: "Phase is Building but no tasks have been completed yet — phase may have been set prematurely."
+2. **Phase vs. queue:** If Current Phase is `Ready for Deploy` but Next Task Queue still has items, flag: "Phase is Ready for Deploy but tasks remain in the queue."
+3. **Stale Active Task:** If Active Task has Status = `In Progress` but no `Started` timestamp, flag as inconsistent.
+4. Result: `Phase-progress consistency: OK` or `Phase-progress consistency: X issues found`
+
+#### 7f. Knowledge File Health Test
+
+1. **Empty knowledge files:** Check each file in `.claude/project/knowledge/`. If a file exists but contains only its template header (no actual entries), flag as informational: "[filename] exists but has no entries yet."
+2. **Broken decision references:** Scan `DECISIONS.md` for any entry with Status = `Superseded`. Verify the superseding decision ID exists. Flag broken references.
+3. Result: `Knowledge health: OK` or `Knowledge health: X notes`
+
+### Step 8: Repair (Optional)
+
+If Steps 7b, 7d, or 7e found repairable issues, offer repairs. **Behavior depends on mode:**
 
 - **Safe / Semi-Autonomous mode:** Print each issue with a proposed fix. Ask the user to confirm before applying any repair.
 - **Autonomous mode:** Apply repairs automatically and log each one.
@@ -114,8 +134,13 @@ If Step 7b found consistency issues, offer repairs. **Behavior depends on mode:*
 | Multiple modes marked `**YES**` | Keep only `Semi-Autonomous` as active (safe default) |
 | No mode marked `**YES**` | Set `Semi-Autonomous` as active (safe default) |
 | Invalid Current Phase value | Reset to `Not Started` |
+| Duplicate event IDs | Remove the duplicate (keep the first occurrence) |
+| Stale unprocessed events (>7 days) | Offer to move to Processed with note: `"Auto-expired by /system-check"` |
+| Active Task with no Started timestamp | Set Started to current timestamp |
+| Phase `Ready for Deploy` with tasks remaining | Reset phase to `Building` |
 
 **Do not repair** issues from Steps 7a or 7c — those require `/refresh-skills` or manual intervention.
+**Do not repair** knowledge health notes (7f) — those are informational only.
 
 ### Step 9: Print System Health Summary
 
@@ -133,6 +158,9 @@ Compile all results into this format:
 - **Dispatch Chain:** [OK | BROKEN]
 - **State Consistency:** [OK | X issues found (Y repaired)]
 - **Cross-References:** [OK | X broken links]
+- **Event Health:** [OK | X issues found]
+- **Phase-Progress:** [OK | X issues found]
+- **Knowledge Health:** [OK | X notes]
 
 **System Status:** [Healthy | Needs Attention]
 ```
@@ -145,15 +173,15 @@ If System Status is `Needs Attention`, also print:
 - [list each fix command with a short reason]
 ```
 
-Common suggested fixes:
+Common suggested fixes (use plain language — the user may be a non-programmer):
 
-| Problem | Fix |
-|---------|-----|
-| Project type not set | Run `/setup` |
-| Skills registry stale or missing | Run `/refresh-skills` |
-| Directories or core files missing | Run `/setup` |
-| STATE.md sections missing | Run `/setup` to regenerate, or manually fix |
-| EVENTS.md sections missing | Run `/setup` to regenerate, or manually fix |
-| Dispatch chain broken | Run `/refresh-skills` to rebuild registry |
-| Cross-references broken | Check agent files exist; run `/refresh-skills` |
-| State consistency issues | Re-run `/system-check` — repairs are offered automatically |
+| Problem | User-Facing Message |
+|---------|-------------------|
+| Project type not set | "Your project type hasn't been set yet. Run `/setup` to choose one — it only takes a moment." |
+| Skills registry stale or missing | "The skill registry is out of date. Run `/refresh-skills` to update it — this takes a few seconds." |
+| Directories or core files missing | "Some system files are missing. Run `/setup` to recreate them — it won't overwrite your existing work." |
+| STATE.md sections missing | "The project state file is incomplete. Run `/setup` to regenerate it, or check `.claude/project/STATE.md` directly." |
+| EVENTS.md sections missing | "The events log is incomplete. Run `/setup` to regenerate it." |
+| Dispatch chain broken | "The system can't route tasks to skills properly. Run `/refresh-skills` to rebuild the connections." |
+| Cross-references broken | "Some internal references are broken. Run `/refresh-skills` first, then `/system-check` again." |
+| State consistency issues | "Found some inconsistencies in your project state. Run `/system-check` again — it will offer to fix them automatically." |
