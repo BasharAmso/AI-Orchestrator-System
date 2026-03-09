@@ -46,6 +46,7 @@ Do **not** copy these — they are runtime/project-specific and get created by `
 | `docs/` | Project-specific documentation |
 | `PROJECT_TYPE.md` | Project-specific type |
 | `.claude/settings.json` | User-specific settings |
+| `CLAUDE.md` (root) | Legacy duplicate — `.claude/CLAUDE.md` is the canonical location |
 
 ### Step 4: Copy Files
 
@@ -77,7 +78,20 @@ If `<target>/.claude/project/EVENTS.md` exists:
 3. Do **NOT** clear or modify the Unprocessed Events or Processed Events sections.
 4. Log: `Patched: EVENTS.md (added Priority field)`
 
-#### 5b. Patch RUN_POLICY.md
+#### 5b. Clean Up Duplicate Root CLAUDE.md
+
+If `<target>/CLAUDE.md` (root) exists AND `<target>/.claude/CLAUDE.md` also exists:
+
+1. Both are loaded by Claude Code, wasting ~1.2k tokens/session.
+2. `.claude/CLAUDE.md` is the canonical location — it was just updated in Step 4.
+3. Check if the root `CLAUDE.md` contains project-specific identity (project name, client name, charter reference) that differs from the `.claude/CLAUDE.md` template identity.
+4. If the root file has project-specific fields: merge them into `.claude/CLAUDE.md`'s Project Identity section, replacing the template values.
+5. Delete the root `CLAUDE.md`.
+6. Log: `Cleaned: removed duplicate root CLAUDE.md (merged project identity into .claude/CLAUDE.md)`
+
+If only one CLAUDE.md exists (at either location): no action needed.
+
+#### 5c. Patch RUN_POLICY.md
 
 If `<target>/.claude/project/RUN_POLICY.md` exists:
 
@@ -120,6 +134,7 @@ These empty directories prepare the target for `/setup`.
 - **Copied:** [count] new files
 - **Updated:** [count] files (overwritten with latest)
 - **Patched:** [count] runtime files (format updates only)
+- **Cleaned:** [count] duplicate files removed (if any)
 - **Skipped:** [count] files (runtime state preserved)
 ```
 
