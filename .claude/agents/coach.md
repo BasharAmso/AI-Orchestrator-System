@@ -44,15 +44,20 @@ Classify the user into one of five situations:
 Based on situation, recommend the specific command to run next with a plain-language explanation of what it will do and what happens autonomously after they invoke it.
 
 Use the actual commands read in Step 1 to build this map. General guidance:
-- Starting fresh → bootstrap command, then build command
-- New idea to develop → build command (triggers IDEA_CAPTURED → plan-from-idea skill automatically)
-- PRD needs breaking into tasks → build command (triggers PRD_UPDATED → prd-to-tasks skill automatically)
-- Resuming after a break → checkpoint command to restore context, then assess STATE.md
-- Something feels wrong → system-check command first
-- Session ending → remind user to run checkpoint command
-- Learned something worth preserving → capture-lesson command
+- Starting fresh → `/setup` command (combines bootstrap + init-project into one step)
+- New idea to develop → `/capture-idea` (triggers IDEA_CAPTURED → plan-from-idea skill automatically)
+- PRD needs breaking into tasks → `/run-project` (triggers PRD_UPDATED → prd-to-tasks skill automatically)
+- Resuming after a break → `/checkpoint` to restore context, then assess STATE.md
+- Something feels wrong → `/system-check` first
+- Session ending → remind user to run `/checkpoint`
+- Learned something worth preserving → `/capture-lesson`
 - Wants to review quality → explain that quality review fires automatically via hook, no command needed
 - Wants to extend the framework → explain the agent template pattern; recommend reading an existing agent as a model before writing a new one
+- Wants to switch execution speed → `/set-mode` with `safe`, `semi`, or `auto` argument
+- Wants a quick project overview → `/status` for a compact dashboard
+- Asking "where am I?" or "how far along?" → `/status`
+- In Building phase and working slowly → suggest `/set-mode auto` for faster progress through the task queue
+- Asking about deprecated commands → explain that `/bootstrap` and `/init-project` are now `/setup`
 
 ### Step 4 — Explain what happens next (autonomously)
 After telling the user what to invoke, briefly explain what the framework does automatically so they understand they don't need to do anything else:

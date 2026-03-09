@@ -21,10 +21,19 @@ Read `.claude/project/RUN_POLICY.md` to determine:
 
 Read `.claude/project/EVENTS.md` to check for unprocessed events.
 
+**Auto-refresh REGISTRY if stale:** Before proceeding, check if `.claude/skills/REGISTRY.md` is current:
+1. Scan all subfolders in `.claude/skills/` for `SKILL.md` files.
+2. If any skill folder exists that is **not listed** in the REGISTRY Skills Index table, or if REGISTRY.md contains `(none)` placeholders despite skill files existing, run the `/refresh-skills` procedure inline.
+3. Log: `"Registry auto-refreshed — X skills found."` (or skip silently if already current).
+
 Initialize the run:
 - Set Current Cycle = 0 in .claude/project/STATE.md Run Cycle section.
-- Set Max Cycles This Run per mode (Safe = 0, Semi-Autonomous = 1, Autonomous = 5).
+- Set Max Cycles This Run from the Cycle Limits table in RUN_POLICY.md for the current mode.
 - Set Last Run Status = `Running`.
+
+### Step 1.5: Check Mode Escalation
+
+Read the Mode Escalation table in `.claude/project/RUN_POLICY.md`. If the current phase and mode match a suggestion row, print the suggestion once at the top of the run output. Then proceed normally — do not block or force a mode change.
 
 ### Step 2: Determine What to Process
 
@@ -32,7 +41,7 @@ Initialize the run:
 1. If there is an **Active Task** with Status = `In Progress`: resume it.
 2. If there are **unprocessed events**: select the oldest (FIFO).
 3. If no events: **promote the next task** from the Next Task Queue to Active Task.
-4. If nothing to do: print "Nothing to process. Emit an event or add tasks to the queue." and stop.
+4. If nothing to do: check `Current Phase` in STATE.md and print phase-appropriate guidance (see `.claude/agents/orchestrator.md` § "Phase-Aware Guidance"). Stop after printing.
 
 ### Step 3: Route and Execute
 
@@ -59,7 +68,7 @@ Follow the Autonomous Run Cycles procedure defined in `.claude/agents/orchestrat
 |------|----------|
 | Safe | Propose the next action but do NOT execute. Print what would happen. Stop after proposal. |
 | Semi-Autonomous | Execute exactly **1 cycle** (one event or one task), then stop. |
-| Autonomous | Execute up to **5 cycles**, evaluating stop conditions between each. |
+| Autonomous | Execute up to the cycle limit defined in RUN_POLICY.md (default **10 cycles**), evaluating stop conditions between each. |
 
 For each cycle:
 1. Select → Route → Execute → Review → Update .claude/project/STATE.md → Increment Current Cycle → Print Execution Summary.
@@ -130,5 +139,6 @@ Do not echo file contents, full plans, full PRDs, or generated documents into th
 - **Files Modified:** [List of files changed across all cycles]
 - **Next Task:** [Description of next queued task]
 - **Remaining Tasks:** [Count of tasks in queue]
+- **Progress:** [Completed count] of [Completed + Remaining] tasks ([percentage]%) — Phase: [Current Phase]
 - **Warnings:** [Any warnings or notes]
 ```

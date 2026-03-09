@@ -71,4 +71,15 @@ else
   echo "Validation completed with warnings — review items above."
 fi
 
+# Checkpoint reminder: check for unsaved progress
+STATE_FILE="$CLAUDE_DIR/project/STATE.md"
+if [ -f "$STATE_FILE" ]; then
+  ACTIVE_ID=$(grep '| ID |' "$STATE_FILE" 2>/dev/null | head -1 | sed 's/.*| ID | *//;s/ *|.*//')
+  HAS_COMPLETED=$(grep -c '^|' "$STATE_FILE" 2>/dev/null | tail -1)
+  if [ -n "$ACTIVE_ID" ] && [ "$ACTIVE_ID" != "—" ] && [ "$ACTIVE_ID" != "-" ]; then
+    echo ""
+    echo "Reminder: Active task ($ACTIVE_ID) detected. Run /checkpoint before ending this session to preserve progress."
+  fi
+fi
+
 exit 0

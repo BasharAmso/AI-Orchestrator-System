@@ -1,0 +1,82 @@
+# Command: /set-mode
+
+> Switch the project's execution mode. Updates STATE.md and validates preconditions.
+
+---
+
+## Usage
+
+```
+/set-mode <mode>
+```
+
+Where `<mode>` is one of:
+- `safe` — Propose only, no file changes (0 cycles)
+- `semi` — Execute one unit of work, then stop for review (1 cycle)
+- `auto` — Execute multiple units of work autonomously (cycle limit from RUN_POLICY.md)
+
+---
+
+## Procedure
+
+### Step 1: Validate Argument
+
+If `<mode>` is not one of `safe`, `semi`, or `auto`:
+- Print: "Invalid mode. Use: `safe`, `semi`, or `auto`."
+- Stop.
+
+### Step 2: Read Current State
+
+Read `.claude/project/STATE.md` to determine:
+- Current Mode (which row has `**YES**`)
+- Current Phase
+
+### Step 3: Check Preconditions
+
+Before switching, evaluate these warnings (warn but do not block):
+
+| Target Mode | Warning Condition | Message |
+|-------------|-------------------|---------|
+| `auto` | Current Phase is `Not Started` or `Planning` | "Phase is still `[phase]`. Consider completing planning before switching to Autonomous — unreviewed PRDs and task queues may need manual correction." |
+| `auto` | No tasks in Next Task Queue and no Active Task | "No tasks queued. Autonomous mode works best with a populated task queue." |
+| `safe` | Active Task has Status = `In Progress` | "There is an active task in progress. Switching to Safe mode will not cancel it, but the next `/run-project` will only propose actions." |
+
+If a warning fires: print the warning, then proceed with the mode switch (do not block).
+
+### Step 4: Update STATE.md
+
+In `.claude/project/STATE.md`, update the Current Mode table:
+- Remove `**YES**` from the currently active row.
+- Add `**YES**` to the target mode row.
+
+Map argument to table row:
+- `safe` → Safe
+- `semi` → Semi-Autonomous
+- `auto` → Autonomous
+
+Also update the Run Cycle section:
+- Update the mode mapping note to reflect the new cycle limit.
+
+### Step 5: CC Permissions Reminder
+
+If switching to `auto`, print:
+
+```
+Tip: Autonomous mode runs multiple cycles, but Claude Code may still prompt
+for tool permissions. To minimize interruptions, consider allowing common
+file operations for this session. See RUN_POLICY.md § "Claude Code Permissions"
+for details.
+```
+
+### Step 6: Print Confirmation
+
+```
+Mode switched: [Old Mode] → [New Mode]
+
+Next /run-project will execute in [New Mode] mode ([cycle description]).
+```
+
+Where `[cycle description]` is:
+- Safe: "proposal only, no changes"
+- Semi-Autonomous: "1 cycle, then stop for review"
+- Autonomous: "up to [limit] cycles per run"

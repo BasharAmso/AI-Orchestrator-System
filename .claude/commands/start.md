@@ -20,8 +20,8 @@ Based on what was found, classify into the first matching situation:
 
 | Situation | Condition | Recommended Command |
 |-----------|-----------|---------------------|
-| **Not bootstrapped** | `.claude/project/STATE.md` does not exist | `/bootstrap` |
-| **Not initialized** | `PROJECT_TYPE.md` missing AND this is not the framework template | `/init-project` |
+| **Not bootstrapped** | `.claude/project/STATE.md` does not exist | `/setup` |
+| **Not initialized** | `PROJECT_TYPE.md` missing AND this is not the framework template | `/setup` |
 | **No idea captured** | No unprocessed events AND Next Task Queue empty AND no Active Task | `/capture-idea` |
 | **Events pending** | Unprocessed events exist in EVENTS.md | `/run-project` |
 | **Tasks in queue** | Active Task exists or Next Task Queue has items | `/run-project` |

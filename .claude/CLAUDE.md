@@ -51,6 +51,11 @@
 | `/system-check` | `.claude/commands/system-check.md` |
 | `/checkpoint` | `.claude/commands/checkpoint.md` |
 | `/start` | `.claude/commands/start.md` |
+| `/setup` | `.claude/commands/setup.md` |
+| `/set-mode` | `.claude/commands/set-mode.md` |
+| `/status` | `.claude/commands/status.md` |
+| `/clone-framework` | `.claude/commands/clone-framework.md` |
+| `/prune-knowledge` | `.claude/commands/prune-knowledge.md` |
 
 ## Architecture Primitives
 

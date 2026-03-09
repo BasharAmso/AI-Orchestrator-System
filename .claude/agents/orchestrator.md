@@ -36,7 +36,7 @@ C) Direct Agent Routing (fallback)
    4. If still no match --> Orchestrator handles directly with best-effort.
 ```
 
-**Mode constraint:** Cycle limits are governed by `.claude/project/RUN_POLICY.md`. Semi-Autonomous (default) = 1 cycle, Autonomous = 5 cycles, Safe = 0 (propose only).
+**Mode constraint:** Cycle limits are governed by `.claude/project/RUN_POLICY.md`. Semi-Autonomous (default) = 1 cycle, Autonomous = cycle limit from RUN_POLICY.md (default 10), Safe = 0 (propose only).
 
 ---
 
@@ -118,8 +118,8 @@ If no unprocessed events exist:
 - **Use when:** Normal operation. User reviews each step.
 
 ### Autonomous Mode
-- **Behavior:** Execute up to 5 units of work, then stop.
-- **Stop after:** 5 units completed, or a circuit breaker triggers (whichever comes first).
+- **Behavior:** Execute up to N units of work (N = cycle limit from RUN_POLICY.md, default 10), then stop.
+- **Stop after:** N units completed, or a circuit breaker triggers (whichever comes first).
 - **Use when:** User is confident and wants faster progress.
 
 ---
@@ -141,7 +141,7 @@ This section governs runtime execution across all modes.
 For each cycle (up to Max Cycles This Run):
 
 1. **Select the next unit of work** in this order:
-   - a) Oldest unprocessed event (FIFO from EVENTS.md)
+   - a) Highest-priority unprocessed event (high → normal → low, FIFO within each level; events without a priority field are `normal`)
    - b) Next goal-aligned task proposal (if Goal Alignment is active)
    - c) Next queued task (from Next Task Queue in STATE.md)
 
@@ -150,9 +150,18 @@ For each cycle (up to Max Cycles This Run):
 
 3. **Execute** the task or skill.
 
-4. **Run required review gates** (per RUN_POLICY.md Review Gates table).
+4. **Auto-emit follow-up events.** After execution, check if the completed skill or task produced output that suggests a follow-up event. Common patterns:
+   - Skill output contains "suggest emitting" or "next event" → extract the event type and description
+   - PRD completion → emit `PRD_UPDATED`
+   - Task queue proposed → emit `TASK_QUEUE_PROPOSED`
+   - All build tasks complete → emit `BUILD_COMPLETE`
+   - Deployment verified → emit `DEPLOYMENT_VERIFIED`
 
-5. **Update .claude/project/STATE.md:**
+   If a follow-up event is identified: write it to `.claude/project/EVENTS.md` as a new unprocessed event using the standard format (next EVT-XXXX ID, current timestamp). Log in the execution summary: `"Auto-emitted: [EVENT_TYPE]"`. Do **not** auto-emit if the same event type is already unprocessed in EVENTS.md (prevent duplicates).
+
+5. **Run required review gates** (per RUN_POLICY.md Review Gates table).
+
+6. **Update .claude/project/STATE.md:**
    - Active Task status
    - Outputs Produced
    - Files Modified (Last Task)
@@ -160,7 +169,9 @@ For each cycle (up to Max Cycles This Run):
    - Goal Alignment (if applicable)
    - Run Cycle → increment Current Cycle
 
-6. **Print an Execution Summary.**
+7. **Evaluate and update Current Phase** (see Phase Tracking below). If the phase changed, emit a `PHASE_TRANSITION` event.
+
+8. **Print an Execution Summary.**
 
 ### Between Cycles
 
@@ -177,6 +188,53 @@ Before starting the next cycle, evaluate **all stop conditions** from RUN_POLICY
 
 ---
 
+## Phase Tracking
+
+After each cycle's state update, evaluate the current project state and update `Current Phase` in STATE.md if warranted.
+
+### Phase Transition Rules
+
+| Condition | New Phase |
+|-----------|-----------|
+| `IDEA_CAPTURED` event processed | `Planning` |
+| PRD written + Architecture defined + task queue populated | `Building` |
+| All tasks in Next Task Queue completed (queue empty, Completed Tasks Log has build tasks) | `Ready for Deploy` |
+| `DEPLOYMENT_REQUESTED` event processed | `Deploying` |
+| Deployment verified successfully | `Live` |
+
+### Transition Markers
+
+When the phase changes:
+
+1. **Update** `Current Phase` in STATE.md to the new value.
+2. **Emit** a `PHASE_TRANSITION` event to EVENTS.md:
+   ```
+   EVT-XXXX | PHASE_TRANSITION | Phase transition: [old phase] → [new phase] | orchestrator | YYYY-MM-DD HH:MM
+   ```
+3. **Log** in the execution summary: `"Phase transition: [old phase] → [new phase]"`
+
+The `PHASE_TRANSITION` event enables downstream behaviors (lesson prompts, mode escalation suggestions) without hardcoding them into the phase tracking logic itself.
+
+### Lesson Prompt at Phase Transitions
+
+When a `PHASE_TRANSITION` event is processed:
+
+- **Semi-Autonomous mode:** Print the following and pause (this is a natural stopping point):
+  ```
+  Phase complete: [old phase] → [new phase]
+  Consider running /capture-lesson to record what worked and what didn't.
+  ```
+- **Autonomous mode:** Append the reminder to the execution summary instead of stopping:
+  ```
+  Lesson prompt: Phase [old phase] complete. Run /capture-lesson after this run to record insights.
+  ```
+
+This closes the learning loop without forcing it — phase boundaries are natural reflection points.
+
+**Do not transition** if the conditions are ambiguous — only transition when the criteria are clearly met. When in doubt, keep the current phase.
+
+---
+
 ## Circuit Breakers (Stop Conditions)
 
 Stop immediately and report to the user if any of these occur:
@@ -184,11 +242,26 @@ Stop immediately and report to the user if any of these occur:
 | Condition | Action |
 |-----------|--------|
 | Blocked task | Stop. Report the blocker. |
-| Empty queue with no proposals | Stop. Report "Nothing to do." |
+| Empty queue with no proposals | Stop. Check Current Phase in STATE.md and suggest the logical next step (see Phase-Aware Guidance below). |
 | >500 line change in a single file | Stop. Ask user to confirm before applying. |
 | User stop | Stop immediately. |
-| Autonomous run limit reached (5 units) | Stop. Report summary. |
+| Autonomous run limit reached (per RUN_POLICY.md) | Stop. Report summary. |
 | Semi-Autonomous pause (1 unit) | Stop. Report summary. |
+
+### Phase-Aware Guidance (when queue is empty)
+
+When the queue is empty and no events are pending, check `Current Phase` in STATE.md and print the appropriate suggestion:
+
+| Current Phase | Suggestion |
+|---------------|------------|
+| `Not Started` | "No tasks or events queued. Run `/capture-idea` to begin." |
+| `Planning` | "Planning phase active but queue is empty. Check if PRD, Architecture, or task breakdown still needs work." |
+| `Building` | "All build tasks complete. Consider running `/emit-event DEPLOYMENT_REQUESTED` to begin deployment, or `/checkpoint` to save progress." |
+| `Ready for Deploy` | "Ready to deploy. Run `/emit-event DEPLOYMENT_REQUESTED` to begin." |
+| `Deploying` | "Deployment in progress. Check deployment status and verify." |
+| `Live` | "Project is live. Run `/checkpoint` to compress this session, or `/capture-lesson` to record what you learned." |
+
+If `Current Phase` is missing or unrecognized, fall back to: "Nothing to process. Run `/capture-idea` to start a new idea, or `/emit-event` to trigger an action."
 
 ---
 
@@ -206,6 +279,7 @@ After each run, print a summary in this format:
 - **Files Modified:** [List of files changed]
 - **Next Task:** [Description of next queued task]
 - **Remaining Tasks:** [Count of tasks in queue]
+- **Progress:** [Completed count] of [Completed + Remaining] tasks ([percentage]%) — Phase: [Current Phase]
 - **Mode:** [Current mode]
 - **Warnings:** [Any warnings or notes]
 ```

@@ -1,8 +1,6 @@
-# Command: /bootstrap
+# Command: /setup
 
-> **Deprecated:** Use `/setup` instead, which combines `/bootstrap` and `/init-project` into a single command.
-
-> Initialize or verify the AI Builder System project structure. Safe to run multiple times (idempotent).
+> One-command project setup. Combines `/bootstrap` (structure verification + runtime files) and `/init-project` (project type + starter files). Safe to run multiple times (fully idempotent).
 
 ---
 
@@ -20,13 +18,12 @@ Ensure these directories exist (create if missing):
   skills/
   project/
     knowledge/
+docs/
 ```
 
-### Step 2: Verify and Create Required Files
+### Step 2: Verify Framework Files
 
-Check that each required file exists. If a runtime file is missing, **create it from the clean template** below. If a framework file (agent, command, rule, skill) is missing, report it as `MISSING` — those require the full framework overlay, not bootstrap.
-
-#### Framework Files (verify only — do not create)
+Check that each framework file exists. These are part of the template and cannot be auto-created — report any missing ones.
 
 | File | Required |
 |------|----------|
@@ -35,7 +32,7 @@ Check that each required file exists. If a runtime file is missing, **create it 
 | `.claude/commands/run-project.md` | Yes |
 | `.claude/commands/emit-event.md` | Yes |
 | `.claude/commands/refresh-skills.md` | Yes |
-| `.claude/commands/bootstrap.md` | Yes |
+| `.claude/commands/setup.md` | Yes |
 | `.claude/rules/orchestration-routing.md` | Yes |
 | `.claude/rules/event-hooks.md` | Yes |
 | `.claude/rules/knowledge-policy.md` | Yes |
@@ -43,7 +40,11 @@ Check that each required file exists. If a runtime file is missing, **create it 
 | `.claude/skills/REGISTRY.md` | Yes |
 | `.claudeignore` | Yes |
 
-#### Runtime Files (create from template if missing)
+If any are missing, report them as `MISSING` in the summary. Do not attempt to create framework files.
+
+### Step 3: Create Runtime Files (If Missing)
+
+Check each runtime file. If missing, create it from the corresponding template in the **Runtime File Templates** section below. Report each created file as `CREATED`.
 
 | File | Required |
 |------|----------|
@@ -55,26 +56,221 @@ Check that each required file exists. If a runtime file is missing, **create it 
 | `.claude/project/knowledge/GLOSSARY.md` | Yes |
 | `.claude/project/knowledge/OPEN_QUESTIONS.md` | Yes |
 
-If a runtime file is missing, create it using the corresponding clean template from the **Runtime File Templates** section below. Report each created file as `CREATED`.
+### Step 4: Determine Project Type
 
-### Step 3: Initialize REGISTRY
+**Precedence order:**
 
-If `.claude/skills/REGISTRY.md` is missing or contains only `(none)` placeholders:
-- Run the `/refresh-skills` procedure to scan skill files and populate the registry.
+1. If `PROJECT_TYPE.md` exists in the repo root, read the `Project Type: <value>` line. Use that value.
+2. If the repo root `README.md` contains "AI Builder System", this is the framework template itself — set type to `Template` and skip Steps 5–6.
+3. If neither, ask the user to choose:
+   - **Book**
+   - **Web App**
+   - **Mobile App**
 
-### Step 4: Print "Project Ready" Summary
+Once determined, create `PROJECT_TYPE.md` **only if it does not already exist** (never overwrite):
 
 ```
-## Project Ready
+# Project Type
 
+- **Project Type:** [Book | Web App | Mobile App | Template]
+- **Initialized:** YYYY-MM-DD
+```
+
+### Step 5: Create Project-Type Folders (Idempotent)
+
+Create each directory only if it does not already exist. Never delete or modify existing directories.
+
+**Book:**
+
+- `manuscript/`
+- `diagrams/`
+- `export/`
+
+**Web App:**
+
+- `src/`
+- `public/`
+- `tests/`
+
+**Mobile App:**
+
+- `lib/`
+- `test/`
+- `android/`
+- `ios/`
+
+### Step 6: Create Starter Files (Only If Missing)
+
+Create each file **only if it does not already exist**. Never overwrite an existing file.
+
+**Shared (all project types):**
+
+- `docs/PRD.md`
+  ```
+  # Product Requirements Document
+
+  ## Overview
+
+  *(Describe what you are building, who it is for, and why it matters.)*
+  ```
+
+- `docs/ARCHITECTURE.md`
+  ```
+  # Architecture
+
+  ## Overview
+
+  *(Describe the high-level structure, tech stack, and key design decisions.)*
+  ```
+
+- `docs/RELEASE_NOTES.md`
+  ```
+  # Release Notes
+
+  ## v0.1.0 — Project Initialized
+
+  - Project initialized with AI Builder System template.
+  - Initial directory structure created.
+  ```
+
+**Book only:**
+
+- `manuscript/preface.md`
+  ```
+  # Preface
+
+  *(Write your preface here.)*
+  ```
+
+- `manuscript/WRITING_PLAYBOOK.md`
+  ```
+  # Writing Playbook
+
+  This playbook guides the writing process for this book project.
+  For product requirements and architecture details, see the docs/ directory.
+  ```
+
+- `diagrams/README.md`
+  ```
+  # Diagrams
+
+  Store visual diagrams here (Mermaid source files, exported images, etc.).
+  These support the manuscript and can be referenced from chapter files.
+  ```
+
+- `export/README.md`
+  ```
+  # Export
+
+  Store exported artifacts here (PDF builds, EPUB files, print-ready output).
+  These are generated from the manuscript/ source files.
+  ```
+
+### Step 7: Log Decision (Append-Only)
+
+In `.claude/project/knowledge/DECISIONS.md`, check whether a decision entry already exists containing the text `"Project type set to <type>"`.
+
+- **If it already exists:** skip. Print: `"Decision already logged; skipping."`
+- **If it does not exist:** append a new entry using the next available `DEC-XXXX` ID:
+
+```
+---
+
+### DEC-XXXX: Project Type Selection
+
+- **Status:** Accepted
+- **Date:** YYYY-MM-DD
+- **Context:** The project needed a type designation to determine directory structure and starter files.
+- **Decision:** Project type set to [Book | Web App | Mobile App].
+- **Consequences:** Type-specific folders and starter files have been created. Future skills and agents can use PROJECT_TYPE.md to adapt behavior.
+```
+
+### Step 8: Seed Next Task Queue (Strict Idempotency)
+
+Read `.claude/project/STATE.md` and locate the `## Next Task Queue` section.
+
+**If the queue already contains real tasks**, do NOT modify the queue.
+Print: `"Next Task Queue already populated; skipping seeding."`
+
+A queue is considered **empty/placeholder-only** (and therefore eligible for seeding) if it matches ANY of these patterns:
+- Contains only `(none)` or `*(none)*`
+- Contains only `- (none)`
+- Contains only the table headers with no data rows beneath them
+- The section is completely empty
+
+**If the queue is empty or placeholder-only**, replace it with starter tasks based on project type:
+
+**Book:**
+
+| # | Task | Priority |
+|---|------|----------|
+| 1 | Draft Preface v1 | High |
+| 2 | Outline Chapter 1 | High |
+| 3 | Draft Chapter 1 | Medium |
+
+**Web App / Mobile App:**
+
+| # | Task | Priority |
+|---|------|----------|
+| 1 | Draft PRD v1 | High |
+| 2 | Draft Architecture v1 | High |
+| 3 | Create initial app scaffold | Medium |
+
+### Step 9: Skills Registry Self-Heal
+
+Check `.claude/skills/REGISTRY.md`:
+
+**Rebuild REGISTRY.md if ANY of these conditions are true:**
+
+1. `REGISTRY.md` does not exist.
+2. `REGISTRY.md` is empty (zero bytes).
+3. `REGISTRY.md` contains `(none)` placeholders in the Skills Index or Trigger Lookup tables.
+4. Any subfolder in `.claude/skills/` containing a `SKILL.md` file is **not listed** in the Skills Index table of `REGISTRY.md`.
+
+**Rebuild procedure:**
+1. Scan all subfolders in `.claude/skills/` for `SKILL.md` files (excluding `REGISTRY.md`).
+2. Extract metadata from each skill file: Skill ID, Name, Version, Owner, Triggers.
+3. Regenerate `REGISTRY.md` with the Skills Index table, Trigger Lookup table, and Stats section.
+4. If no skill files are found, write `(none)` placeholders.
+5. Registry status = `refreshed`
+
+**If none of those conditions are true:** the registry is current. Registry status = `already current`
+
+### Step 10: Emit PROJECT_INITIALIZED Event (Idempotent)
+
+Check `.claude/project/EVENTS.md` under `## Unprocessed Events`.
+
+**Canonical event format:**
+
+```
+EVT-XXXX | PROJECT_INITIALIZED | Project initialized as <type> | system | YYYY-MM-DD HH:MM
+```
+
+- **If the most recent unprocessed event already matches** `PROJECT_INITIALIZED` with the same project type: skip emitting.
+- **Otherwise:** append the canonical event line under `## Unprocessed Events`.
+- Auto-increment the EVT ID from the highest existing ID across both sections.
+- If the section currently shows `*(none)*`, replace the placeholder with the new event.
+
+### Step 11: Print "Setup Complete" Summary
+
+```
+## Setup Complete
+
+- **Project Type:** [Book | Web App | Mobile App | Template]
 - **Current Mode:** [from STATE.md, e.g., Semi-Autonomous]
 - **Unprocessed Events:** [count from EVENTS.md]
 - **Skills Registered:** [count from REGISTRY.md]
-- **Files Verified:** [pass count] / [total count]
-- **Files Created:** [list, or "None"]
-- **Missing Files:** [list, or "None"]
+- **Framework Files:** [pass count] / [total count]
+- **Runtime Files:** [pass count] / [total count] ([list of CREATED files, or "all present"])
+- **Folders Ensured:** [list of folders created or already present]
+- **Starter Files Created:** [list of new files, or "none"]
+- **Decision Logged:** [yes | already exists]
+- **Tasks Queued:** [seeded (3) | skipped (already populated)]
+- **Skills Registry:** [refreshed | already current]
+- **Event Emitted:** [yes | skipped (already pending)]
+- **Missing Framework Files:** [list, or "None"]
 
-### Recommended Next Actions
+### Recommended Next Steps
 
 1. [First recommended action based on project state]
 2. [Second recommended action]
@@ -82,7 +278,7 @@ If `.claude/skills/REGISTRY.md` is missing or contains only `(none)` placeholder
 ```
 
 Default recommended actions for a fresh project:
-1. Run `/emit-event` with type `IDEA_CAPTURED` to describe your project idea.
+1. Run `/capture-idea` to describe your project concept.
 2. Run `/run-project` to process the event and generate a plan.
 3. Review the generated PRD and task queue, then run `/run-project` again.
 
@@ -166,9 +362,7 @@ Default recommended actions for a fresh project:
 
 | # | Task | Priority |
 |---|------|----------|
-| 1 | Run /bootstrap to initialize the project | High |
-| 2 | Emit an IDEA_CAPTURED event with the project concept | High |
-| 3 | Run /run-project to process the first event | Medium |
+| — | *(none — will be seeded by /setup)* | — |
 
 ---
 
@@ -239,7 +433,7 @@ EVT-XXXX | <TYPE> | <Description> | <Source> | <Timestamp> | <Priority>
 ```markdown
 # Run Policy
 
-> Defines execution boundaries for the orchestrator.
+> Defines execution boundaries for the orchestrator. Read by the orchestrator at the start of every `/run-project` invocation.
 
 ---
 
@@ -270,7 +464,7 @@ The orchestrator must stop immediately if any of the following occur:
 3. A single file modification exceeds 500 lines.
 4. The Next Task Queue becomes empty and no next tasks can be proposed.
 5. A required artifact is missing and cannot be created safely.
-6. The project goal exit condition is satisfied (if GOAL.md exists).
+6. The project goal exit condition is satisfied (if `GOAL.md` exists).
 
 ---
 

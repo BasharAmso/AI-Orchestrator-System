@@ -1,5 +1,7 @@
 # Command: /init-project
 
+> **Deprecated:** Use `/setup` instead, which combines `/bootstrap` and `/init-project` into a single command.
+
 > Initialize a new project from the AI Builder System template. Safe to run multiple times (fully idempotent).
 
 ---
