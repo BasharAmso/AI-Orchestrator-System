@@ -1,6 +1,9 @@
 ---
 id: SKL-0016
 name: Code Review
+description: |
+  Review code for correctness, maintainability, and best practices. Use this
+  skill when a code review is requested on new or modified code.
 version: 1.0
 owner: reviewer
 triggers:

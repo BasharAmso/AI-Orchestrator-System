@@ -1,6 +1,10 @@
 ---
 id: SKL-0005
 name: Frontend Development
+description: |
+  Build web UI components, pages, and styling. Use this skill when a frontend
+  task is ready for implementation, including React components, CSS, layouts,
+  and responsive design.
 version: 1.0
 owner: builder
 triggers:

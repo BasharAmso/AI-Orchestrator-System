@@ -1,6 +1,10 @@
 ---
 id: SKL-0009
 name: AI Feature Implementation
+description: |
+  Integrate AI capabilities like LLM calls, RAG pipelines, and prompt
+  engineering. Use this skill when an AI-powered feature needs to be built
+  or refined.
 version: 1.0
 owner: builder
 triggers:

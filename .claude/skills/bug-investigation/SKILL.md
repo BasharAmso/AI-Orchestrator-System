@@ -1,6 +1,10 @@
 ---
 id: SKL-0020
 name: Bug Investigation
+description: |
+  Investigate and fix reported bugs. Use this skill when a bug has been
+  reported, including root cause analysis, reproduction, and implementing
+  fixes.
 version: 1.0
 owner: fixer
 triggers:

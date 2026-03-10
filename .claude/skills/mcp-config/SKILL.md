@@ -1,6 +1,10 @@
 ---
 id: SKL-0022
 name: MCP Configuration
+description: |
+  Connect to external tools and services via Model Context Protocol. Use this
+  skill when an MCP server connection is needed or a new tool integration is
+  requested.
 version: 1.0
 owner: deployer
 triggers:

@@ -1,6 +1,10 @@
 ---
 id: SKL-0017
 name: Test Writing
+description: |
+  Write automated tests for existing or new functionality. Use this skill
+  when tests are requested, including unit tests, integration tests, and
+  end-to-end tests.
 version: 1.0
 owner: reviewer
 triggers:

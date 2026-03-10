@@ -1,6 +1,9 @@
 ---
 id: SKL-0012
 name: Analytics & Tracking
+description: |
+  Add event tracking, analytics instrumentation, and reporting dashboards.
+  Use this skill when analytics or usage tracking features are requested.
 version: 1.0
 owner: builder
 triggers:

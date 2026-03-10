@@ -1,6 +1,9 @@
 ---
 id: SKL-0021
 name: Deployment
+description: |
+  Configure CI/CD pipelines and deploy to production. Use this skill when
+  deployment is requested or a release is ready to ship.
 version: 1.0
 owner: deployer
 triggers:

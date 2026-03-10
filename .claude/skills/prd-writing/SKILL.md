@@ -1,6 +1,10 @@
 ---
 id: SKL-0004
 name: PRD Writing
+description: |
+  Write a Product Requirements Document through user interview, including user
+  stories, requirements, and acceptance criteria. Use this skill when a new PRD
+  needs to be created for a project.
 version: 1.0
 owner: project-manager
 triggers:

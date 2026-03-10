@@ -1,6 +1,10 @@
 ---
 id: SKL-0011
 name: Monetization
+description: |
+  Implement billing, payments, and subscription features. Use this skill when
+  monetization functionality is requested, including Stripe integration,
+  pricing pages, and webhook handling.
 version: 1.0
 owner: builder
 triggers:

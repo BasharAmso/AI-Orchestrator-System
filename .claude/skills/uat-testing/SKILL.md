@@ -1,6 +1,10 @@
 ---
 id: SKL-0018
 name: User Acceptance Testing
+description: |
+  Validate features against acceptance criteria from the user's perspective.
+  Use this skill when UAT is requested or a feature is ready for acceptance
+  testing.
 version: 1.0
 owner: reviewer
 triggers:

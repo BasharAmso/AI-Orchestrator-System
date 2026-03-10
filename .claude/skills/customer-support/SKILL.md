@@ -1,6 +1,10 @@
 ---
 id: SKL-0014
 name: Customer Support Infrastructure
+description: |
+  Build support features like onboarding flows, help content, and error
+  messaging. Use this skill when customer support or success infrastructure
+  is requested.
 version: 1.0
 owner: builder
 triggers:

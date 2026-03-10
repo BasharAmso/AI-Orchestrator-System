@@ -1,6 +1,9 @@
 ---
 id: SKL-0024
 name: Documentation
+description: |
+  Write project documentation including READMEs, API docs, and guides. Use
+  this skill when documentation is requested or after a feature has shipped.
 version: 1.0
 owner: documenter
 triggers:

@@ -1,6 +1,10 @@
 ---
 id: SKL-0006
 name: Backend Development
+description: |
+  Build API endpoints, server logic, and backend services. Use this skill when
+  a backend task is ready for implementation, including REST/GraphQL APIs,
+  middleware, and server-side processing.
 version: 1.0
 owner: builder
 triggers:

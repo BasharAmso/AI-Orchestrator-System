@@ -1,6 +1,10 @@
 ---
 id: SKL-0019
 name: Refactoring
+description: |
+  Restructure and clean up existing code without changing behavior. Use this
+  skill when code refactoring is requested, including extracting components,
+  improving naming, and reducing duplication.
 version: 1.0
 owner: fixer
 triggers:

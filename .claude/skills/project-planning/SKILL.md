@@ -1,6 +1,10 @@
 ---
 id: SKL-0025
 name: Project Planning
+description: |
+  Manage project planning, sprint reviews, and status tracking. Use this
+  skill when project planning is requested, a status update is needed, or a
+  sprint review is due.
 version: 1.0
 owner: project-manager
 triggers:

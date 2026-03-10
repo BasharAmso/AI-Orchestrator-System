@@ -1,6 +1,10 @@
 ---
 id: SKL-0007
 name: Mobile Development
+description: |
+  Build mobile app screens, navigation, and platform-specific features. Use
+  this skill when a mobile task is ready for implementation, including React
+  Native, Expo, and native platform code.
 version: 1.0
 owner: builder
 triggers:

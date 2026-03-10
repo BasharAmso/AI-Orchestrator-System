@@ -1,6 +1,10 @@
 ---
 id: SKL-0003
 name: PRD to Tasks
+description: |
+  Break down a Product Requirements Document into executable tasks with
+  priorities and dependencies. Use this skill when a PRD has been created or
+  updated and needs to be converted into a task queue.
 version: 1.0
 owner: Orchestrator
 triggers:

@@ -1,6 +1,10 @@
 ---
 id: SKL-0001
 name: Plan From Idea
+description: |
+  Transform a captured project idea into an actionable plan with PRD and task
+  breakdown. Use this skill when a new idea has been captured and needs to be
+  developed into a structured project plan.
 version: 1.0
 owner: Orchestrator
 triggers:

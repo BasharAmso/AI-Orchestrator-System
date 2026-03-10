@@ -1,6 +1,10 @@
 ---
 id: SKL-0008
 name: Database Administration
+description: |
+  Design database schemas, write migrations, and optimize queries. Use this
+  skill when database work is requested, including schema design, indexing,
+  and data modeling.
 version: 1.0
 owner: builder
 triggers:

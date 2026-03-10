@@ -1,6 +1,9 @@
 ---
 id: SKL-0013
 name: Growth & Distribution
+description: |
+  Build growth features like landing pages, SEO, waitlists, and referral
+  systems. Use this skill when growth or distribution features are requested.
 version: 1.0
 owner: builder
 triggers:

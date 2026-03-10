@@ -1,6 +1,10 @@
 ---
 id: SKL-0023
 name: UX Design
+description: |
+  Design user experiences including wireframes, flows, and interaction
+  patterns. Use this skill when UX design work is requested, including
+  onboarding flows and interface layouts.
 version: 1.0
 owner: designer
 triggers:

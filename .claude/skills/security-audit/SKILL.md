@@ -1,6 +1,10 @@
 ---
 id: SKL-0015
 name: Security Audit
+description: |
+  Audit code and dependencies for security vulnerabilities. Use this skill
+  when a security review is requested, including OWASP checks, secrets
+  scanning, and dependency audits.
 version: 1.0
 owner: reviewer
 triggers:

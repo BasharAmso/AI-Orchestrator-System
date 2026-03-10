@@ -1,6 +1,9 @@
 ---
 id: SKL-0002
 name: Quality Review
+description: |
+  Review code, content, or deliverables for quality, clarity, and correctness.
+  Use this skill when a quality review has been requested on completed work.
 version: 1.0
 owner: Orchestrator
 triggers:

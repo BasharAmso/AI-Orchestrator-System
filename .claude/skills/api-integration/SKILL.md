@@ -1,6 +1,10 @@
 ---
 id: SKL-0010
 name: API Integration
+description: |
+  Connect to third-party APIs and external services. Use this skill when
+  integration with services like Stripe, Supabase, SendGrid, or other
+  external APIs is requested.
 version: 1.0
 owner: builder
 triggers:
