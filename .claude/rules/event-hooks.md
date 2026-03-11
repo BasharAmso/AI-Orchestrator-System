@@ -47,4 +47,4 @@ If an event type is not listed above:
 
 1. Add a row to the routing table above.
 2. Optionally, create a matching skill in `.claude/skills/` with the event type as its trigger.
-3. Run `/refresh-skills` to update the REGISTRY.
+3. Run `/fix-registry` to update the REGISTRY.

@@ -53,13 +53,17 @@ Chat output per task cycle should stay under 200 words. Include only:
 
 Exceed 200 words only when the user explicitly requests more detail.
 
+### 7. Lazy Context Loading
+
+Do not preemptively read all knowledge files, all agent files, or all skill files. Load framework files on-demand per the Context Loading Policy in CLAUDE.md. Only expand beyond the directly-targeted files when a dependency or ambiguity requires it.
+
 ---
 
 ## Enforcement
 
 This policy applies to:
 - `/run-project` cycles (reinforces the Output Policy in that command)
-- `/checkpoint` (artifact persistence verification)
+- `/save` (artifact persistence verification)
 - All agent execution regardless of entry point
 - Manual task work outside of formal commands
 

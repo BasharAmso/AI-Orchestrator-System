@@ -1,6 +1,7 @@
-# Command: /system-check
+# Command: /doctor
 
-> Diagnose the health of the AI Builder System environment. Includes functional verification and optional self-healing for STATE.md inconsistencies.
+> Run a health check on the system — verify files, test connections, and offer to fix inconsistencies.
+> *(Replaces `/system-check`.)*
 
 ---
 
@@ -48,8 +49,8 @@ If any are missing, record the filename for the suggested fixes list.
 3. For each skill folder found on disk, confirm its folder path appears in the Skills Index.
 4. Results:
    - If all skill files are listed: status = `OK`
-   - If any skill file is missing from the index: status = `Stale` and add `/refresh-skills` to suggested fixes.
-   - If `REGISTRY.md` is missing or empty: status = `Missing` and add `/refresh-skills` to suggested fixes.
+   - If any skill file is missing from the index: status = `Stale` and add `/fix-registry` to suggested fixes.
+   - If `REGISTRY.md` is missing or empty: status = `Missing` and add `/fix-registry` to suggested fixes.
 
 ### Step 5: Verify STATE.md Structure
 
@@ -135,11 +136,11 @@ If Steps 7b, 7d, or 7e found repairable issues, offer repairs. **Behavior depend
 | No mode marked `**YES**` | Set `Semi-Autonomous` as active (safe default) |
 | Invalid Current Phase value | Reset to `Not Started` |
 | Duplicate event IDs | Remove the duplicate (keep the first occurrence) |
-| Stale unprocessed events (>7 days) | Offer to move to Processed with note: `"Auto-expired by /system-check"` |
+| Stale unprocessed events (>7 days) | Offer to move to Processed with note: `"Auto-expired by /doctor"` |
 | Active Task with no Started timestamp | Set Started to current timestamp |
 | Phase `Ready for Deploy` with tasks remaining | Reset phase to `Building` |
 
-**Do not repair** issues from Steps 7a or 7c — those require `/refresh-skills` or manual intervention.
+**Do not repair** issues from Steps 7a or 7c — those require `/fix-registry` or manual intervention.
 **Do not repair** knowledge health notes (7f) — those are informational only.
 
 ### Step 9: Print System Health Summary
@@ -147,7 +148,7 @@ If Steps 7b, 7d, or 7e found repairable issues, offer repairs. **Behavior depend
 Compile all results into this format:
 
 ```
-## System Check
+## System Health
 
 - **Directories:** [OK | X missing]
 - **Core Files:** [OK | X missing]
@@ -178,10 +179,10 @@ Common suggested fixes (use plain language — the user may be a non-programmer)
 | Problem | User-Facing Message |
 |---------|-------------------|
 | Project type not set | "Your project type hasn't been set yet. Run `/setup` to choose one — it only takes a moment." |
-| Skills registry stale or missing | "The skill registry is out of date. Run `/refresh-skills` to update it — this takes a few seconds." |
+| Skills registry stale or missing | "The skill registry is out of date. Run `/fix-registry` to update it — this takes a few seconds." |
 | Directories or core files missing | "Some system files are missing. Run `/setup` to recreate them — it won't overwrite your existing work." |
-| STATE.md sections missing | "The project state file is incomplete. Run `/setup` to regenerate it, or check `.claude/project/STATE.md` directly." |
+| STATE.md sections missing | "The project state file is incomplete. Run `/setup` to regenerate it." |
 | EVENTS.md sections missing | "The events log is incomplete. Run `/setup` to regenerate it." |
-| Dispatch chain broken | "The system can't route tasks to skills properly. Run `/refresh-skills` to rebuild the connections." |
-| Cross-references broken | "Some internal references are broken. Run `/refresh-skills` first, then `/system-check` again." |
-| State consistency issues | "Found some inconsistencies in your project state. Run `/system-check` again — it will offer to fix them automatically." |
+| Dispatch chain broken | "The system can't route tasks to skills properly. Run `/fix-registry` to rebuild the connections." |
+| Cross-references broken | "Some internal references are broken. Run `/fix-registry` first, then `/doctor` again." |
+| State consistency issues | "Found some inconsistencies in your project state. Run `/doctor` again — it will offer to fix them automatically." |

@@ -25,7 +25,7 @@ Based on what was found, classify into the first matching situation:
 | **No idea captured** | No unprocessed events AND Next Task Queue empty AND no Active Task | `/capture-idea` |
 | **Events pending** | Unprocessed events exist in EVENTS.md | `/run-project` |
 | **Tasks in queue** | Active Task exists or Next Task Queue has items | `/run-project` |
-| **All tasks done** | Completed Tasks Log has entries but queue is empty | `/checkpoint` |
+| **All tasks done** | Completed Tasks Log has entries but queue is empty | `/save` |
 
 Evaluate conditions top-to-bottom; use the first match.
 
@@ -50,3 +50,5 @@ Run `/<command>` — [one-sentence plain-language explanation of what it does an
 **Tone:** Write as if speaking to someone who has never used the terminal before. No jargon without explanation. Every recommendation should include what the command does in one plain sentence.
 
 Do not print framework internals unless the user asks.
+
+**Command discovery:** If the user asks what commands are available, show only the 5 core commands: `/start`, `/setup`, `/capture-idea`, `/run-project`, `/save`. Mention that more commands exist for specific situations (like `/status`, `/doctor`, `/set-mode`) and the system will suggest them when relevant.

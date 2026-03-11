@@ -138,7 +138,7 @@ After completing task generation, recommend emitting:
 TASK_QUEUE_PROPOSED | .claude/project/STATE.md updated with tasks from PRD
 ```
 
-Print: `"Suggest emitting: TASK_QUEUE_PROPOSED — use /emit-event to create it."`
+Print: `"Suggest emitting: TASK_QUEUE_PROPOSED — use /trigger to create it."`
 
 (Skills do not emit events directly; the orchestrator or user handles emission.)
 
@@ -150,7 +150,7 @@ Orchestrator (handles PRD analysis and task decomposition internally).
 
 ## Review
 
-Orchestrator self-reviews task titles for beginner clarity. For deeper quality review, emit `QUALITY_REVIEW_REQUESTED` via `/emit-event`.
+Orchestrator self-reviews task titles for beginner clarity. For deeper quality review, emit `QUALITY_REVIEW_REQUESTED` via `/trigger`.
 
 ---
 

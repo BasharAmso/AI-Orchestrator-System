@@ -60,6 +60,27 @@
         ]
       }
     ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/pre-compact.sh"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/post-subagent-validation.sh"
+          }
+        ]
+      }
+    ],
     "SessionStart": [
       {
         "hooks": [
@@ -84,6 +105,7 @@
   "env": {
     "AI_MEMORY_PATH": "~/Projects/AI-Memory",
     "AI_BUILDER_SYSTEM_PATH": "~/Projects/AI-Builder-System",
-    "ECC_HOOK_PROFILE": "standard"
+    "ECC_HOOK_PROFILE": "standard",
+    "FIREWALL_MODE": "blocklist"
   }
 }

@@ -14,27 +14,30 @@ echo "=== AI-Builder-System Session Context ==="
 echo "Framework root: $FRAMEWORK_ROOT"
 echo ""
 
-# Extract phase, mode, and active task from STATE.md
+# Extract phase, mode, and active task from STATE.md using shared parser
 if [ -f "$STATE_FILE" ]; then
-  PHASE=$(grep -A1 "^## Current Phase" "$STATE_FILE" 2>/dev/null | tail -1 | sed 's/^`//;s/`$//' | xargs)
-  MODE=$(grep '^\*\*YES\*\*' "$STATE_FILE" 2>/dev/null | head -1 | sed 's/|//g;s/\*\*YES\*\*//;s/  */ /g' | awk '{print $1}' || echo "Unknown")
-  # Fallback: try matching the row with **YES**
-  if [ -z "$MODE" ] || [ "$MODE" = "Unknown" ]; then
-    MODE=$(grep -B0 '\*\*YES\*\*' "$STATE_FILE" 2>/dev/null | head -1 | sed 's/|/\n/g' | head -2 | tail -1 | xargs || echo "Unknown")
-  fi
+  PYTHON=$(python3 -c "import sys" 2>/dev/null && echo python3 || echo python)
+  PARSER="$CLAUDE_DIR/hooks/lib/parse_state.py"
 
-  # Count completed and queued tasks
-  COMPLETED=$(awk '/^## Completed Tasks Log/,/^---/' "$STATE_FILE" 2>/dev/null | grep -c '^|' | head -1 || echo "0")
-  COMPLETED=$((COMPLETED > 2 ? COMPLETED - 2 : 0))  # subtract header rows
-  QUEUED=$(awk '/^## Next Task Queue/,/^---/' "$STATE_FILE" 2>/dev/null | grep -c '^|' | head -1 || echo "0")
-  QUEUED=$((QUEUED > 2 ? QUEUED - 2 : 0))  # subtract header rows
+  if [ -f "$PARSER" ]; then
+    STATE_JSON=$($PYTHON "$PARSER" "$STATE_FILE" all 2>/dev/null || echo '{}')
 
-  # Check for placeholder-only entries
-  if grep -q '(none yet)' "$STATE_FILE" 2>/dev/null && [ "$COMPLETED" -le 1 ]; then
+    PHASE=$($PYTHON -c "import json; d=json.loads('$STATE_JSON'); print(d.get('phase','Not Started'))" 2>/dev/null || echo "Not Started")
+    MODE=$($PYTHON -c "import json; d=json.loads('$STATE_JSON'); print(d.get('mode','Unknown'))" 2>/dev/null || echo "Unknown")
+    ACTIVE_DESC=$($PYTHON -c "import json; d=json.loads('$STATE_JSON'); print(d.get('active_desc','—'))" 2>/dev/null || echo "—")
+    COMPLETED=$($PYTHON -c "import json; d=json.loads('$STATE_JSON'); print(d.get('completed',0))" 2>/dev/null || echo "0")
+    QUEUED=$($PYTHON -c "import json; d=json.loads('$STATE_JSON'); print(d.get('queued',0))" 2>/dev/null || echo "0")
+    CHECKPOINTED=$($PYTHON -c "import json; d=json.loads('$STATE_JSON'); print(d.get('checkpointed',''))" 2>/dev/null || echo "")
+    SESSION_STARTED=$($PYTHON -c "import json; d=json.loads('$STATE_JSON'); print(d.get('session_started',''))" 2>/dev/null || echo "")
+  else
+    # Fallback: basic extraction if parser not found
+    PHASE=$(grep -oP '(?<=\*\*Current Phase:\*\*\s).+' "$STATE_FILE" 2>/dev/null || echo "Not Started")
+    MODE="Unknown"
+    ACTIVE_DESC="—"
     COMPLETED=0
-  fi
-  if grep -q '(none — will be seeded' "$STATE_FILE" 2>/dev/null && [ "$QUEUED" -le 1 ]; then
     QUEUED=0
+    CHECKPOINTED=""
+    SESSION_STARTED=""
   fi
 
   TOTAL=$((COMPLETED + QUEUED))
@@ -45,9 +48,6 @@ if [ -f "$STATE_FILE" ]; then
     PROGRESS="No tasks tracked yet"
   fi
 
-  # Active task description
-  ACTIVE_DESC=$(awk '/^## Active Task/,/^###/' "$STATE_FILE" 2>/dev/null | grep '| Description |' | sed 's/.*| Description | *//;s/ *|.*//' || echo "—")
-
   # Get cycle limit from RUN_POLICY
   CYCLE_LIMIT="10"
   if [ -f "$POLICY_FILE" ]; then
@@ -55,12 +55,10 @@ if [ -f "$STATE_FILE" ]; then
     [ -n "$CL" ] && CYCLE_LIMIT="$CL"
   fi
 
-  # Check for stale session lock (previous session didn't checkpoint)
-  CHECKPOINTED=$(awk '/^## Session Lock/,/^---/' "$STATE_FILE" 2>/dev/null | grep '| Checkpointed |' | sed 's/.*| Checkpointed | *//;s/ *|.*//' || echo "")
-  SESSION_STARTED=$(awk '/^## Session Lock/,/^---/' "$STATE_FILE" 2>/dev/null | grep '| Session Started |' | sed 's/.*| Session Started | *//;s/ *|.*//' || echo "")
+  # Check for stale session lock
   if [ "$CHECKPOINTED" = "No" ] && [ -n "$SESSION_STARTED" ] && [ "$SESSION_STARTED" != "—" ]; then
     echo ""
-    echo "WARNING: Previous session (started $SESSION_STARTED) did not run /checkpoint."
+    echo "WARNING: Previous session (started $SESSION_STARTED) did not run /save."
     echo "Some progress may not be saved. Run /status to check."
     echo ""
   fi
@@ -82,6 +80,48 @@ if [ -f "$EVENTS_FILE" ]; then
   echo "Pending events: $PENDING"
 else
   echo "EVENTS.md not found."
+fi
+
+# Registry validation: check for stale or missing skill entries
+REGISTRY_FILE="$CLAUDE_DIR/skills/REGISTRY.md"
+SKILLS_DIR="$CLAUDE_DIR/skills"
+if [ -f "$REGISTRY_FILE" ] && [ -d "$SKILLS_DIR" ]; then
+  PYTHON=${PYTHON:-$(python3 -c "import sys" 2>/dev/null && echo python3 || echo python)}
+  REGISTRY_CHECK=$($PYTHON -c "
+import os, re, sys
+
+registry = open('$REGISTRY_FILE').read()
+skills_dir = '$SKILLS_DIR'
+
+# Extract folder paths from registry table rows
+registered = {}
+for m in re.finditer(r'\| (SKL-\d+) \|[^|]+\|[^|]+\|[^|]+\| \x60?\.claude/skills/([^/\x60]+)/?\x60? \|', registry):
+    registered[m.group(2)] = m.group(1)
+
+# Find actual skill folders on disk (contain SKILL.md)
+on_disk = set()
+for entry in os.listdir(skills_dir):
+    skill_path = os.path.join(skills_dir, entry, 'SKILL.md')
+    if os.path.isfile(skill_path):
+        on_disk.add(entry)
+
+warnings = []
+# Stale: in registry but folder missing
+for folder, skl_id in registered.items():
+    if folder not in on_disk:
+        warnings.append(f'Stale registry entry: {skl_id} ({folder}/) — folder missing')
+# Unregistered: on disk but not in registry
+for folder in sorted(on_disk - set(registered.keys())):
+    warnings.append(f'Unregistered skill: {folder}/ has SKILL.md but is not in REGISTRY.md')
+
+if warnings:
+    print('\n'.join(warnings))
+" 2>/dev/null || echo "")
+  if [ -n "$REGISTRY_CHECK" ]; then
+    echo "Registry warnings:"
+    echo "$REGISTRY_CHECK"
+    echo "Run /fix-registry to resolve."
+  fi
 fi
 
 # AI-Memory check

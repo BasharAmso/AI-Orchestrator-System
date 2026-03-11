@@ -33,8 +33,8 @@ Check that each required file exists. If a runtime file is missing, **create it 
 | `.claude/CLAUDE.md` | Yes |
 | `.claude/agents/orchestrator.md` | Yes |
 | `.claude/commands/run-project.md` | Yes |
-| `.claude/commands/emit-event.md` | Yes |
-| `.claude/commands/refresh-skills.md` | Yes |
+| `.claude/commands/trigger.md` | Yes |
+| `.claude/commands/fix-registry.md` | Yes |
 | `.claude/commands/bootstrap.md` | Yes |
 | `.claude/rules/orchestration-routing.md` | Yes |
 | `.claude/rules/event-hooks.md` | Yes |
@@ -60,7 +60,7 @@ If a runtime file is missing, create it using the corresponding clean template f
 ### Step 3: Initialize REGISTRY
 
 If `.claude/skills/REGISTRY.md` is missing or contains only `(none)` placeholders:
-- Run the `/refresh-skills` procedure to scan skill files and populate the registry.
+- Run the `/fix-registry` procedure to scan skill files and populate the registry.
 
 ### Step 4: Print "Project Ready" Summary
 
@@ -82,7 +82,7 @@ If `.claude/skills/REGISTRY.md` is missing or contains only `(none)` placeholder
 ```
 
 Default recommended actions for a fresh project:
-1. Run `/emit-event` with type `IDEA_CAPTURED` to describe your project idea.
+1. Run `/trigger` with type `IDEA_CAPTURED` to describe your project idea.
 2. Run `/run-project` to process the event and generate a plan.
 3. Review the generated PRD and task queue, then run `/run-project` again.
 

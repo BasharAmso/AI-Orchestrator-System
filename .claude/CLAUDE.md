@@ -42,26 +42,26 @@
 | Command | Entry Point |
 |---------|-------------|
 | `/run-project` | `.claude/commands/run-project.md` |
-| `/emit-event` | `.claude/commands/emit-event.md` |
-| `/refresh-skills` | `.claude/commands/refresh-skills.md` |
+| `/trigger` | `.claude/commands/trigger.md` |
+| `/fix-registry` | `.claude/commands/fix-registry.md` |
 | `/bootstrap` | `.claude/commands/bootstrap.md` |
 | `/init-project` | `.claude/commands/init-project.md` |
 | `/capture-idea` | `.claude/commands/capture-idea.md` |
 | `/capture-lesson` | `.claude/commands/capture-lesson.md` |
-| `/system-check` | `.claude/commands/system-check.md` |
-| `/checkpoint` | `.claude/commands/checkpoint.md` |
+| `/doctor` | `.claude/commands/doctor.md` |
+| `/save` | `.claude/commands/save.md` |
 | `/start` | `.claude/commands/start.md` |
 | `/setup` | `.claude/commands/setup.md` |
 | `/set-mode` | `.claude/commands/set-mode.md` |
 | `/status` | `.claude/commands/status.md` |
 | `/clone-framework` | `.claude/commands/clone-framework.md` |
-| `/prune-knowledge` | `.claude/commands/prune-knowledge.md` |
+| `/cleanup` | `.claude/commands/cleanup.md` |
 
 ## Architecture Primitives
 
 | Primitive | Location | Role |
 |-----------|----------|------|
-| Commands | `.claude/commands/` | Entry points: `/run-project`, `/emit-event`, `/bootstrap`, etc. |
+| Commands | `.claude/commands/` | Entry points: `/run-project`, `/trigger`, `/bootstrap`, etc. |
 | State | `.claude/project/STATE.md` | Single source of truth: current task, mode, blockers, history |
 | Events | `.claude/project/EVENTS.md` | Queue of things that happened or need to happen (FIFO) |
 | Skills | `.claude/skills/` | Reusable procedures with triggers, registered in REGISTRY.md |

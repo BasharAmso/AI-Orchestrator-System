@@ -146,10 +146,10 @@ Continue running `/run-project` to execute tasks one by one. When you're comfort
 
 ### Step 9: Save Before Closing
 
-Before you close VS Code or end your session, run `/checkpoint`. This ensures all progress is saved to files so the next session picks up exactly where you left off.
+Before you close VS Code or end your session, run `/save`. This ensures all progress is saved to files so the next session picks up exactly where you left off.
 
 ```
-## Checkpoint Complete
+## Save Complete
 
 - STATE.md: updated (active task, completed log)
 - Knowledge: 2 decisions persisted
@@ -260,43 +260,30 @@ The system's mode and Claude Code's tool permissions are two separate things. Ev
 
 ## 5. Command Reference
 
-Every command you can run, organized by when you'd use it.
+### Core Commands
 
-### Getting Started
-
-| Command | What It Does |
-|---------|-------------|
-| `/start` | Detects your project state and recommends the next command. Read-only — never changes files. Run this at the start of any session. |
-| `/setup` | Creates the project structure, verifies framework files, generates runtime files, and asks for your project type. Safe to run multiple times. |
-| `/capture-idea` | Describe your project in plain language. Creates a PRD stub, architecture stub, seeds tasks, and emits an event to start the planning workflow. |
-
-### Running the Project
+These 5 commands cover the entire workflow. You'll use them in almost every session.
 
 | Command | What It Does |
 |---------|-------------|
-| `/run-project` | The main engine. Processes events and executes tasks based on your current mode. Run this repeatedly to advance through the task queue. |
-| `/set-mode <mode>` | Switch execution speed. Options: `safe`, `semi`, `auto`. |
+| `/start` | See where you are and what to do next. Read-only — never changes files. Run this at the start of any session. |
+| `/setup` | Set up the project structure, verify framework files, and create runtime files. Safe to run multiple times. |
+| `/capture-idea` | Describe what you want to build in plain language. Creates a PRD stub, architecture stub, seeds tasks, and kicks off the planning workflow. |
+| `/run-project` | Do the next piece of work. Processes events and executes tasks based on your current mode. Run this repeatedly to advance through your task queue. |
+| `/save` | Save your progress so the next session picks up where you left off. Run this before closing VS Code. |
+
+### Power User Commands
+
+The system will suggest these when the situation calls for them. You don't need to memorize them.
+
+| Command | What It Does |
+|---------|-------------|
 | `/status` | Show a compact project dashboard with phase, mode, progress, and blockers. Read-only. |
-
-### Session Management
-
-| Command | What It Does |
-|---------|-------------|
-| `/checkpoint` | Save all session progress to files. Run this before closing VS Code so the next session can resume where you left off. |
-| `/emit-event` | Manually trigger a workflow by creating an event. Advanced use — for things like requesting a code review or reporting a bug. |
-
-### Diagnostics and Maintenance
-
-| Command | What It Does |
-|---------|-------------|
-| `/system-check` | Diagnose the health of your project. Checks directories, files, registry, dispatch chain, and state consistency. Offers repairs for common issues. |
-| `/refresh-skills` | Rebuild the skills registry by scanning all skill files. Run this after adding new skills or if skills aren't being found. |
-| `/prune-knowledge` | Review the knowledge base for stale or superseded entries. Read-only — suggests cleanup but never deletes. |
-
-### Framework Management
-
-| Command | What It Does |
-|---------|-------------|
+| `/set-mode <mode>` | Switch execution speed. Options: `safe` (preview only), `semi` (one task at a time), `auto` (up to 10 tasks per run). |
+| `/trigger` | Manually trigger a workflow by creating an event. For things like requesting a code review or reporting a bug. |
+| `/doctor` | Diagnose the health of your project. Checks directories, files, registry, and state consistency. Offers repairs for common issues. |
+| `/fix-registry` | Rebuild the skills registry by scanning all skill files. Run this after adding new skills or if skills aren't being found. |
+| `/cleanup` | Review the knowledge base for stale or superseded entries. Read-only — suggests cleanup but never deletes. |
 | `/clone-framework <path>` | Copy the AI Builder System to a new project directory. Add `--upgrade` to update an existing project's framework files. |
 | `/capture-lesson` | Save an insight, failure, decision, or pattern to global memory so future projects can benefit from it. |
 
@@ -328,11 +315,11 @@ But your project state does persist. Everything important is written to files:
 
 That's it. The system reconstructs your context from the files.
 
-### Why /checkpoint Matters
+### Why /save Matters
 
-The `/checkpoint` command ensures that any progress made during the chat — decisions discussed, artifacts created, tasks completed — is fully written to the project files. Without it, some in-progress work might only exist in the chat window and would be lost when the session ends.
+The `/save` command ensures that any progress made during the chat — decisions discussed, artifacts created, tasks completed — is fully written to the project files. Without it, some in-progress work might only exist in the chat window and would be lost when the session ends.
 
-**Rule of thumb:** Run `/checkpoint` before closing VS Code. It only takes a moment and prevents lost work.
+**Rule of thumb:** Run `/save` before closing VS Code. It only takes a moment and prevents lost work.
 
 ### The Knowledge Base
 
@@ -452,19 +439,19 @@ Your event history, completed tasks, decisions, and research are never lost duri
 
 Check `/status`. The system needs either unprocessed events or tasks in the queue to do work. If both are empty:
 - Run `/capture-idea` to seed a new project idea
-- Run `/emit-event` to manually create an event
+- Run `/trigger` to manually create an event
 
 ### "The system seems broken"
 
-Run `/system-check`. It verifies directories, files, the skill registry, dispatch chain, and state consistency. If it finds issues, it suggests specific fixes.
+Run `/doctor`. It verifies directories, files, the skill registry, dispatch chain, and state consistency. If it finds issues, it suggests specific fixes.
 
 ### "Skills aren't being found"
 
-Run `/refresh-skills`. This rebuilds the registry by scanning all skill files. The registry can become stale if skills were added or modified since the last refresh.
+Run `/fix-registry`. This rebuilds the registry by scanning all skill files. The registry can become stale if skills were added or modified since the last refresh.
 
 ### "I lost my progress"
 
-Your progress lives in STATE.md. Open it and check the Completed Tasks Log — your work is likely still there. For future sessions, run `/checkpoint` before closing VS Code to ensure everything is saved.
+Your progress lives in STATE.md. Open it and check the Completed Tasks Log — your work is likely still there. For future sessions, run `/save` before closing VS Code to ensure everything is saved.
 
 ### "I want to start over"
 
@@ -485,7 +472,7 @@ Just ask. Type something like "What should I do next?" in the chat. The built-in
 /run-project        → Execute the next task
 /run-project        → Keep going
 /status             → Check progress
-/checkpoint         → Save before closing
+/save         → Save before closing
 ```
 
 ### First-Time Flow

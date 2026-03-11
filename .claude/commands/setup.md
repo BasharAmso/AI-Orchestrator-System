@@ -30,8 +30,8 @@ Check that each framework file exists. These are part of the template and cannot
 | `.claude/CLAUDE.md` | Yes |
 | `.claude/agents/orchestrator.md` | Yes |
 | `.claude/commands/run-project.md` | Yes |
-| `.claude/commands/emit-event.md` | Yes |
-| `.claude/commands/refresh-skills.md` | Yes |
+| `.claude/commands/trigger.md` | Yes |
+| `.claude/commands/fix-registry.md` | Yes |
 | `.claude/commands/setup.md` | Yes |
 | `.claude/rules/orchestration-routing.md` | Yes |
 | `.claude/rules/event-hooks.md` | Yes |
@@ -394,7 +394,7 @@ Default recommended actions for a fresh project:
 | Last Activity | — |
 | Checkpointed | No |
 
-> **How it works:** When a session starts, the orchestrator writes the current timestamp to `Session Started` and sets `Checkpointed = No`. When `/checkpoint` runs, it sets `Checkpointed = Yes`. On the next session start, if `Checkpointed = No` and `Session Started` has a value, the system warns that the previous session may not have saved all progress.
+> **How it works:** When a session starts, the orchestrator writes the current timestamp to `Session Started` and sets `Checkpointed = No`. When `/save` runs, it sets `Checkpointed = Yes`. On the next session start, if `Checkpointed = No` and `Session Started` has a value, the system warns that the previous session may not have saved all progress.
 
 ---
 

@@ -1,6 +1,7 @@
-# Command: /emit-event
+# Command: /trigger
 
-> Append a new event to the Unprocessed Events section of `.claude/project/EVENTS.md`.
+> Trigger a specific workflow by adding a new event to the queue.
+> *(Replaces `/emit-event`.)*
 
 ---
 
@@ -34,7 +35,7 @@ If the section currently shows `*(none)*`, replace that placeholder with the new
 
 Print:
 ```
-Event emitted: EVT-XXXX | TYPE | Description
+Event triggered: EVT-XXXX | TYPE | Description
 
 Last 3 unprocessed events:
 - EVT-XXXX | ...

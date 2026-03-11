@@ -4,7 +4,7 @@
 > To find available skills: look for any folder inside .claude/skills/ that
 > contains a SKILL.md file with YAML frontmatter.
 >
-> Rebuild this index manually if needed with /refresh-skills.
+> Rebuild this index manually if needed with /fix-registry.
 
 ---
 

@@ -75,11 +75,15 @@ Walk through the product as a real user would. Verify features match the PRD, ed
 
 ## Verdict Criteria
 
-| Verdict | When |
-|---------|------|
-| **GO** | All critical flows pass. No critical issues. |
-| **GO WITH CONDITIONS** | Critical flows pass with workarounds. Major issues have clear fixes. |
-| **NO-GO** | Any critical flow broken. Product not usable for intended purpose. |
+The default verdict is **NO-GO**. The product must earn a passing verdict with evidence.
+
+| Verdict | Requirements (all must be met) |
+|---------|-------------------------------|
+| **GO** | Every critical flow tested and passing. Zero critical issues. Zero major issues. Full PRD compliance matrix with no gaps. Reviewer cites evidence for each. |
+| **GO WITH CONDITIONS** | Every critical flow tested and passing (workarounds acceptable). Zero critical issues. All major issues have documented fixes with clear owners. PRD compliance matrix has no critical gaps. |
+| **NO-GO** (default) | Any of the above requirements not met, OR insufficient evidence to justify a higher verdict. |
+
+If the reviewer cannot confirm every requirement with specific evidence, the default NO-GO stands. All feedback must include exact reproduction steps and actionable next steps.
 
 ---
 

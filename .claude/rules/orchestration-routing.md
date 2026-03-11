@@ -32,7 +32,7 @@
 | UX / Design | `designer` | Orchestrator | Wireframes, flows, onboarding (SKL-0023) |
 | Documentation | `documenter` | Project Manager | README, API docs, changelogs, guides (SKL-0024) |
 | Research | `explorer` | Orchestrator | Gathering information, evaluating options |
-| Checkpoint | `orchestrator` | — | Session compression via `/checkpoint` |
+| Checkpoint | `orchestrator` | — | Session compression via `/save` |
 | Multi-Domain (2+ specialists) | `orchestrator` | — | Tasks spanning multiple agent domains |
 | User Guidance & Coaching | `coach` | Orchestrator | Command navigation, framework Q&A |
 
@@ -43,7 +43,7 @@
 The standard project lifecycle follows this sequence:
 
 ```
-/capture-idea → /run-project (planning) → /run-project (execution cycles) → /checkpoint → /system-check
+/capture-idea → /run-project (planning) → /run-project (execution cycles) → /save → /doctor
 ```
 
 | Phase | Command | Purpose |
@@ -51,11 +51,11 @@ The standard project lifecycle follows this sequence:
 | Idea capture | `/capture-idea` | Record the idea and emit IDEA_CAPTURED event |
 | Planning | `/run-project` | Process event, generate PRD, create task queue |
 | Execution | `/run-project` | Execute tasks from the queue (repeat as needed) |
-| Session compression | `/checkpoint` | Persist all progress to files for session continuity |
-| Verification | `/system-check` | Validate system integrity and file consistency |
+| Session compression | `/save` | Persist all progress to files for session continuity |
+| Verification | `/doctor` | Validate system integrity and file consistency |
 
-> Run `/checkpoint` before ending any session with in-progress work.
-> Run `/system-check` after major milestones or before sharing the project.
+> Run `/save` before ending any session with in-progress work.
+> Run `/doctor` after major milestones or before sharing the project.
 
 ---
 
@@ -72,4 +72,4 @@ If a task type is not listed above:
 
 1. Define the new agent in `.claude/agents/<agent-name>.md`.
 2. Add a row to the table above with the task type, primary agent, and review agent(s).
-3. Run `/refresh-skills` to ensure the REGISTRY is up to date.
+3. Run `/fix-registry` to ensure the REGISTRY is up to date.

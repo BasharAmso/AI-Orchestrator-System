@@ -12,14 +12,14 @@ Ask the user to fill in this template (5-15 lines). Accept freeform answers — 
 
 ```
 NAME:
-PROJECT TYPE (Book | Web App | Mobile App):
+WHAT ARE YOU MAKING? (a book, a website, a phone app):
 ONE-LINER:
 WHO IT'S FOR:
 THE PROBLEM:
-THE OUTCOME:
-FEATURES (bullets):
-NON-GOALS (bullets):
-CONSTRAINTS (time/budget/skills/hardware):
+WHAT SUCCESS LOOKS LIKE:
+KEY FEATURES (bullets):
+WHAT IT SHOULD NOT DO (bullets):
+LIMITS (time, budget, what you know):
 ```
 
 If the user provides a freeform description instead of the template, extract as many fields as possible and note any gaps.
@@ -61,7 +61,7 @@ Populate these sections using the intake fields:
 
 ## Overview
 
-<ONE-LINER expanded into 2-3 sentences using NAME, THE PROBLEM, and THE OUTCOME>
+<ONE-LINER expanded into 2-3 sentences using NAME, THE PROBLEM, and WHAT SUCCESS LOOKS LIKE>
 
 ## Target Users
 
@@ -73,11 +73,11 @@ Populate these sections using the intake fields:
 
 ## Goals
 
-<THE OUTCOME, rephrased as bullet points>
+<WHAT SUCCESS LOOKS LIKE, rephrased as bullet points>
 
 ## Non-Goals
 
-<NON-GOALS bullets from intake>
+<WHAT IT SHOULD NOT DO bullets from intake>
 
 ## MVP Scope
 
@@ -85,7 +85,7 @@ Populate these sections using the intake fields:
 
 ## Risks and Assumptions
 
-- Constraints: <CONSTRAINTS from intake>
+- Constraints: <LIMITS from intake>
 - Assumptions: <any assumptions inferred from the intake>
 - Risks: <any risks inferred from the intake>
 ```
@@ -103,7 +103,7 @@ Architecture details will be defined after the PRD is reviewed and approved.
 
 ## Initial Assumptions
 
-- **Project Type:** <PROJECT TYPE from intake>
+- **Project Type:** <WHAT ARE YOU MAKING from intake>
 - <any technical assumptions that can be inferred from the intake>
 
 ## Open Questions

@@ -15,6 +15,7 @@ inputs:
   - Existing project source files
 outputs:
   - Review summary (Must Fix / Should Fix / Consider)
+  - Verdict (APPROVED / NEEDS WORK)
   - .claude/project/STATE.md (updated)
 tags:
   - review
@@ -65,7 +66,11 @@ Review code for quality, consistency, bugs, and adherence to project conventions
    - **Must Fix:** Bugs, security issues, broken functionality
    - **Should Fix:** Inconsistencies, poor naming, missing error handling
    - **Consider:** Style improvements, potential simplifications
-6. **Update STATE.md** with review summary.
+6. **Issue verdict:**
+   - Default verdict is **NEEDS WORK**. The code must earn approval.
+   - To issue **APPROVED**, cite evidence for each: all Definition of Done items satisfied, zero Must Fix issues, code works per PRD, edge cases handled.
+   - If any item lacks evidence, verdict remains NEEDS WORK with specific, actionable feedback.
+7. **Update STATE.md** with review summary and verdict.
 
 ---
 

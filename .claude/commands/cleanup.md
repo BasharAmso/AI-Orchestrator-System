@@ -1,6 +1,7 @@
-# Command: /prune-knowledge
+# Command: /cleanup
 
-> Diagnostic scan of the knowledge base for staleness and bloat. Read-only — suggests cleanup but never deletes.
+> Check for outdated notes and suggest cleanup. Read-only — suggests changes but never deletes.
+> *(Replaces `/prune-knowledge`.)*
 
 ---
 

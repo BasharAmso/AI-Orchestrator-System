@@ -52,6 +52,10 @@ patterns = [
     (r'password\s*=\s*[\"\\'][^\"\\']{8,}[\"\\']', 'Hardcoded password'),
     (r'AWS_SECRET_ACCESS_KEY\s*=\s*[\"\\'][^\"\\']+[\"\\']', 'AWS secret key'),
     (r'PRIVATE_KEY\s*=\s*[\"\\'][^\"\\']+[\"\\']', 'Private key assignment'),
+    (r'sk-ant-api[a-zA-Z0-9_-]{20,}', 'Anthropic API key'),
+    (r'(postgres|mysql|mongodb|redis)://[^:]+:[^@]+@', 'Database connection string with credentials'),
+    (r'hooks\.slack\.com/services/T[A-Z0-9]+/B[A-Z0-9]+/[a-zA-Z0-9]+', 'Slack webhook URL'),
+    (r'amzn\.mws\.[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', 'AWS MWS token'),
 ]
 
 text = sys.stdin.read()

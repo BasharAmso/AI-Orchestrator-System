@@ -11,7 +11,7 @@
 | `.claude/skills/` | Framework (built-in) | No — overwritten by `/clone-framework --upgrade` |
 | `custom-skills/` | You | Yes — never touched by upgrades |
 
-Always put your own skills in `custom-skills/`. The system scans both directories when you run `/refresh-skills`.
+Always put your own skills in `custom-skills/`. The system scans both directories when you run `/fix-registry`.
 
 ---
 
@@ -89,10 +89,10 @@ Describe the final step, including any state updates or events to emit.
 
 ### Step 3: Register Your Skill
 
-Run `/refresh-skills`. The system will scan `custom-skills/` and add your skill to the registry.
+Run `/fix-registry`. The system will scan `custom-skills/` and add your skill to the registry.
 
 ```
-/refresh-skills
+/fix-registry
 ```
 
 You should see your skill listed in the summary under "Custom Skills."
@@ -103,7 +103,7 @@ You can trigger your skill in two ways:
 
 1. **Emit an event** that matches your skill's trigger:
    ```
-   /emit-event MY_CUSTOM_EVENT "Description of what needs to happen"
+   /trigger MY_CUSTOM_EVENT "Description of what needs to happen"
    ```
 
 2. **Queue a task** whose description matches your skill's trigger keyword. The orchestrator will route it automatically.
@@ -127,7 +127,7 @@ If your custom skill defines the same trigger as a built-in skill, **your custom
 
 For example, if you create a custom skill with trigger `IDEA_CAPTURED`, it will run instead of the built-in `Plan From Idea` skill (SKL-0001).
 
-The `/refresh-skills` command will log a note when it detects a trigger override.
+The `/fix-registry` command will log a note when it detects a trigger override.
 
 ---
 
@@ -224,6 +224,6 @@ Log the report generation in the execution summary.
 
 To use this skill:
 1. Save it as `custom-skills/weekly-status-report/SKILL.md`
-2. Run `/refresh-skills`
-3. Run `/emit-event WEEKLY_REPORT_REQUESTED "Generate this week's status report"`
+2. Run `/fix-registry`
+3. Run `/trigger WEEKLY_REPORT_REQUESTED "Generate this week's status report"`
 4. Run `/run-project`

@@ -5,7 +5,8 @@
 set -euo pipefail
 
 INPUT=$(cat)
-FILE=$(echo "$INPUT" | $(command -v python3 || command -v python) -c "
+PYTHON=$(python3 -c "import sys" 2>/dev/null && echo python3 || echo python)
+FILE=$(echo "$INPUT" | $PYTHON -c "
 import sys, json
 d = json.load(sys.stdin)
 print(d.get('file_path', d.get('path', '')))
@@ -19,7 +20,7 @@ EXT="${FILE##*.}"
 
 case "$EXT" in
   json)
-    if ! $(command -v python3 || command -v python) -m json.tool "$FILE" > /dev/null 2>&1; then
+    if ! $PYTHON -m json.tool "$FILE" > /dev/null 2>&1; then
       echo "WARNING: $FILE may contain invalid JSON" >&2
     fi
     ;;

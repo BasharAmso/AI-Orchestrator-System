@@ -73,12 +73,17 @@ fi
 
 # Checkpoint reminder: check for unsaved progress
 STATE_FILE="$CLAUDE_DIR/project/STATE.md"
+PARSER="$CLAUDE_DIR/hooks/lib/parse_state.py"
 if [ -f "$STATE_FILE" ]; then
-  ACTIVE_ID=$(grep '| ID |' "$STATE_FILE" 2>/dev/null | head -1 | sed 's/.*| ID | *//;s/ *|.*//')
-  HAS_COMPLETED=$(grep -c '^|' "$STATE_FILE" 2>/dev/null | tail -1)
+  PYTHON=$(python3 -c "import sys" 2>/dev/null && echo python3 || echo python)
+  if [ -f "$PARSER" ]; then
+    ACTIVE_ID=$($PYTHON "$PARSER" "$STATE_FILE" active_id 2>/dev/null || echo "—")
+  else
+    ACTIVE_ID=$(grep '| ID |' "$STATE_FILE" 2>/dev/null | head -1 | sed 's/.*| ID | *//;s/ *|.*//')
+  fi
   if [ -n "$ACTIVE_ID" ] && [ "$ACTIVE_ID" != "—" ] && [ "$ACTIVE_ID" != "-" ]; then
     echo ""
-    echo "Reminder: Active task ($ACTIVE_ID) detected. Run /checkpoint before ending this session to preserve progress."
+    echo "Reminder: Active task ($ACTIVE_ID) detected. Run /save before ending this session to preserve progress."
   fi
 fi
 

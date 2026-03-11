@@ -1,6 +1,6 @@
 # Command: /clone-framework
 
-> Copy the AI Builder System framework files to a target directory. Supports `--upgrade` mode to update existing projects. Does not copy runtime files — those are created by `/setup`.
+> Copy the AI Builder System framework files to a target directory. Supports `--upgrade` mode to update existing projects and `--format portable` mode to export tool-agnostic files for use with non-CC tools (Cursor, Copilot, Windsurf, Aider). Does not copy runtime files — those are created by `/setup`.
 
 ---
 
@@ -12,6 +12,7 @@ The user must provide a target directory path as an argument. If not provided, a
 
 **Parse flags:**
 - If `--upgrade` is provided: enable upgrade mode (overwrites structural files, patches runtime files).
+- If `--format portable` is provided: enable portable export mode (exports tool-agnostic files only + generates adaptation guide). **Mutually exclusive with `--upgrade`.**
 - If no flag: use default mode (no-overwrite — fills in missing files only).
 
 Validate:
@@ -138,6 +139,125 @@ These empty directories prepare the target for `/setup`.
 - **Skipped:** [count] files (runtime state preserved)
 ```
 
+### Step 8: Portable Export Mode (if `--format portable`)
+
+Skip Steps 2–7 entirely. This mode exports only the **tool-agnostic** parts of the framework — the markdown primitives that work with any AI coding tool (Cursor, Copilot, Windsurf, Aider, etc.).
+
+#### 8a. Identify Portable Files
+
+Copy these files to the target:
+
+| Source | Purpose |
+|--------|---------|
+| `.claude/agents/*.md` | Agent role definitions (universal) |
+| `.claude/skills/*/SKILL.md` | Skill procedures (universal) |
+| `.claude/skills/REGISTRY.md` | Skill index and trigger map |
+| `.claude/rules/orchestration-routing.md` | Task-to-agent routing table |
+| `.claude/rules/event-hooks.md` | Event-to-agent routing table |
+| `.claude/rules/knowledge-policy.md` | Knowledge base read/write rules |
+| `.claude/rules/context-policy.md` | Context conservation rules |
+
+#### 8b. Identify Files to EXCLUDE
+
+Do **not** copy these — they are Claude Code-specific and would not work in other tools:
+
+| Excluded | Reason |
+|----------|--------|
+| `.claude/hooks/` | CC-specific hook JSON format and shell execution model |
+| `.claude/settings.json` | CC permission model (`permissions.allow`, `permissions.deny`) |
+| `.claude/commands/` | CC `/command` system (markdown-as-commands) |
+| `.claude/CLAUDE.md` | CC auto-loading convention |
+| `.claudeignore` | CC-specific ignore format |
+| `.claude/project/` | Runtime state — created per-project |
+
+#### 8c. Create State Templates
+
+Write blank templates (not actual project state) to the target:
+
+1. **`templates/STATE.md`** — Copy the structure from the source STATE.md but clear all task data, set phase to "Not Started", clear completed/queued tables. Add a comment at top: `<!-- Copy this file to your project's state tracking location -->`
+2. **`templates/EVENTS.md`** — Copy the structure from the source EVENTS.md but clear all events. Add a comment at top: `<!-- Copy this file to your project's event queue location -->`
+3. **`templates/knowledge/`** — Create empty template files for DECISIONS.md, RESEARCH.md, GLOSSARY.md, OPEN_QUESTIONS.md with just the entry templates from each.
+
+#### 8d. Generate ADAPTATION_GUIDE.md
+
+Write an `ADAPTATION_GUIDE.md` file at the target root with this structure:
+
+```markdown
+# AI Builder System — Portable Export
+
+## What This Is
+
+This is a portable export of the AI Builder System framework. It contains the
+tool-agnostic primitives (agents, skills, rules, state templates) without the
+Claude Code-specific wiring (hooks, settings, commands).
+
+## How the Framework Works
+
+The framework has 5 core concepts:
+
+1. **Agents** (`agents/`) — Specialized roles (builder, reviewer, coach, etc.)
+   that define WHO does the work and HOW they approach it.
+2. **Skills** (`skills/`) — Step-by-step procedures for specific tasks
+   (code review, PRD writing, deployment, etc.) that define WHAT gets done.
+3. **Rules** (`rules/`) — Routing tables and policies that define WHEN each
+   agent or skill is activated.
+4. **State** (`templates/STATE.md`) — Single source of truth for current task,
+   progress, and blockers.
+5. **Events** (`templates/EVENTS.md`) — Queue of things that happened or need
+   to happen, processed oldest-first.
+
+## Setting Up in Your Tool
+
+### Cursor / Windsurf / Copilot
+- Place agent files in your tool's system prompt or rules directory
+- Reference skill procedures in your custom instructions
+- Copy state templates to your project root
+- Use your tool's file-watching or hook system for event processing
+
+### Aider
+- Add agent definitions to `.aider.conf.yml` or pass via `--system-prompt`
+- Reference skill files with `--read` flag when running specific tasks
+- State and events are plain markdown — edit directly or via scripts
+
+### Generic (any AI tool)
+- Paste relevant agent + skill content into your system prompt
+- Keep STATE.md and EVENTS.md as plain files you update between sessions
+- The rules files describe routing logic your tool can follow
+
+## What's Missing (and Why)
+
+| Missing | Why | What to Do Instead |
+|---------|-----|-------------------|
+| Hook scripts | CC-specific shell execution model | Use your tool's native hook/trigger system |
+| settings.json | CC permission model | Configure permissions in your tool's settings |
+| /commands | CC slash-command system | Create equivalent commands in your tool |
+| CLAUDE.md | CC auto-loading | Add to your tool's auto-loaded context |
+| .claudeignore | CC-specific | Use your tool's ignore/exclude mechanism |
+
+## File Inventory
+
+[Auto-generated list of all exported files with one-line descriptions]
+```
+
+Replace `[Auto-generated list...]` with an actual inventory of every file copied, with a one-line description of each.
+
+#### 8e. Print Portable Export Summary
+
+```
+## Portable Export Summary
+
+- **Source:** [framework root path]
+- **Target:** [target directory path]
+- **Agents:** [count] agent definitions
+- **Skills:** [count] skill procedures
+- **Rules:** [count] governance files
+- **Templates:** STATE.md, EVENTS.md, knowledge files
+- **Guide:** ADAPTATION_GUIDE.md generated
+- **Note:** This export contains tool-agnostic files only.
+  Hook scripts, settings, and commands are CC-specific and were excluded.
+  See ADAPTATION_GUIDE.md for setup instructions for your AI tool.
+```
+
 ---
 
 ## Constraints
@@ -146,4 +266,6 @@ These empty directories prepare the target for `/setup`.
 - Never copy user-specific settings.
 - In default mode, never overwrite existing files at the target.
 - In upgrade mode, structural files are overwritten but runtime state (event history, task history, knowledge) is preserved.
+- In portable mode, never copy CC-specific files (hooks, settings, commands, CLAUDE.md, .claudeignore). Only export tool-agnostic markdown primitives.
+- `--format portable` and `--upgrade` are mutually exclusive. If both are provided, report the error and stop.
 - If the source framework root cannot be determined, stop and report the error.

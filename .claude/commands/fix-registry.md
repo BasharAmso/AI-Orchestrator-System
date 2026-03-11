@@ -1,6 +1,7 @@
-# Command: /refresh-skills
+# Command: /fix-registry
 
-> Scan all skill files and rebuild the REGISTRY.md index.
+> Rebuild the internal skill index so the system can find all available workflows.
+> *(Replaces `/refresh-skills`.)*
 
 ---
 
@@ -55,7 +56,7 @@ If no skill files are found, use `(none)` placeholders in both tables.
 ### Step 4: Print Summary
 
 ```
-## Skills Refresh Complete
+## Registry Rebuilt
 
 - **Built-in Skills:** [count]
 - **Custom Skills:** [count]

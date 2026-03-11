@@ -67,7 +67,7 @@ Overview, Problem Statement, Goals, Target Users, MVP Scope, Non-Goals, User Sto
 
 ### Step 5 — Emit event and update STATE.md
 
-Print: `"Suggest emitting: PRD_UPDATED — use /emit-event to create it."`
+Print: `"Suggest emitting: PRD_UPDATED — use /trigger to create it."`
 
 ---
 

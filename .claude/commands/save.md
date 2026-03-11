@@ -1,6 +1,7 @@
-# Command: /checkpoint
+# Command: /save
 
-> Compress session progress into repository memory so the user can safely end this session and continue in a new one.
+> Save your progress so you can pick up later in a new session.
+> *(Replaces `/checkpoint`.)*
 
 ---
 
@@ -54,20 +55,20 @@ Append a `CHECKPOINT` event to `.claude/project/EVENTS.md` using the standard fo
 EVT-XXXX | CHECKPOINT | Session checkpoint: [brief summary of work done] | system | YYYY-MM-DD HH:MM
 ```
 
-Follow the same ID-generation logic as `/emit-event` (find highest EVT-XXXX, increment by 1).
+Follow the same ID-generation logic as `/trigger` (find highest EVT-XXXX, increment by 1).
 
-### Step 6: Print Checkpoint Summary
+### Step 6: Print Save Summary
 
 Print the following (must stay under 200 words):
 
 ```
-## Checkpoint Complete
+## Progress Saved
 
 **Files updated:**
 - .claude/project/STATE.md
 - .claude/project/EVENTS.md
 - .claude/project/knowledge/DECISIONS.md (if applicable)
-- [any other files updated during checkpoint]
+- [any other files updated during save]
 
 **Summary:**
 [1-3 sentences describing work completed this session]

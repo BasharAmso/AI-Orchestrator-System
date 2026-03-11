@@ -23,7 +23,7 @@ Read `.claude/project/EVENTS.md` to check for unprocessed events.
 
 **Auto-refresh REGISTRY if stale:** Before proceeding, check if `.claude/skills/REGISTRY.md` is current:
 1. Scan all subfolders in `.claude/skills/` for `SKILL.md` files.
-2. If any skill folder exists that is **not listed** in the REGISTRY Skills Index table, or if REGISTRY.md contains `(none)` placeholders despite skill files existing, run the `/refresh-skills` procedure inline.
+2. If any skill folder exists that is **not listed** in the REGISTRY Skills Index table, or if REGISTRY.md contains `(none)` placeholders despite skill files existing, run the `/fix-registry` procedure inline.
 3. Log: `"Registry auto-refreshed — X skills found."` (or skip silently if already current).
 
 Initialize the run:
@@ -133,6 +133,8 @@ Do not echo file contents, full plans, full PRDs, or generated documents into th
 
 ```
 ## Run Summary
+
+> [One plain-English sentence: what happened and where it was saved. Write for a non-developer. Example: "I wrote the first draft of your product requirements document and saved it to docs/PRD.md."]
 
 - **Mode:** [Safe | Semi-Autonomous | Autonomous]
 - **Cycles Executed:** [X of Y max]

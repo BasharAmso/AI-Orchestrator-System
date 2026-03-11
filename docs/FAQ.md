@@ -44,9 +44,9 @@ Switch to Autonomous mode with `/set-mode auto`. This lets the system execute up
 
 Switch to Safe mode with `/set-mode safe`. The system will only *propose* what it would do without actually doing it. Good for reviewing before a deployment.
 
-### When should I run `/checkpoint`?
+### When should I run `/save`?
 
-Before you close VS Code or end your session. `/checkpoint` saves your progress to files so the next session can pick up where you left off. The AI's chat memory doesn't persist between sessions, but your files do.
+Before you close VS Code or end your session. `/save` saves your progress to files so the next session can pick up where you left off. The AI's chat memory doesn't persist between sessions, but your files do.
 
 ---
 
@@ -54,19 +54,19 @@ Before you close VS Code or end your session. `/checkpoint` saves your progress 
 
 ### Nothing happens when I run `/run-project`
 
-Check `/status`. If there are no events and no tasks, the system has nothing to process. Run `/capture-idea` to describe what you want to build, or `/emit-event` to trigger a specific workflow.
+Check `/status`. If there are no events and no tasks, the system has nothing to process. Run `/capture-idea` to describe what you want to build, or `/trigger` to trigger a specific workflow.
 
 ### The system seems broken
 
-Run `/system-check`. It diagnoses issues and suggests exactly which command to run to fix each problem.
+Run `/doctor`. It diagnoses issues and suggests exactly which command to run to fix each problem.
 
 ### Skills aren't being found
 
-Run `/refresh-skills`. This rebuilds the skill registry so the system can discover all available workflows.
+Run `/fix-registry`. This rebuilds the skill registry so the system can discover all available workflows.
 
 ### I lost my progress
 
-Your progress is stored in `.claude/project/STATE.md`. Check if that file still has your task history. If it's corrupted, `/system-check` can detect and repair common issues. For best results, run `/checkpoint` regularly.
+Your progress is stored in `.claude/project/STATE.md`. Check if that file still has your task history. If it's corrupted, `/doctor` can detect and repair common issues. For best results, run `/save` regularly.
 
 ### I want to start over
 
@@ -74,7 +74,7 @@ Run `/setup` again — it's safe to run multiple times (idempotent). It won't de
 
 ### An error message mentions a file I don't recognize
 
-The system uses several internal files (STATE.md, EVENTS.md, REGISTRY.md). You don't need to edit these manually — commands like `/setup`, `/refresh-skills`, and `/system-check` manage them for you. If one is missing or corrupted, `/setup` will recreate it.
+The system uses several internal files (STATE.md, EVENTS.md, REGISTRY.md). You don't need to edit these manually — commands like `/setup`, `/fix-registry`, and `/doctor` manage them for you. If one is missing or corrupted, `/setup` will recreate it.
 
 ---
 
@@ -102,7 +102,7 @@ A separate folder (AI-Memory) that stores lessons, patterns, and decisions acros
 
 ### Can I add my own skills?
 
-Yes. Create a folder in `custom-skills/` (not `.claude/skills/`) with a `SKILL.md` file following the skill template, then run `/refresh-skills` to register it. Custom skills survive framework upgrades. See the [Custom Skills Guide](CUSTOM_SKILLS_GUIDE.md) for a full walkthrough with examples.
+Yes. Create a folder in `custom-skills/` (not `.claude/skills/`) with a `SKILL.md` file following the skill template, then run `/fix-registry` to register it. Custom skills survive framework upgrades. See the [Custom Skills Guide](CUSTOM_SKILLS_GUIDE.md) for a full walkthrough with examples.
 
 ### Can I change the Autonomous cycle limit?
 

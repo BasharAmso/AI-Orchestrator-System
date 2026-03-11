@@ -43,23 +43,32 @@ That's it. The system will guide you from there.
     knowledge/         — Decisions, research, glossary, open questions
 ```
 
-## System Commands
+## Core Commands
+
+These 5 commands cover the entire workflow. You'll use them in almost every session.
 
 | Command | What It Does |
 |---------|-------------|
-| `/start` | Detect project state and recommend what to do next. |
-| `/setup` | Create project structure, runtime files, and starter docs. Replaces the old `/bootstrap` and `/init-project`. |
-| `/capture-idea` | Turn a rough idea into a structured starting point (research, PRD stub, tasks, event). |
-| `/run-project` | Execute orchestration cycles — process events and tasks based on current mode. |
+| `/start` | See where you are and what to do next. |
+| `/setup` | Set up the project structure and runtime files. |
+| `/capture-idea` | Describe what you want to build in plain language. |
+| `/run-project` | Do the next piece of work (process events and tasks). |
+| `/save` | Save your progress so the next session picks up where you left off. |
+
+### Power User Commands
+
+These are available when you need them. The system will suggest them at the right time.
+
+| Command | What It Does |
+|---------|-------------|
 | `/status` | Show a project dashboard: phase, mode, progress, active task, queue. |
 | `/set-mode` | Switch between Safe, Semi-Autonomous, and Autonomous execution modes. |
-| `/checkpoint` | Save session progress so the next session can pick up where you left off. |
-| `/emit-event` | Manually trigger a workflow by emitting an event. |
-| `/refresh-skills` | Rebuild the Skills Registry so the orchestrator can discover available workflows. |
-| `/system-check` | Run diagnostics to verify the environment is healthy, with optional auto-repair. |
+| `/trigger` | Manually trigger a workflow by adding an event. |
+| `/fix-registry` | Rebuild the Skills Registry so the orchestrator can discover available workflows. |
+| `/doctor` | Run diagnostics to verify the environment is healthy, with optional auto-repair. |
 | `/clone-framework` | Copy or upgrade the AI Builder System into another project directory. |
 | `/capture-lesson` | Save a reusable insight to global memory for cross-project learning. |
-| `/prune-knowledge` | Review knowledge files for staleness and recommend cleanup. |
+| `/cleanup` | Review knowledge files for staleness and recommend cleanup. |
 
 ### Recommended First-Time Flow
 
