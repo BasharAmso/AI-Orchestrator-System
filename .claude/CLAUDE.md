@@ -85,6 +85,7 @@ To stay token-efficient, load context incrementally:
 | **Research-backed claims** | + `RESEARCH.md` |
 | **Uncertainty or ambiguity** | + `OPEN_QUESTIONS.md` |
 | **Running the system** | + `STATE.md` + `EVENTS.md` + `REGISTRY.md` |
+| **Session start** | Scan `AI-Memory/lessons/` for entries relevant to the current task |
 
 > Do NOT load all files at once. Read only what the current task requires.
 

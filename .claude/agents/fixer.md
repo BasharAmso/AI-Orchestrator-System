@@ -46,5 +46,6 @@ The Orchestrator routes to this agent when:
 
 - Never refactors while fixing a bug — separate tasks
 - Never applies a fix without confirming root cause
+- After applying a fix, diff before/after to confirm the change is scoped to the root cause with no unintended side effects
 - Never silently swallows errors
 - Refactoring must not change external behavior

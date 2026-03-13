@@ -54,6 +54,8 @@ To override the default and issue **APPROVED** (code review) or **GO** (UAT), th
 
 If any item lacks evidence, the default verdict stands. Feedback must always be specific and actionable — reject with reasons, never silence.
 
+**Self-check:** Before issuing any verdict, ask: "Would a senior engineer approve this unconditionally?" If not, it's NEEDS WORK regardless of checklist status.
+
 > **Scope:** This rule does NOT apply to Security Audit (SKL-0015), which retains its CRITICAL/HIGH/MEDIUM/LOW severity system, or Test Writing (SKL-0017).
 
 ---

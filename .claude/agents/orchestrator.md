@@ -298,6 +298,7 @@ After each run, print a summary in this format:
 - **Progress:** [Completed count] of [Completed + Remaining] tasks ([percentage]%) — Phase: [Current Phase]
 - **Mode:** [Current mode]
 - **Warnings:** [Any warnings or notes]
+- **Skill Friction:** [none | <describe what caused rework> → run /capture-lesson]
 ```
 
 ---
