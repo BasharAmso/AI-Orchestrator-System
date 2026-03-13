@@ -10,7 +10,7 @@ STATE_FILE="$CLAUDE_DIR/project/STATE.md"
 EVENTS_FILE="$CLAUDE_DIR/project/EVENTS.md"
 POLICY_FILE="$CLAUDE_DIR/project/RUN_POLICY.md"
 
-echo "=== AI-Builder-System Session Context ==="
+echo "--- AI-Builder-System Session Context ---"
 echo "Framework root: $FRAMEWORK_ROOT"
 echo ""
 
@@ -146,5 +146,5 @@ else
   echo "Set AI_MEMORY_PATH in your shell profile to point to your local AI-Memory path."
 fi
 
-echo "========================================="
+echo "--- End Session Context ---"
 exit 0

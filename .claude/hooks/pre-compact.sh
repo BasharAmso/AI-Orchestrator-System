@@ -9,7 +9,7 @@ set -euo pipefail
 STATE_FILE=".claude/project/STATE.md"
 EVENTS_FILE=".claude/project/EVENTS.md"
 
-echo "=== Pre-Compact State Snapshot ==="
+echo "--- Pre-Compact State Snapshot ---"
 
 # Current phase and mode
 if [ -f "$STATE_FILE" ]; then
@@ -118,6 +118,6 @@ else
   echo "No EVENTS.md found"
 fi
 
-echo "=================================="
+echo "--- End State Snapshot ---"
 
 exit 0
