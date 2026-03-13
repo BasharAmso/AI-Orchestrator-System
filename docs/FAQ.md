@@ -22,7 +22,7 @@ You need VS Code with the Claude Code extension installed. That's it. You don't 
 
 ### What happened to `/bootstrap` and `/init-project`?
 
-They've been replaced by `/setup`, which combines both into a single command. The old commands still exist for backwards compatibility but `/setup` is the recommended way.
+They've been removed. `/setup` replaces both commands, combining their functionality into a single entry point. If you see references to `/bootstrap` or `/init-project` in older documentation, use `/setup` instead.
 
 ---
 

@@ -20,44 +20,68 @@ import re
 with open('$STATE_FILE', 'r', encoding='utf-8') as f:
     content = f.read()
 
-# Extract phase
-phase_match = re.search(r'\*\*Current Phase:\*\*\s*(.+)', content)
+# Extract phase — STATE.md uses: ## Current Phase followed by backtick-wrapped value
+phase_match = re.search(r'## Current Phase\s+\x60([^\x60]+)\x60', content)
 phase = phase_match.group(1).strip() if phase_match else 'Unknown'
 
-# Extract mode
-mode_match = re.search(r'\*\*Mode:\*\*\s*(.+)', content)
-mode = mode_match.group(1).strip() if mode_match else 'Unknown'
-
-# Extract active task
-active_match = re.search(r'\*\*Active Task:\*\*\s*(.+)', content)
-active = active_match.group(1).strip() if active_match else 'None'
-
-# Extract last 3 completed tasks from history
-completed = []
-in_history = False
+# Extract mode — STATE.md uses a table where the active mode has **YES**
+mode = 'Unknown'
 for line in content.split('\n'):
-    if 'Completed' in line and '|' in line:
-        in_history = True
-        continue
-    if in_history and '|' in line and '---' not in line:
+    if '**YES**' in line and '|' in line:
         parts = [p.strip() for p in line.split('|') if p.strip()]
         if parts:
-            completed.append(' | '.join(parts[:3]))
-    elif in_history and not line.strip():
+            mode = parts[0]
         break
 
-# Count pending tasks
+# Extract active task — STATE.md uses a table under ## Active Task
+# The Description field holds the task name; ID field tells us if one is set
+active = 'None'
+in_active = False
+active_id = None
+active_desc = None
+for line in content.split('\n'):
+    if '## Active Task' in line:
+        in_active = True
+        continue
+    if in_active and '|' in line and '---' not in line:
+        parts = [p.strip() for p in line.split('|') if p.strip()]
+        if len(parts) >= 2:
+            key, val = parts[0], parts[1]
+            if key == 'ID':
+                active_id = val
+            elif key == 'Description':
+                active_desc = val
+    elif in_active and line.startswith('##'):
+        break
+if active_id and active_id != chr(8212) and active_id != '-':
+    active = f'{active_id}: {active_desc}' if active_desc else active_id
+
+# Extract last 3 completed tasks from Completed Tasks Log table
+completed = []
+in_log = False
+for line in content.split('\n'):
+    if '## Completed Tasks Log' in line:
+        in_log = True
+        continue
+    if in_log and '|' in line and '---' not in line:
+        parts = [p.strip() for p in line.split('|') if p.strip()]
+        if len(parts) >= 2 and parts[0] not in ('ID', chr(8212), '-'):
+            completed.append(' | '.join(parts[:3]))
+    elif in_log and line.startswith('##'):
+        break
+
+# Count pending tasks in Next Task Queue table
 pending = 0
 in_queue = False
 for line in content.split('\n'):
-    if 'Next Task Queue' in line or 'Task Queue' in line:
+    if '## Next Task Queue' in line:
         in_queue = True
         continue
     if in_queue and '|' in line and '---' not in line:
         parts = [p.strip() for p in line.split('|') if p.strip()]
-        if len(parts) >= 2 and parts[0].isdigit():
+        if len(parts) >= 2 and parts[0] not in ('#', chr(8212), '-'):
             pending += 1
-    elif in_queue and not line.strip():
+    elif in_queue and line.startswith('##'):
         break
 
 print(f'Phase: {phase} | Mode: {mode}')
@@ -74,7 +98,21 @@ fi
 
 # Pending event count
 if [ -f "$EVENTS_FILE" ]; then
-  PENDING_EVENTS=$(grep -c "Pending" "$EVENTS_FILE" 2>/dev/null || echo "0")
+  # Count EVT- lines between "## Unprocessed Events" and "## Processed Events"
+  PENDING_EVENTS=$($PYTHON -c "
+in_unprocessed = False
+count = 0
+with open('$EVENTS_FILE', 'r', encoding='utf-8') as f:
+    for line in f:
+        if '## Unprocessed Events' in line:
+            in_unprocessed = True
+            continue
+        if '## Processed Events' in line:
+            break
+        if in_unprocessed and line.strip().startswith('EVT-'):
+            count += 1
+print(count)
+" 2>/dev/null || echo "0")
   echo "Pending events: $PENDING_EVENTS"
 else
   echo "No EVENTS.md found"

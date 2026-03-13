@@ -15,6 +15,7 @@ Read `.claude/project/STATE.md` and extract:
 - **Active Task** (from `## Active Task` — ID and Description fields)
 - **Next Task Queue** count (number of rows with real task data)
 - **Completed Tasks Log** count (number of rows with real task data, excluding placeholder rows)
+- **Recent Completions** — the last 3–5 rows from the Completed Tasks Log table (ID, Description, and completion date if available)
 - **Run Cycle** fields (Current Cycle, Max Cycles This Run, Last Run Status)
 - **Blockers / Risks** (any content other than `*(none)*`)
 
@@ -48,6 +49,13 @@ Read `.claude/project/RUN_POLICY.md` and extract the Autonomous cycle limit from
 **Pending Events:** [Unprocessed count]
 **Last Run:** [Last Run Status] ([Current Cycle] of [Max Cycles] cycles)
 **Blockers:** [Blocker summary or "None"]
+
+**Recent completions:**
+- [Task ID] — [Description] ([completion date])
+- [Task ID] — [Description] ([completion date])
+- [Task ID] — [Description] ([completion date])
 ```
+
+If no tasks completed yet, show: `**Recent completions:** None yet
 
 Keep output compact — this is a glance-and-go dashboard, not a guidance tool. For recommendations, use `/start`.

@@ -40,7 +40,7 @@ If any are missing, record the filename for the suggested fixes list.
 - If `PROJECT_TYPE.md` exists in the repo root: read the `Project Type:` line and record the value.
 - If missing: check whether `README.md` at the repo root contains the text `AI Builder System`.
   - If yes: this is the framework template itself. Record project type as `Framework Template` and treat as healthy (no warning, no suggested fix).
-  - If no: record status as `Not initialized` and add `/init-project` to suggested fixes.
+  - If no: record status as `Not initialized` and add `/setup` to suggested fixes.
 
 ### Step 4: Verify Skills Registry Consistency
 

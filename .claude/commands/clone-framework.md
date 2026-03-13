@@ -102,6 +102,25 @@ If `<target>/.claude/project/RUN_POLICY.md` exists:
 4. Do **NOT** modify existing cycle limits, stop conditions, or other sections.
 5. Log: `Patched: RUN_POLICY.md (added [section names])`
 
+### Step 5d: Legacy Artifact Cleanup (Upgrade Mode Only)
+
+Skip this step entirely in default mode.
+
+After copying framework files and patching runtime files, check for known legacy artifacts that are superseded by framework equivalents:
+
+| Legacy Pattern | Framework Replacement | Action |
+|---------------|----------------------|--------|
+| `tasks/` directory | STATE.md Next Task Queue | Warn user, suggest deletion |
+| Root `ARCHITECTURE.md` | `docs/ARCHITECTURE.md` | Warn user, suggest deletion |
+| `.claude/rules-archive/` | `.claude/rules/` | Warn user, suggest deletion |
+| Root `CLAUDE.md` | `.claude/CLAUDE.md` | Already handled in Step 5b |
+
+For each legacy artifact found:
+1. Log: `Legacy artifact found: <path> — superseded by <replacement>`
+2. Do **NOT** auto-delete. Print a warning and let the user decide.
+
+Add the count to the upgrade summary as `**Legacy warnings:** [count] artifacts found (review recommended)`.
+
 ### Step 6: Create Target Directory Structure
 
 Ensure these directories exist at the target (create if missing):

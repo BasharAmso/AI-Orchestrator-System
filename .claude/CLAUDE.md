@@ -44,8 +44,6 @@
 | `/run-project` | `.claude/commands/run-project.md` |
 | `/trigger` | `.claude/commands/trigger.md` |
 | `/fix-registry` | `.claude/commands/fix-registry.md` |
-| `/bootstrap` | `.claude/commands/bootstrap.md` |
-| `/init-project` | `.claude/commands/init-project.md` |
 | `/capture-idea` | `.claude/commands/capture-idea.md` |
 | `/capture-lesson` | `.claude/commands/capture-lesson.md` |
 | `/doctor` | `.claude/commands/doctor.md` |
@@ -61,7 +59,7 @@
 
 | Primitive | Location | Role |
 |-----------|----------|------|
-| Commands | `.claude/commands/` | Entry points: `/run-project`, `/trigger`, `/bootstrap`, etc. |
+| Commands | `.claude/commands/` | Entry points: `/run-project`, `/trigger`, `/setup`, etc. |
 | State | `.claude/project/STATE.md` | Single source of truth: current task, mode, blockers, history |
 | Events | `.claude/project/EVENTS.md` | Queue of things that happened or need to happen (FIFO) |
 | Skills | `.claude/skills/` | Reusable procedures with triggers, registered in REGISTRY.md |

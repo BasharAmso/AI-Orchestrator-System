@@ -68,7 +68,7 @@ Use the actual commands read in Step 1 to build this map.
 - Learned something worth preserving → `/capture-lesson`
 - Wants to review quality → explain that quality review fires automatically via hook, no command needed
 - Wants to extend the framework → explain the agent template pattern; recommend reading an existing agent as a model before writing a new one
-- Asking about deprecated commands → explain that `/bootstrap` and `/init-project` are now `/setup`
+- Asking about deprecated commands → explain that `/setup` is the single setup command (replaces legacy `/bootstrap` and `/init-project`)
 
 **Important:** Never list all commands at once. Recommend one command at a time based on the user's current situation. If they ask "what commands are there?", show the 5 core commands and mention that more exist for specific situations.
 

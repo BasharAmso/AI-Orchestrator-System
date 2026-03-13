@@ -30,9 +30,21 @@ if [ -f "$STATE_FILE" ]; then
     CHECKPOINTED=$($PYTHON -c "import json; d=json.loads('$STATE_JSON'); print(d.get('checkpointed',''))" 2>/dev/null || echo "")
     SESSION_STARTED=$($PYTHON -c "import json; d=json.loads('$STATE_JSON'); print(d.get('session_started',''))" 2>/dev/null || echo "")
   else
-    # Fallback: basic extraction if parser not found
-    PHASE=$(grep -oP '(?<=\*\*Current Phase:\*\*\s).+' "$STATE_FILE" 2>/dev/null || echo "Not Started")
-    MODE="Unknown"
+    # Fallback: basic extraction if parser not found (matches STATE.md table/backtick format)
+    PHASE=$($PYTHON -c "
+import re
+with open('$STATE_FILE','r',encoding='utf-8') as f: c=f.read()
+m=re.search(r'## Current Phase\s+\x60([^\x60]+)\x60',c)
+print(m.group(1).strip() if m else 'Not Started')
+" 2>/dev/null || echo "Not Started")
+    MODE=$($PYTHON -c "
+with open('$STATE_FILE','r',encoding='utf-8') as f:
+    for line in f:
+        if '**YES**' in line and '|' in line:
+            parts=[p.strip() for p in line.split('|') if p.strip()]
+            if parts: print(parts[0]); break
+    else: print('Unknown')
+" 2>/dev/null || echo "Unknown")
     ACTIVE_DESC="—"
     COMPLETED=0
     QUEUED=0
