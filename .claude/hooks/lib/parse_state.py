@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Shared STATE.md parser for shell hooks.
+"""Shared STATE.md and EVENTS.md parser for shell hooks.
 
 Provides robust markdown table parsing that handles:
 - Variable column spacing and alignment
@@ -9,18 +9,23 @@ Provides robust markdown table parsing that handles:
 
 Usage from bash:
   PYTHON=$(python3 -c "import sys" 2>/dev/null && echo python3 || echo python)
-  $PYTHON .claude/hooks/lib/parse_state.py <state_file> <query>
+  $PYTHON .claude/hooks/lib/parse_state.py <file> <query>
 
-Queries:
-  phase        - Current phase name
-  mode         - Current mode (Safe/Semi-Autonomous/Autonomous)
-  active_id    - Active task ID
-  active_desc  - Active task description
-  completed    - Count of completed tasks
-  queued       - Count of queued tasks
-  checkpointed - Whether session was checkpointed (Yes/No)
-  session_started - When session started
-  all          - JSON dump of all parsed fields
+STATE.md queries:
+  phase            - Current phase name
+  mode             - Current mode (Safe/Semi-Autonomous/Autonomous)
+  active_id        - Active task ID
+  active_desc      - Active task description
+  completed        - Count of completed tasks
+  completed_details - JSON array of all completed task rows
+  completed_recent  - JSON array of last 3 completed task rows
+  queued           - Count of queued tasks
+  checkpointed     - Whether session was checkpointed (Yes/No)
+  session_started  - When session started
+  all              - JSON dump of all parsed fields
+
+EVENTS.md queries (pass EVENTS.md as <file>):
+  events_pending   - Count of unprocessed events
 """
 
 import json
@@ -154,16 +159,17 @@ def parse_state(filepath):
     result["active_id"] = active.get("ID", active.get("id", "—"))
     result["active_desc"] = active.get("Description", active.get("description", "—"))
 
-    # Completed tasks count
+    # Completed tasks — count and details
     completed_rows = parse_table_section(content, "Completed Tasks")
-    # Filter out placeholder rows
-    completed_count = 0
+    completed_details = []
     for row in completed_rows:
         vals = " ".join(row.values()).lower()
         if "none yet" in vals or "---" in vals:
             continue
-        completed_count += 1
-    result["completed"] = completed_count
+        completed_details.append(row)
+    result["completed"] = len(completed_details)
+    result["completed_details"] = completed_details
+    result["completed_recent"] = completed_details[-3:] if completed_details else []
 
     # Queued tasks count
     queued_rows = parse_table_section(content, "Next Task Queue")
@@ -189,18 +195,46 @@ def parse_state(filepath):
     return result
 
 
+def parse_events(filepath):
+    """Parse EVENTS.md and return structured data."""
+    try:
+        with open(filepath, "r", encoding="utf-8") as f:
+            content = f.read()
+    except FileNotFoundError:
+        return {"events_pending": 0}
+
+    count = 0
+    in_unprocessed = False
+    for line in content.split("\n"):
+        stripped = line.strip()
+        if "## Unprocessed Events" in stripped:
+            in_unprocessed = True
+            continue
+        if in_unprocessed and (re.match(r"^#{1,4}\s+", stripped) or stripped == "---"):
+            break
+        if in_unprocessed and stripped.startswith("EVT-"):
+            count += 1
+
+    return {"events_pending": count}
+
+
 if __name__ == "__main__":
     if len(sys.argv) < 3:
-        print("Usage: parse_state.py <state_file> <query>", file=sys.stderr)
+        print("Usage: parse_state.py <file> <query>", file=sys.stderr)
         sys.exit(1)
 
     filepath = sys.argv[1]
     query = sys.argv[2]
 
-    data = parse_state(filepath)
+    if query.startswith("events_"):
+        data = parse_events(filepath)
+    else:
+        data = parse_state(filepath)
 
     if query == "all":
         print(json.dumps(data))
+    elif query in ("completed_details", "completed_recent"):
+        print(json.dumps(data.get(query, [])))
     elif query in data:
         print(data[query])
     else:

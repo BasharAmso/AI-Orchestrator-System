@@ -9,6 +9,8 @@ CLAUDE_DIR="$FRAMEWORK_ROOT/.claude"
 STATE_FILE="$CLAUDE_DIR/project/STATE.md"
 EVENTS_FILE="$CLAUDE_DIR/project/EVENTS.md"
 POLICY_FILE="$CLAUDE_DIR/project/RUN_POLICY.md"
+PARSER="$CLAUDE_DIR/hooks/lib/parse_state.py"
+PYTHON=$(python3 -c "import sys" 2>/dev/null && echo python3 || echo python)
 
 echo "--- AI-Builder-System Session Context ---"
 echo "Framework root: $FRAMEWORK_ROOT"
@@ -16,9 +18,6 @@ echo ""
 
 # Extract phase, mode, and active task from STATE.md using shared parser
 if [ -f "$STATE_FILE" ]; then
-  PYTHON=$(python3 -c "import sys" 2>/dev/null && echo python3 || echo python)
-  PARSER="$CLAUDE_DIR/hooks/lib/parse_state.py"
-
   if [ -f "$PARSER" ]; then
     STATE_JSON=$($PYTHON "$PARSER" "$STATE_FILE" all 2>/dev/null || echo '{}')
 
@@ -88,7 +87,11 @@ fi
 
 # Count pending events
 if [ -f "$EVENTS_FILE" ]; then
-  PENDING=$(awk '/^## Unprocessed Events/,/^---/' "$EVENTS_FILE" 2>/dev/null | grep -c '^EVT-' || echo "0")
+  if [ -f "$PARSER" ]; then
+    PENDING=$($PYTHON "$PARSER" "$EVENTS_FILE" events_pending 2>/dev/null || echo "0")
+  else
+    PENDING=$(awk '/^## Unprocessed Events/,/^---/' "$EVENTS_FILE" 2>/dev/null | grep -c '^EVT-' || echo "0")
+  fi
   echo "Pending events: $PENDING"
 else
   echo "EVENTS.md not found."
@@ -98,7 +101,6 @@ fi
 REGISTRY_FILE="$CLAUDE_DIR/skills/REGISTRY.md"
 SKILLS_DIR="$CLAUDE_DIR/skills"
 if [ -f "$REGISTRY_FILE" ] && [ -d "$SKILLS_DIR" ]; then
-  PYTHON=${PYTHON:-$(python3 -c "import sys" 2>/dev/null && echo python3 || echo python)}
   REGISTRY_CHECK=$($PYTHON -c "
 import os, re, sys
 
