@@ -2,10 +2,12 @@
 id: SKL-0018
 name: User Acceptance Testing
 description: |
-  Validate features against acceptance criteria from the user's perspective.
-  Use this skill when UAT is requested or a feature is ready for acceptance
-  testing.
-version: 1.0
+  Structured QA testing with four modes: diff-aware (auto-scoped to branch
+  changes), full (systematic exploration), quick (30-second smoke test), and
+  regression (compare against baseline). Produces health score, structured
+  reports, and actionable bug lists. Use this skill when UAT is requested
+  or a feature is ready for acceptance testing.
+version: 2.0
 owner: reviewer
 triggers:
   - UAT_REQUESTED
@@ -13,9 +15,12 @@ triggers:
 inputs:
   - docs/PRD.md (features and acceptance criteria)
   - .claude/project/STATE.md (what was built)
+  - TODOS.md (if exists — known bugs and planned work)
   - Built application (test/staging environment)
+  - Previous QA baseline (if exists, for regression mode)
 outputs:
   - .claude/project/knowledge/UAT_REPORT.md
+  - .gstack/qa-reports/baseline.json (for regression tracking)
   - .claude/project/STATE.md (updated with verdict)
   - Bug list for fixer agent (if issues found)
 tags:
@@ -23,67 +28,278 @@ tags:
   - testing
   - uat
   - acceptance
+  - qa
 ---
 
-# Skill: User Acceptance Testing
+# Skill: User Acceptance Testing & QA
 
 ## Metadata
 
 | Field | Value |
 |-------|-------|
 | **Skill ID** | SKL-0018 |
-| **Version** | 1.0 |
+| **Version** | 2.0 |
 | **Owner** | reviewer |
-| **Inputs** | PRD, STATE.md, built application |
-| **Outputs** | UAT_REPORT.md, STATE.md updated, bug list |
+| **Inputs** | PRD, STATE.md, TODOS.md, built application, previous baseline |
+| **Outputs** | UAT_REPORT.md, baseline.json, STATE.md updated, bug list |
 | **Triggers** | `UAT_REQUESTED`, `READY_FOR_ACCEPTANCE_TESTING` |
 
 ---
 
 ## Purpose
 
-Walk through the product as a real user would. Verify features match the PRD, edge cases don't crash the app, and error messages make sense. Issue a GO / GO WITH CONDITIONS / NO-GO verdict.
+Walk through the product as a real user would. Verify features match the PRD, edge cases don't crash the app, and error messages make sense. Produce a structured report with a health score and actionable findings. Issue a GO / GO WITH CONDITIONS / NO-GO verdict.
+
+---
+
+## Cognitive Mode
+
+**Hostile QA Engineer.** You are trying to break the product. Click everything. Submit empty forms. Navigate backwards. Resize the window. You are the user's advocate — if something confuses you, it will confuse them.
+
+---
+
+## QA Modes
+
+Detect the appropriate mode automatically, or let the user specify:
+
+| Mode | When | What |
+|------|------|------|
+| **Diff-aware** (default on feature branch) | On a feature branch with changes against main | Analyze git diff, identify affected pages/routes, test those specifically |
+| **Full** | User specifies, or first QA run on a project | Systematic exploration of every reachable page. 5-15 minutes. |
+| **Quick** | User says "quick check" or "smoke test" | 30-second smoke test: homepage + top 5 pages. Console errors? Broken links? |
+| **Regression** | User provides a baseline, or previous baseline exists | Run full mode, then compare against baseline. What's fixed? What's new? |
 
 ---
 
 ## Procedure
 
-1. **Read PRD and STATE.md** — identify all features, acceptance criteria, and what's marked complete. Build a checklist of testable features. If no PRD: ask the user.
-2. **Identify critical user flows** — flows where failure means NO-GO:
-   - Account creation / sign-in
-   - Core value action (the one thing the app exists for)
-   - Payment / checkout (if applicable)
-   - Data save and retrieval
-   - Navigation between main sections
-3. **Test each flow as a real user:**
-   - Start from real entry points (not deep links)
-   - Happy path first, then edge cases:
-     - Empty inputs, invalid inputs, empty states, error states
-     - Back button / navigation, page refresh
-   - Note what worked, broke, or was confusing
-4. **Check accessibility and usability basics** (no code inspection):
-   - Keyboard navigation, text readability, image purpose
-   - Error message clarity, mobile responsiveness, loading indicators
-5. **Write UAT report** to `.claude/project/knowledge/UAT_REPORT.md`:
-   - Verdict, critical flow results, issues found (with exact reproduction steps)
-   - Issues categorized: Critical (blocks launch), Major (fix before launch), Minor (ship, fix later)
-   - PRD compliance matrix
-6. **Route bugs** — log Critical and Major issues to STATE.md task queue for fixer agent.
-7. **Update STATE.md** with UAT status and verdict.
+### Step 0 — Setup
+
+1. **Read PRD and STATE.md** — identify all features, acceptance criteria, and what's marked complete. Build a checklist of testable features.
+2. **Read TODOS.md** (if exists) — note known bugs and planned work. If a TODO describes a bug this branch should fix, add it to the test plan.
+3. **Determine QA mode** based on branch state and user request.
+4. **For diff-aware mode:** Analyze the branch diff to scope testing:
+   ```bash
+   git diff main...HEAD --name-only
+   git log main..HEAD --oneline
+   ```
+   Map changed files to affected pages/routes:
+   - Route/controller files → which URL paths they serve
+   - View/template/component files → which pages render them
+   - Model/service files → which pages use those models
+   - API endpoint files → test endpoints directly
+   - Style files → check pages that include them
 
 ---
 
-## Verdict Criteria
+### Step 1 — Identify Critical User Flows
+
+Flows where failure means NO-GO:
+- Account creation / sign-in (if applicable)
+- Core value action (the one thing the app exists for)
+- Payment / checkout (if applicable)
+- Data save and retrieval
+- Navigation between main sections
+
+**Diff-aware adjustment:** Prioritize flows that touch changed files. But always smoke-test adjacent flows for regressions.
+
+---
+
+### Step 2 — Test Each Flow
+
+Start from real entry points (not deep links). For each flow:
+
+#### Happy Path
+- Does it work as described in the PRD?
+- Is the result correct?
+
+#### Edge Cases
+| Category | Test |
+|----------|------|
+| Empty inputs | Submit forms blank, navigate to empty states |
+| Invalid inputs | Wrong types, too long, special characters, SQL/script injection strings |
+| Error states | Disconnect network, provide wrong credentials, exceed rate limits |
+| Navigation | Back button, page refresh, deep link directly to a page |
+| Boundary values | Zero items, one item, maximum items, very long text |
+| Concurrent | Double-click submit, rapid navigation |
+
+#### For Each Issue Found
+Document immediately:
+1. **What happened** — one-line description
+2. **Expected behavior** — what should have happened
+3. **Reproduction steps** — exact steps to reproduce
+4. **Severity** — Critical / High / Medium / Low (see rubric below)
+5. **Category** — Functional / Visual / UX / Content / Performance / Accessibility / Console
+
+---
+
+### Step 3 — Accessibility & Usability Check
+
+Test without inspecting source code:
+
+| Check | How to Test |
+|-------|------------|
+| Keyboard navigation | Tab through all interactive elements. Can you reach everything? Visible focus? |
+| Text readability | Squint test — can you read everything at normal zoom? |
+| Color contrast | Any text hard to read against its background? |
+| Image purpose | Do images have descriptions? (inspect via browser) |
+| Error messages | Are they helpful and specific? Or just "Something went wrong"? |
+| Mobile responsiveness | Resize to mobile width — does layout break? |
+| Loading indicators | Are there spinners/skeletons for async operations? Or does content just pop in? |
+| Empty states | What do lists/tables look like with zero items? Helpful message or blank void? |
+
+---
+
+### Step 4 — Framework-Specific Checks
+
+Detect the framework and apply relevant checks:
+
+**Next.js / React:**
+- Console hydration errors (`Hydration failed`, `Text content did not match`)
+- Client-side navigation — do page transitions work without full reload?
+- Loading states during data fetching
+- CLS (Cumulative Layout Shift) — does content jump around?
+
+**Rails:**
+- Flash messages appearing and dismissing
+- Turbo/Stimulus integration — smooth transitions?
+- CSRF token presence in forms
+
+**General SPA (React, Vue, Angular):**
+- Stale state — navigate away and back, does data refresh?
+- Browser back/forward — does the app handle history?
+- Direct URL navigation (deep links) — do they work?
+
+**Static/WordPress:**
+- Broken links
+- Mixed content warnings (HTTP resources on HTTPS page)
+- Plugin conflicts (console errors from different sources)
+
+**API-only:**
+- Test endpoints with `curl` or the app's API client
+- Check response codes, error formats, empty responses
+- Verify authentication/authorization on protected endpoints
+
+---
+
+### Step 5 — Compute Health Score
+
+Rate each category 0-100, then compute weighted average:
+
+| Category | Weight | Scoring |
+|----------|--------|---------|
+| Console | 15% | 0 errors = 100, 1-3 = 70, 4-10 = 40, 10+ = 10 |
+| Functional | 20% | Start at 100, deduct: Critical -25, High -15, Medium -8, Low -3 |
+| UX | 15% | Start at 100, deduct per finding by severity |
+| Visual | 10% | Start at 100, deduct per finding by severity |
+| Accessibility | 15% | Start at 100, deduct per finding by severity |
+| Performance | 10% | Start at 100, deduct per finding by severity |
+| Content | 5% | Start at 100, deduct per finding by severity |
+| Links | 10% | 0 broken = 100, each broken link = -15 (minimum 0) |
+
+**Final Score:** `score = Σ (category_score × weight)`
+
+| Score Range | Rating |
+|-------------|--------|
+| 90-100 | Excellent |
+| 75-89 | Good |
+| 60-74 | Needs Work |
+| 40-59 | Poor |
+| 0-39 | Critical |
+
+---
+
+### Step 6 — Write UAT Report
+
+Write to `.claude/project/knowledge/UAT_REPORT.md`:
+
+```markdown
+# UAT Report — [Project Name]
+**Date:** YYYY-MM-DD
+**Mode:** [diff-aware / full / quick / regression]
+**Health Score:** [N]/100 ([rating])
+**Verdict:** [GO / GO WITH CONDITIONS / NO-GO]
+
+## Summary
+- Pages tested: N
+- Issues found: N (X critical, Y high, Z medium, W low)
+- Top 3 issues to fix: [list]
+
+## Health Score Breakdown
+| Category | Score | Issues |
+|----------|-------|--------|
+| Console | N | ... |
+| Functional | N | ... |
+| ... | ... | ... |
+
+## Issues
+### ISSUE-001: [title]
+- **Severity:** Critical / High / Medium / Low
+- **Category:** Functional / Visual / UX / ...
+- **Steps to reproduce:** [exact steps]
+- **Expected:** [what should happen]
+- **Actual:** [what happened]
+...
+
+## PRD Compliance Matrix
+| Feature | Status | Notes |
+|---------|--------|-------|
+| [feature from PRD] | Pass / Fail / Partial | ... |
+
+## TODOS Cross-Reference
+- Known bugs tested: [list]
+- New bugs found not in TODOS: [list]
+```
+
+---
+
+### Step 7 — Save Baseline (for Regression)
+
+Write a JSON baseline for future comparison:
+
+```json
+{
+  "date": "YYYY-MM-DD",
+  "mode": "full",
+  "healthScore": 85,
+  "issues": [
+    { "id": "ISSUE-001", "title": "...", "severity": "high", "category": "functional" }
+  ],
+  "categoryScores": { "console": 100, "functional": 70, "ux": 85 }
+}
+```
+
+Save to `.gstack/qa-reports/baseline.json` (create directory if needed).
+
+**Regression mode:** After writing the report, load the previous baseline. Compare:
+- Health score delta (↑ or ↓)
+- Issues fixed (in baseline but not current)
+- New issues (in current but not baseline)
+- Append a regression section to the report
+
+---
+
+### Step 8 — Route Bugs
+
+Log Critical and High issues to STATE.md task queue for the fixer agent. Include reproduction steps.
+
+---
+
+### Step 9 — Issue Verdict
 
 The default verdict is **NO-GO**. The product must earn a passing verdict with evidence.
 
 | Verdict | Requirements (all must be met) |
 |---------|-------------------------------|
-| **GO** | Every critical flow tested and passing. Zero critical issues. Zero major issues. Full PRD compliance matrix with no gaps. Reviewer cites evidence for each. |
-| **GO WITH CONDITIONS** | Every critical flow tested and passing (workarounds acceptable). Zero critical issues. All major issues have documented fixes with clear owners. PRD compliance matrix has no critical gaps. |
-| **NO-GO** (default) | Any of the above requirements not met, OR insufficient evidence to justify a higher verdict. |
+| **GO** | Every critical flow tested and passing. Zero critical issues. Zero high issues. Health score ≥ 75. Full PRD compliance. |
+| **GO WITH CONDITIONS** | Every critical flow passing (workarounds acceptable). Zero critical issues. All high issues have documented fixes with owners. Health score ≥ 60. |
+| **NO-GO** (default) | Any requirement above not met, OR insufficient evidence. |
 
-If the reviewer cannot confirm every requirement with specific evidence, the default NO-GO stands. All feedback must include exact reproduction steps and actionable next steps.
+---
+
+### Step 10 — Update STATE.md
+
+Record: verdict, health score, issues found, mode used.
 
 ---
 
@@ -92,9 +308,10 @@ If the reviewer cannot confirm every requirement with specific evidence, the def
 - Never modifies application code — found bugs are logged for fixer
 - Never tests in production — always test/staging
 - Never issues GO if any critical user flow is broken
-- Always tests as a user (no code inspection)
+- Always tests as a user (no code inspection, except for console/network checks)
 - Always includes exact reproduction steps for every issue
-- Always reads PRD before testing
+- Always reads PRD before testing (if available)
+- Always documents immediately when an issue is found — do not batch
 
 ---
 
@@ -106,10 +323,15 @@ reviewer
 
 ## Definition of Done
 
-- [ ] PRD features mapped to test checklist
+- [ ] QA mode determined and applied
+- [ ] PRD features mapped to test checklist (if PRD exists)
+- [ ] TODOS.md cross-referenced for known bugs
 - [ ] All critical flows tested
 - [ ] Edge cases tested (empty, invalid, error, navigation)
 - [ ] Accessibility basics checked
-- [ ] UAT_REPORT.md written with verdict
+- [ ] Framework-specific checks applied
+- [ ] Health score computed
+- [ ] UAT_REPORT.md written with verdict and all findings
+- [ ] Baseline saved for regression
 - [ ] Bugs routed to fixer with reproduction steps
-- [ ] STATE.md updated with verdict
+- [ ] STATE.md updated with verdict and health score

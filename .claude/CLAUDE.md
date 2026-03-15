@@ -36,6 +36,7 @@
 | `RESEARCH.md` | Research notes and references |
 | `GLOSSARY.md` | Term definitions |
 | `OPEN_QUESTIONS.md` | Unresolved questions and uncertainties |
+| `TODOS-FORMAT.md` | Standard format for TODOS.md (cross-skill convention) |
 
 ## Commands
 
@@ -54,6 +55,7 @@
 | `/status` | `.claude/commands/status.md` |
 | `/clone-framework` | `.claude/commands/clone-framework.md` |
 | `/cleanup` | `.claude/commands/cleanup.md` |
+| `/retro` | `.claude/commands/retro.md` |
 
 ## Architecture Primitives
 
