@@ -9,8 +9,8 @@
 
 | Task Type | Primary Agent | Review Agent(s) | Notes |
 |-----------|--------------|-----------------|-------|
-| Planning / Sprint Management | `project-manager` | Orchestrator | PRD creation, task breakdown, roadmap, status updates |
-| PRD Creation | `project-manager` | Orchestrator | Interview user and write docs/PRD.md (SKL-0004) |
+| Product Vision / Scope | `product-manager` | Orchestrator | Vision challenge, PRD creation, scope decisions (SKL-0001, SKL-0004) |
+| Planning / Sprint Management | `project-manager` | Orchestrator | Task breakdown, roadmap, status updates, estimation (SKL-0025) |
 | UI / Frontend | `builder` | Reviewer | Web UI components, pages, styling (SKL-0005) |
 | API / Database | `builder` | Reviewer | API endpoints, database, server logic (SKL-0006) |
 | Mobile (iOS / Android) | `builder` | Reviewer | React Native, Expo, platform-specific (SKL-0007) |
@@ -27,13 +27,14 @@
 | Acceptance Testing | `reviewer` | Orchestrator | UAT, go/no-go verdicts (SKL-0018) |
 | Refactoring | `fixer` | Reviewer | Code cleanup, restructuring (SKL-0019) |
 | Bug Reports | `fixer` | Reviewer | Bug investigation and fix (SKL-0020) |
-| Deployment | `deployer` | Orchestrator | Ship to production, CI/CD, release (SKL-0021) |
+| Deployment / Ship | `deployer` | Orchestrator | Ship workflow, CI/CD, release (SKL-0021) |
 | MCP Tool Connections | `deployer` | Orchestrator | Connect to external tools via MCP (SKL-0022) |
 | UX / Design | `designer` | Orchestrator | Wireframes, flows, onboarding (SKL-0023) |
 | Documentation | `documenter` | Project Manager | README, API docs, changelogs, guides (SKL-0024) |
 | Research | `explorer` | Orchestrator | Gathering information, evaluating options |
 | Checkpoint | `orchestrator` | — | Session compression via `/save` |
 | Multi-Domain (2+ specialists) | `orchestrator` | — | Tasks spanning multiple agent domains |
+| Retrospective | `orchestrator` | — | Engineering retro, velocity metrics (SKL-0026) |
 | User Guidance & Coaching | `coach` | Orchestrator | Command navigation, framework Q&A |
 
 ---

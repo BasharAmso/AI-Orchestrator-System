@@ -60,7 +60,7 @@ Turn a rough idea into a structured plan. This skill takes a freeform idea descr
 
 ## Primary Agent
 
-Orchestrator (delegates internally; no specialized agent required).
+Orchestrator (dispatches to product-manager for PRD work via SKL-0004)
 
 ## Review
 

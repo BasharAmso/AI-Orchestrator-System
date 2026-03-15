@@ -12,10 +12,10 @@
 
 | Skill ID | Name | Version | Owner | Folder | Triggers |
 |----------|------|---------|-------|--------|----------|
-| SKL-0001 | Plan From Idea | 1.0 | project-manager | `.claude/skills/plan-from-idea/` | IDEA_CAPTURED |
+| SKL-0001 | Plan From Idea | 1.0 | Orchestrator | `.claude/skills/plan-from-idea/` | IDEA_CAPTURED |
 | SKL-0002 | Quality Review | 1.0 | reviewer | `.claude/skills/quality-review/` | QUALITY_REVIEW_REQUESTED |
-| SKL-0003 | PRD to Tasks | 1.0 | project-manager | `.claude/skills/prd-to-tasks/` | PRD_UPDATED |
-| SKL-0004 | PRD Writing | 1.0 | project-manager | `.claude/skills/prd-writing/` | PRD_CREATION_REQUESTED |
+| SKL-0003 | PRD to Tasks | 1.0 | Orchestrator | `.claude/skills/prd-to-tasks/` | PRD_UPDATED |
+| SKL-0004 | PRD Writing | 2.0 | product-manager | `.claude/skills/prd-writing/` | PRD_CREATION_REQUESTED |
 | SKL-0005 | Frontend Development | 1.0 | builder | `.claude/skills/frontend-dev/` | FRONTEND_TASK_READY |
 | SKL-0006 | Backend Development | 1.0 | builder | `.claude/skills/backend-dev/` | BACKEND_TASK_READY |
 | SKL-0007 | Mobile Development | 1.0 | builder | `.claude/skills/mobile-dev/` | MOBILE_TASK_READY |
@@ -27,20 +27,21 @@
 | SKL-0013 | Growth & Distribution | 1.0 | builder | `.claude/skills/growth/` | GROWTH_FEATURE_REQUESTED |
 | SKL-0014 | Customer Support Infrastructure | 1.0 | builder | `.claude/skills/customer-support/` | SUPPORT_FEATURE_REQUESTED |
 | SKL-0015 | Security Audit | 1.0 | reviewer | `.claude/skills/security-audit/` | SECURITY_REVIEW_REQUESTED |
-| SKL-0016 | Code Review | 1.0 | reviewer | `.claude/skills/code-review/` | CODE_REVIEW_REQUESTED |
+| SKL-0016 | Code Review | 2.0 | reviewer | `.claude/skills/code-review/` | CODE_REVIEW_REQUESTED |
 | SKL-0017 | Test Writing | 1.0 | reviewer | `.claude/skills/test-writing/` | TEST_REQUESTED |
-| SKL-0018 | UAT Testing | 1.0 | reviewer | `.claude/skills/uat-testing/` | UAT_REQUESTED, READY_FOR_ACCEPTANCE_TESTING |
+| SKL-0018 | UAT Testing | 2.0 | reviewer | `.claude/skills/uat-testing/` | UAT_REQUESTED, READY_FOR_ACCEPTANCE_TESTING |
 | SKL-0019 | Refactoring | 1.0 | fixer | `.claude/skills/refactoring/` | REFACTOR_REQUESTED |
 | SKL-0020 | Bug Investigation | 1.0 | fixer | `.claude/skills/bug-investigation/` | BUG_REPORTED |
-| SKL-0021 | Deployment | 1.0 | deployer | `.claude/skills/deployment/` | DEPLOYMENT_REQUESTED, RELEASE_READY |
+| SKL-0021 | Deployment & Ship | 2.0 | deployer | `.claude/skills/deployment/` | DEPLOYMENT_REQUESTED, RELEASE_READY, SHIP_REQUESTED |
 | SKL-0022 | MCP Configuration | 1.0 | deployer | `.claude/skills/mcp-config/` | TOOL_CONNECTION_REQUESTED, MCP_SERVER_NEEDED |
 | SKL-0023 | UX Design | 1.0 | designer | `.claude/skills/ux-design/` | UX_DESIGN_REQUESTED |
 | SKL-0024 | Documentation | 1.0 | documenter | `.claude/skills/documentation/` | DOCS_REQUESTED, FEATURE_SHIPPED |
 | SKL-0025 | Project Planning | 1.0 | project-manager | `.claude/skills/project-planning/` | PROJECT_PLANNING_REQUESTED, STATUS_UPDATE_NEEDED, SPRINT_REVIEW_REQUESTED |
+| SKL-0026 | Team Retro | 1.0 | orchestrator | `.claude/skills/retro/` | RETRO_REQUESTED |
 
 ---
 
 ## Stats
 
-- **Total Skills:** 25
-- **Last Refreshed:** 2026-03-07
+- **Total Skills:** 26
+- **Last Refreshed:** 2026-03-15

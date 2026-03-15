@@ -63,6 +63,7 @@ Read these files at the start of every run:
 | `.claude/agents/documenter.md` | Documentation agent — README, API docs, changelogs, setup guides |
 | `.claude/agents/designer.md` | UX design agent — user flows, screen layouts, onboarding |
 | `.claude/agents/explorer.md` | Research agent — investigates unknowns, evaluates options |
+| `.claude/agents/product-manager.md` | Product agent — vision, PRD, scope decisions, user needs |
 | `.claude/agents/project-manager.md` | Planning agent — sprints, status, risks, stakeholder updates |
 | `.claude/agents/coach.md` | User guidance agent — command navigation, framework Q&A |
 | `.claude/project/RUN_POLICY.md` | Cycle limits, stop conditions, review gates |

@@ -8,8 +8,8 @@
 
 | Event Type | Primary Agent | Review Agent(s) | Action |
 |------------|--------------|-----------------|--------|
-| IDEA_CAPTURED | Project Manager | Orchestrator | Via REGISTRY: SKL-0001 — Project Manager notified after |
-| PRD_UPDATED | Orchestrator | Orchestrator | Via REGISTRY: SKL-0003 — Project Manager notified after |
+| IDEA_CAPTURED | Orchestrator | Orchestrator | Via REGISTRY: SKL-0001 — Orchestrator dispatches, Product Manager handles PRD via SKL-0004 |
+| PRD_UPDATED | Orchestrator | Orchestrator | Via REGISTRY: SKL-0003 — Project Manager plans tasks after |
 | TASK_COMPLETED | Orchestrator | — | Update STATE, promote next task |
 | QUALITY_REVIEW_REQUESTED | Reviewer | Orchestrator | Run quality/clarity review (SKL-0016) |
 | BUG_REPORTED | Fixer | Reviewer | Investigate, create fix task (SKL-0020) |

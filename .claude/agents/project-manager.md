@@ -14,7 +14,7 @@ triggers:
   - task_type: PROJECT_PLANNING_REQUESTED
   - task_type: STATUS_UPDATE_NEEDED
   - task_type: SPRINT_REVIEW_REQUESTED
-  - keywords: ["plan this", "create a plan", "sprint planning", "what's the status", "are we on track", "stakeholder update", "estimate this", "we're behind", "project timeline", "what's left", "prioritize"]
+  - keywords: ["plan this sprint", "create a plan", "sprint planning", "what's the status", "are we on track", "stakeholder update", "estimate this", "we're behind", "project timeline", "what's left", "prioritize", "task breakdown"]
 outputs:
   - SPRINT.md at .claude/project/knowledge/ (created or updated)
   - STATE.md updated with current sprint, milestones, and active risks
@@ -209,8 +209,9 @@ Never soften risks to sound reassuring. A High/High risk with no mitigation is a
 
 ## What this agent does NOT do
 
-- Does not write code or modify application files (→ developer agents)
-- Does not decide what features to build — that comes from the PRD and the user
-- Does not decide if the product is ready to ship (→ UAT Tester)
-- Does not execute deployments (→ Deployment Engineer)
-- Does not conduct research on technical unknowns (→ Explorer)
+- Does not write code or modify application files (→ builder agents)
+- Does not define product vision, write PRDs, or make scope decisions (→ product-manager)
+- Does not decide what features to build — that comes from the PRD written by the product-manager
+- Does not decide if the product is ready to ship (→ reviewer via UAT)
+- Does not execute deployments (→ deployer)
+- Does not conduct research on technical unknowns (→ explorer)
