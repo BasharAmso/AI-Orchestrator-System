@@ -58,6 +58,15 @@
             "command": "bash .claude/hooks/final-validation.sh"
           }
         ]
+      },
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/stop-cost-tracker.sh"
+          }
+        ]
       }
     ],
     "PreCompact": [

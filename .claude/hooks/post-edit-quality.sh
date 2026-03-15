@@ -38,4 +38,29 @@ case "$EXT" in
     ;;
 esac
 
+# --- Auto-format if a project formatter is available ---
+# Only runs if the project has a formatter configured; never imposes one
+PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo "")
+if [ -n "$PROJECT_ROOT" ]; then
+  case "$EXT" in
+    js|jsx|ts|tsx|css|scss|html)
+      if [ -f "$PROJECT_ROOT/biome.json" ] || [ -f "$PROJECT_ROOT/biome.jsonc" ]; then
+        npx biome format --write "$FILE" 2>/dev/null || true
+      elif [ -f "$PROJECT_ROOT/.prettierrc" ] || [ -f "$PROJECT_ROOT/.prettierrc.json" ] || [ -f "$PROJECT_ROOT/prettier.config.js" ] || [ -f "$PROJECT_ROOT/prettier.config.mjs" ]; then
+        npx prettier --write "$FILE" 2>/dev/null || true
+      fi
+      ;;
+    py)
+      if command -v black &>/dev/null; then
+        black --quiet "$FILE" 2>/dev/null || true
+      fi
+      ;;
+    go)
+      if command -v gofmt &>/dev/null; then
+        gofmt -w "$FILE" 2>/dev/null || true
+      fi
+      ;;
+  esac
+fi
+
 exit 0

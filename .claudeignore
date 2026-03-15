@@ -53,6 +53,7 @@ desktop.ini
 
 # Logs
 *.log
+*.csv
 logs/
 npm-debug.log*
 

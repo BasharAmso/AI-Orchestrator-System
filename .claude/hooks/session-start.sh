@@ -148,5 +148,8 @@ else
   echo "Set AI_MEMORY_PATH in your shell profile to point to your local AI-Memory path."
 fi
 
+# Write session start timestamp for cost tracker
+date +%s > /tmp/abs-session-start-time
+
 echo "--- End Session Context ---"
 exit 0
