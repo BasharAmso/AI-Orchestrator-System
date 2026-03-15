@@ -61,7 +61,7 @@ Check each runtime file. If missing, create it from the corresponding template i
 **Precedence order:**
 
 1. If `PROJECT_TYPE.md` exists in the repo root, read the `Project Type: <value>` line. Use that value.
-2. If the repo root `README.md` contains "AI Builder System", this is the framework template itself — set type to `Template` and skip Steps 5–6.
+2. If the repo root `README.md` contains "The AI Orchestrator System", this is the framework template itself — set type to `Template` and skip Steps 5–6.
 3. If neither, ask the user to choose:
    - **Book**
    - **Web App**
@@ -129,7 +129,7 @@ Create each file **only if it does not already exist**. Never overwrite an exist
 
   ## v0.1.0 — Project Initialized
 
-  - Project initialized with AI Builder System template.
+  - Project initialized with The AI Orchestrator System template.
   - Initial directory structure created.
   ```
 

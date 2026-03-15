@@ -38,4 +38,4 @@ Create these as your project evolves:
 
 - Keep docs short and scannable. Bullet points beat paragraphs.
 - Update docs as the project changes — stale docs are worse than no docs.
-- The AI Builder System can read these files for context, so well-written docs improve AI output quality.
+- The The AI Orchestrator System can read these files for context, so well-written docs improve AI output quality.

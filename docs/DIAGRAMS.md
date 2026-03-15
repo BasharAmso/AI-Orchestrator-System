@@ -1,6 +1,6 @@
 # Diagrams
 
-> Visual representations of the AI Builder System architecture. Rendered using Mermaid syntax.
+> Visual representations of the The AI Orchestrator System architecture. Rendered using Mermaid syntax.
 
 ---
 

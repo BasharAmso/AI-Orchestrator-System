@@ -1,6 +1,6 @@
 # Frequently Asked Questions
 
-> Quick answers to common questions about the AI Builder System.
+> Quick answers to common questions about the The AI Orchestrator System.
 
 ---
 
@@ -12,7 +12,7 @@ You need VS Code with the Claude Code extension installed. That's it. You don't 
 
 ### How do I start a new project?
 
-1. Copy the AI Builder System folder into a new directory (or use `/clone-framework`).
+1. Copy the The AI Orchestrator System folder into a new directory (or use `/clone-framework`).
 2. Open it in VS Code.
 3. Run `/start` — it will tell you exactly what to do next.
 

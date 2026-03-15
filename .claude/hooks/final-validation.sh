@@ -10,7 +10,7 @@ set -euo pipefail
 FRAMEWORK_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 CLAUDE_DIR="$FRAMEWORK_ROOT/.claude"
 
-echo "=== AI-Builder-System Framework Validation ==="
+echo "=== AI-Orchestrator-System Framework Validation ==="
 echo "Framework root: $FRAMEWORK_ROOT"
 echo ""
 

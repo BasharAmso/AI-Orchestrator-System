@@ -38,7 +38,7 @@ If any are missing, record the filename for the suggested fixes list.
 ### Step 3: Verify PROJECT_TYPE.md
 
 - If `PROJECT_TYPE.md` exists in the repo root: read the `Project Type:` line and record the value.
-- If missing: check whether `README.md` at the repo root contains the text `AI Builder System`.
+- If missing: check whether `README.md` at the repo root contains the text `The AI Orchestrator System`.
   - If yes: this is the framework template itself. Record project type as `Framework Template` and treat as healthy (no warning, no suggested fix).
   - If no: record status as `Not initialized` and add `/setup` to suggested fixes.
 

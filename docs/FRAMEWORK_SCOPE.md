@@ -31,9 +31,9 @@ The framework focuses on **system design and orchestration**, not syntax.
 
 ---
 
-## The AI Builder System
+## The AI Orchestrator System
 
-The **AI Builder System** is a practical implementation of the AI Orchestration Framework.
+The **The AI Orchestrator System** is a practical implementation of the AI Orchestration Framework.
 
 It provides:
 
@@ -52,7 +52,7 @@ Together these components create a repeatable pipeline for building structured d
 
 ## The Orchestration Stack
 
-The AI Builder System organizes work using a layered architecture. Each layer has a specific role.
+The AI Orchestrator System organizes work using a layered architecture. Each layer has a specific role.
 
 ### Idea Layer
 
@@ -140,7 +140,7 @@ This makes the framework useful for:
 
 ## A Universal Idea Engine
 
-At its highest level, the AI Builder System becomes a **universal idea engine**.
+At its highest level, the The AI Orchestrator System becomes a **universal idea engine**.
 
 The user supplies vision and direction. The orchestrated AI system supplies structure, execution, and iteration.
 
@@ -161,7 +161,7 @@ This shift — from syntax to orchestration — is what makes the framework acce
 | Layer | Role |
 |-------|------|
 | **AI Orchestration Framework** | The method — how to organize AI agents, skills, and workflows for structured outcomes. |
-| **AI Builder System** | The implementation — a ready-to-use template that puts the framework into practice. |
+| **The AI Orchestrator System** | The implementation — a ready-to-use template that puts the framework into practice. |
 
 Together they allow users to move from **idea to structured outcome** without needing to cross the traditional Syntax Wall.
 

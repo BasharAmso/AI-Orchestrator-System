@@ -1,6 +1,6 @@
-# AI Builder System
+# The AI Orchestrator System
 
-The AI Builder System is a reusable project template that lets you build software projects using AI — without needing to write code yourself. Copy this folder into any new project (a web app, mobile app, book, or anything else), open it in VS Code with Claude Code, and start building by describing what you want in plain language.
+The AI Orchestrator System is a reusable project template that lets you build software projects using AI — without needing to write code yourself. Copy this folder into any new project (a web app, mobile app, book, or anything else), open it in VS Code with Claude Code, and start building by describing what you want in plain language.
 
 The system gives your AI assistant a structured set of agents, skills, and rules so it can plan, build, test, and ship your project step by step. You stay in control: every action is reviewed before the next one starts.
 
@@ -10,7 +10,7 @@ The system gives your AI assistant a structured set of agents, skills, and rules
 |-------|------|---------------|
 | **Problem** | The Syntax Wall | The barrier that stops non-programmers from building software — you have the idea but not the syntax. |
 | **Method** | AI Orchestration Framework | A structured method for coordinating AI agents, skills, and events to do the building for you. |
-| **Tool** | AI Builder System | This template — the ready-to-use implementation of the framework. |
+| **Tool** | The AI Orchestrator System | This template — the ready-to-use implementation of the framework. |
 
 ## Quick Start
 
@@ -66,7 +66,7 @@ These are available when you need them. The system will suggest them at the righ
 | `/trigger` | Manually trigger a workflow by adding an event. |
 | `/fix-registry` | Rebuild the Skills Registry so the orchestrator can discover available workflows. |
 | `/doctor` | Run diagnostics to verify the environment is healthy, with optional auto-repair. |
-| `/clone-framework` | Copy or upgrade the AI Builder System into another project directory. |
+| `/clone-framework` | Copy or upgrade the The AI Orchestrator System into another project directory. |
 | `/capture-lesson` | Save a reusable insight to global memory for cross-project learning. |
 | `/cleanup` | Review knowledge files for staleness and recommend cleanup. |
 
@@ -92,7 +92,7 @@ Switch modes with `/set-mode safe`, `/set-mode semi`, or `/set-mode auto`. Cycle
 
 ## Global Memory
 
-The AI Builder System supports cross-project learning. All reusable knowledge — decisions, patterns, failures, and lessons — is stored in a separate **AI-Memory** directory that lives outside any single project.
+The AI Orchestrator System supports cross-project learning. All reusable knowledge — decisions, patterns, failures, and lessons — is stored in a separate **AI-Memory** directory that lives outside any single project.
 
 > **Setup:** Create an `AI-Memory` folder on your machine (e.g., alongside your projects) and set the `AI_MEMORY_PATH` environment variable to point to it. See the `/capture-lesson` command for details.
 
@@ -100,7 +100,7 @@ This allows future projects to benefit from past discoveries. The orchestrator c
 
 ## Self-Improving Skills
 
-The AI Builder System can capture proposed improvements to reusable skills. When the orchestrator notices a skill causing repeated friction or rework, it logs a proposal in `SKILL_IMPROVEMENTS.md` inside your AI-Memory folder.
+The AI Orchestrator System can capture proposed improvements to reusable skills. When the orchestrator notices a skill causing repeated friction or rework, it logs a proposal in `SKILL_IMPROVEMENTS.md` inside your AI-Memory folder.
 
 Skills do not rewrite themselves automatically. Instead, the system logs proposed improvements for later review and approval. This keeps the improvement loop safe and human-controlled.
 

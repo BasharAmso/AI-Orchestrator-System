@@ -38,7 +38,7 @@
 
 ## Global Memory Integration
 
-The AI Builder System maintains a shared knowledge store in a separate **AI-Memory** directory. To locate it:
+The AI Orchestrator System maintains a shared knowledge store in a separate **AI-Memory** directory. To locate it:
 
 1. Check the `AI_MEMORY_PATH` environment variable (if set).
 2. Fall back to: `~/Projects/AI-Memory`

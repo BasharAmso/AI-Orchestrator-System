@@ -12,7 +12,7 @@ POLICY_FILE="$CLAUDE_DIR/project/RUN_POLICY.md"
 PARSER="$CLAUDE_DIR/hooks/lib/parse_state.py"
 PYTHON=$(python3 -c "import sys" 2>/dev/null && echo python3 || echo python)
 
-echo "--- AI-Builder-System Session Context ---"
+echo "--- AI-Orchestrator-System Session Context ---"
 echo "Framework root: $FRAMEWORK_ROOT"
 echo ""
 
@@ -149,7 +149,7 @@ else
 fi
 
 # Write session start timestamp for cost tracker
-date +%s > /tmp/abs-session-start-time
+date +%s > /tmp/aos-session-start-time
 
 echo "--- End Session Context ---"
 exit 0

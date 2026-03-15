@@ -1,13 +1,13 @@
-# CLAUDE.md — AI Builder System Context Index
+# CLAUDE.md — The AI Orchestrator System Context Index
 
 > This file is loaded automatically on every session. Keep it concise.
 
 ## Project Identity
 
-- **Template:** AI Builder System
+- **Template:** The AI Orchestrator System
 - **Problem:** The Syntax Wall (non-programmers blocked by syntax)
 - **Method:** AI Orchestration Framework (structured AI agent workflows)
-- **Tool:** AI Builder System (this template)
+- **Tool:** The AI Orchestrator System (this template)
 
 ## Key Files
 

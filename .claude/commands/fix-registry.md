@@ -16,8 +16,8 @@ Skills are loaded from two directories:
 
 When deployed into a project, `.claude/skills/` contains the master skill definitions shipped with the framework. `custom-skills/` is where you add your own skills — they are safe from framework upgrades.
 
-> **Framework source (default):** `${AI_BUILDER_SYSTEM_PATH:-~/Projects/AI-Builder-System}/.claude/skills/`
-> **Setup:** Set the `AI_BUILDER_SYSTEM_PATH` environment variable to your local clone of the framework. Default assumes `~/Projects/AI-Builder-System` — update if your path differs.
+> **Framework source (default):** `${AI_ORCHESTRATOR_SYSTEM_PATH:-~/Projects/AI-Orchestrator-System}/.claude/skills/`
+> **Setup:** Set the `AI_ORCHESTRATOR_SYSTEM_PATH` environment variable to your local clone of the framework. Default assumes `~/Projects/AI-Orchestrator-System` — update if your path differs.
 
 ---
 

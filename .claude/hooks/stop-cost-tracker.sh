@@ -15,11 +15,11 @@ fi
 
 # Read the stop count file (incremented by post-edit hook's existence as proxy)
 # We track how many times the Stop hook fires per session as a rough activity signal
-COUNTER_FILE="/tmp/abs-stop-count-$$"
+COUNTER_FILE="/tmp/aos-stop-count-$$"
 STOP_COUNT=1
 
 # Session timing: read start time written by session-start hook
-START_FILE="/tmp/abs-session-start-time"
+START_FILE="/tmp/aos-session-start-time"
 NOW=$(date +%s)
 NOW_FMT=$(date "+%Y-%m-%d %H:%M")
 TODAY=$(date "+%Y-%m-%d")

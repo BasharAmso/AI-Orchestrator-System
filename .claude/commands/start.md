@@ -11,7 +11,7 @@
 Read these files to determine the current situation:
 
 1. `.claude/project/STATE.md` — check Current Mode, Active Task, Next Task Queue
-2. `PROJECT_TYPE.md` (repo root) — check if project type is set. If missing, check if `README.md` contains "AI Builder System" — if yes, this is the framework template itself (treat as initialized).
+2. `PROJECT_TYPE.md` (repo root) — check if project type is set. If missing, check if `README.md` contains "The AI Orchestrator System" — if yes, this is the framework template itself (treat as initialized).
 3. `.claude/project/EVENTS.md` — check for unprocessed events
 
 ### Step 2: Classify Situation
@@ -34,7 +34,7 @@ Evaluate conditions top-to-bottom; use the first match.
 Print this format (keep under 150 words):
 
 ```
-## Welcome to AI Builder System
+## Welcome to The AI Orchestrator System
 
 **Project Status:** [Not bootstrapped | Not initialized | Ready to capture idea | Events pending | Tasks in progress | All tasks complete]
 

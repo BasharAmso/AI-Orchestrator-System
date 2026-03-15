@@ -1,6 +1,6 @@
-# AI Builder System — User Guide
+# The AI Orchestrator System — User Guide
 
-This guide walks you through using the AI Builder System from start to finish. No programming experience required — you'll describe what you want in plain language and the system handles the rest.
+This guide walks you through using the The AI Orchestrator System from start to finish. No programming experience required — you'll describe what you want in plain language and the system handles the rest.
 
 If you're looking for the conceptual explanation of *why* this system exists, see [FRAMEWORK_SCOPE.md](FRAMEWORK_SCOPE.md). This guide focuses on the *how*.
 
@@ -8,11 +8,11 @@ If you're looking for the conceptual explanation of *why* this system exists, se
 
 ## 1. What You Need Before Starting
 
-Before using the AI Builder System, make sure you have:
+Before using the The AI Orchestrator System, make sure you have:
 
 - **VS Code** — A free code editor from Microsoft. Download it from the official VS Code website.
 - **Claude Code** — The AI assistant that powers the system. Install the Claude Code extension inside VS Code.
-- **A copy of the AI Builder System** — Either cloned from the template repository or copied using the `/clone-framework` command from an existing project.
+- **A copy of the The AI Orchestrator System** — Either cloned from the template repository or copied using the `/clone-framework` command from an existing project.
 
 That's everything. You won't write code — you'll type short commands and describe what you want to build. The system coordinates the AI to do the technical work.
 
@@ -24,7 +24,7 @@ This walkthrough takes you from an empty project to a running task queue. We'll 
 
 ### Step 1: Open Your Project
 
-Open your project folder in VS Code. If you copied the AI Builder System template into a folder called `my-recipe-app`, open that folder.
+Open your project folder in VS Code. If you copied the The AI Orchestrator System template into a folder called `my-recipe-app`, open that folder.
 
 ### Step 2: Run /start
 
@@ -207,7 +207,7 @@ For more detail than the dashboard provides, open `.claude/project/STATE.md`. It
 
 ## 4. Run Modes — Controlling Speed
 
-The AI Builder System has three speed settings. You control which one is active.
+The AI Orchestrator System has three speed settings. You control which one is active.
 
 ### Safe Mode
 
@@ -284,7 +284,7 @@ The system will suggest these when the situation calls for them. You don't need 
 | `/doctor` | Diagnose the health of your project. Checks directories, files, registry, and state consistency. Offers repairs for common issues. |
 | `/fix-registry` | Rebuild the skills registry by scanning all skill files. Run this after adding new skills or if skills aren't being found. |
 | `/cleanup` | Review the knowledge base for stale or superseded entries. Read-only — suggests cleanup but never deletes. |
-| `/clone-framework <path>` | Copy the AI Builder System to a new project directory. Add `--upgrade` to update an existing project's framework files. |
+| `/clone-framework <path>` | Copy the The AI Orchestrator System to a new project directory. Add `--upgrade` to update an existing project's framework files. |
 | `/capture-lesson` | Save an insight, failure, decision, or pattern to global memory so future projects can benefit from it. |
 
 ### Deprecated Commands
@@ -344,7 +344,7 @@ This section is optional. If you just want to use the system, the previous secti
 
 ### The Eight Primitives
 
-The AI Builder System is built from eight building blocks:
+The AI Orchestrator System is built from eight building blocks:
 
 | Primitive | Location | Role |
 |-----------|----------|------|
@@ -397,11 +397,11 @@ The technical architecture is documented in [.claude/CLAUDE.md](../.claude/CLAUD
 
 ## 8. Sharing Your Framework
 
-The AI Builder System is designed to be reused across projects. You can copy it to new projects or upgrade existing ones.
+The AI Orchestrator System is designed to be reused across projects. You can copy it to new projects or upgrade existing ones.
 
 ### Setting Up a New Project
 
-From any project that already has the AI Builder System:
+From any project that already has the The AI Orchestrator System:
 
 ```
 /clone-framework /path/to/new-project
