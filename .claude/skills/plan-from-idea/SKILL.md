@@ -52,7 +52,7 @@ Turn a rough idea into a structured plan. This skill takes a freeform idea descr
    - Core features (3-5 bullet points)
    - Out of scope (2-3 items)
    - Success criteria
-3. **Generate 3-5 initial tasks** based on the PRD and add them to the Next Task Queue in `STATE.md`.
+3. **Generate 3-5 initial tasks** based on the PRD and add them to the Next Task Queue in `STATE.md`. Assign a Skill ID to each task by cross-referencing `REGISTRY.md` (use `—` if no skill clearly applies). Use the format: `| # | Task | Priority | Skill |`.
 4. **Log a decision** in `DECISIONS.md` noting the project direction chosen.
 5. **Update STATE.md** with outputs produced and files modified.
 

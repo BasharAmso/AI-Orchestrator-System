@@ -70,12 +70,17 @@ Produce an ordered list of **8 to 15 tasks** following these rules:
    - Polish, testing, and review tasks last (Medium/Low priority)
 5. **No tasks for non-goals** — Cross-check against the Non-Goals section. Do not generate tasks for anything explicitly excluded.
 
+6. **Skill assignment** — Assign each task a Skill ID from `.claude/skills/REGISTRY.md`. The planner has full PRD context (architecture, features, tech stack) and should map each task to the most relevant skill. This is the **primary mechanism** by which skills are invoked during the build phase.
+   - Read REGISTRY.md and match the task's domain to the closest skill.
+   - If a task spans multiple skills, assign the **primary** skill (the one that covers the most work).
+   - If no skill clearly applies, leave the Skill column as `—` (the orchestrator will use fallback routing).
+
 **Task format** (matches STATE.md Next Task Queue table):
 
 ```
-| # | Task | Priority |
-|---|------|----------|
-| 1 | <short title> (<target file/folder>) | High |
+| # | Task | Priority | Skill |
+|---|------|----------|-------|
+| 1 | <short title> (<target file/folder>) | High | SKL-0006 |
 ```
 
 ### C) Write to STATE.md (Idempotency Rules)
@@ -102,10 +107,10 @@ A queue is **empty/placeholder-only** if it matches ANY of:
 
 ## Proposed Task Queue (from PRD_UPDATED — YYYY-MM-DD)
 
-| # | Task | Priority |
-|---|------|----------|
-| 1 | ... | ... |
-| ... | ... | ... |
+| # | Task | Priority | Skill |
+|---|------|----------|-------|
+| 1 | ... | ... | SKL-XXXX |
+| ... | ... | ... | ... |
 
 > These tasks were auto-generated from docs/PRD.md. Review and merge into the Next Task Queue manually or by running /run-project.
 ```
@@ -158,7 +163,8 @@ Orchestrator self-reviews task titles for beginner clarity. For deeper quality r
 
 - [ ] 8-15 tasks generated from PRD content
 - [ ] Tasks written to .claude/project/STATE.md (seeded or proposed, per idempotency rules)
-- [ ] Each task has a plain-language title, target location, and priority
+- [ ] Each task has a plain-language title, target location, priority, and Skill ID
+- [ ] Skill IDs assigned by cross-referencing REGISTRY.md (or `—` if no skill applies)
 - [ ] No tasks generated for items listed in Non-Goals
 - [ ] Any ambiguous requirements logged to .claude/project/knowledge/OPEN_QUESTIONS.md
 - [ ] Event suggestion printed for TASK_QUEUE_PROPOSED

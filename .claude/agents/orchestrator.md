@@ -26,14 +26,17 @@ A) Event Processing
    After processing --> move it from Unprocessed to Processed.
    Update .claude/project/STATE.md (Active Task, Completed Tasks Log).
 
-B) Skills Lookup (registry-first)
-   Before delegating any event or task, check .claude/skills/REGISTRY.md
-   for a matching Trigger.
-   If REGISTRY.md is missing or stale --> instruct user to run /fix-registry
-   (do not fail; proceed with fallback routing).
+B) Skills Lookup (task-assigned first, then registry)
+   1. If the task has a Skill column with a valid SKL-XXXX ID:
+      --> Look up that skill directly in REGISTRY.md by ID.
+      --> Execute the skill's procedure. Skip trigger matching entirely.
+   2. If the task has no Skill ID (or Skill = "—"):
+      --> Fall back to trigger matching in REGISTRY.md as before.
+   3. If REGISTRY.md is missing or stale --> instruct user to run /fix-registry
+      (do not fail; proceed with fallback routing).
 
 C) Direct Agent Routing (fallback)
-   If no skill trigger matches:
+   If no skill match from step B:
    1. Check .claude/rules/event-hooks.md    (for events)
    2. Check .claude/agents/ for a specialist agent matching the task type
    3. Check .claude/rules/orchestration-routing.md  (for tasks, final fallback)
@@ -100,9 +103,11 @@ If no unprocessed events exist:
 1. **Promote** the next task from the Next Task Queue in `STATE.md` to Active Task.
 2. Set Status = `In Progress` and Started = current timestamp.
 3. **Route the task** using the Dispatch Chain:
-   - **B) Skills Lookup:** Check if the task description matches a skill trigger in `REGISTRY.md`.
+   - **B) Skills Lookup (task-assigned first):**
+     - If the task row has a `Skill` column with a valid `SKL-XXXX` ID: look up that skill directly in `REGISTRY.md` and execute its procedure.
+     - If the task has no Skill ID (or `—`): fall back to trigger matching against the task description in `REGISTRY.md`.
      - If `REGISTRY.md` is missing or stale: warn the user to run `/fix-registry` and proceed to fallback.
-   - **C) Fallback:** If no match, use `orchestration-routing.md` fallback.
+   - **C) Fallback:** If no match from B, use `orchestration-routing.md` fallback.
 4. **Execute** the routed skill/action.
 5. **Update .claude/project/STATE.md** with results, outputs, and files modified.
 6. Move the task to Completed Tasks Log.

@@ -79,7 +79,20 @@ If `<target>/.claude/project/EVENTS.md` exists:
 3. Do **NOT** clear or modify the Unprocessed Events or Processed Events sections.
 4. Log: `Patched: EVENTS.md (added Priority field)`
 
-#### 5b. Clean Up Duplicate Root CLAUDE.md
+#### 5b. Patch STATE.md Task Table Format
+
+If `<target>/.claude/project/STATE.md` exists:
+
+1. Read the file.
+2. Locate the `## Next Task Queue` section.
+3. Check if the task table header includes a `Skill` column. If not:
+   - Update the header row from `| # | Task | Priority |` to `| # | Task | Priority | Skill |`.
+   - Update the separator row to include the extra column.
+   - For any existing task rows, append `| — |` (dash) to indicate no skill assigned.
+4. Do **NOT** clear or modify task data, completed tasks, or other sections.
+5. Log: `Patched: STATE.md (added Skill column to task table)`
+
+#### 5c. Clean Up Duplicate Root CLAUDE.md
 
 If `<target>/CLAUDE.md` (root) exists AND `<target>/.claude/CLAUDE.md` also exists:
 
@@ -92,7 +105,7 @@ If `<target>/CLAUDE.md` (root) exists AND `<target>/.claude/CLAUDE.md` also exis
 
 If only one CLAUDE.md exists (at either location): no action needed.
 
-#### 5c. Patch RUN_POLICY.md
+#### 5d. Patch RUN_POLICY.md
 
 If `<target>/.claude/project/RUN_POLICY.md` exists:
 
@@ -102,7 +115,7 @@ If `<target>/.claude/project/RUN_POLICY.md` exists:
 4. Do **NOT** modify existing cycle limits, stop conditions, or other sections.
 5. Log: `Patched: RUN_POLICY.md (added [section names])`
 
-### Step 5d: Legacy Artifact Cleanup (Upgrade Mode Only)
+### Step 5e: Legacy Artifact Cleanup (Upgrade Mode Only)
 
 Skip this step entirely in default mode.
 
