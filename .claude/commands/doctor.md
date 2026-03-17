@@ -113,7 +113,16 @@ Go beyond file presence — verify the dispatch chain and cross-references actua
 3. **Stale Active Task:** If Active Task has Status = `In Progress` but no `Started` timestamp, flag as inconsistent.
 4. Result: `Phase-progress consistency: OK` or `Phase-progress consistency: X issues found`
 
-#### 7f. Knowledge File Health Test
+#### 7f. Task Format Validation
+
+1. Read STATE.md `## Next Task Queue` section.
+2. Check if the table header includes a `| Skill |` column (4 columns: `#`, `Task`, `Priority`, `Skill`).
+3. If the Skill column is missing: flag as warning.
+4. If any task rows exist but are missing the Skill column value: flag as informational.
+5. Reference: `.claude/project/knowledge/TASK-FORMAT.md` defines the canonical format.
+6. Result: `Task format: OK` or `Task format: Skill column missing`
+
+#### 7g. Knowledge File Health Test
 
 1. **Empty knowledge files:** Check each file in `.claude/project/knowledge/`. If a file exists but contains only its template header (no actual entries), flag as informational: "[filename] exists but has no entries yet."
 2. **Broken decision references:** Scan `DECISIONS.md` for any entry with Status = `Superseded`. Verify the superseding decision ID exists. Flag broken references.
@@ -160,6 +169,7 @@ Compile all results into this format:
 - **State Consistency:** [OK | X issues found (Y repaired)]
 - **Cross-References:** [OK | X broken links]
 - **Event Health:** [OK | X issues found]
+- **Task Format:** [OK | Skill column missing]
 - **Phase-Progress:** [OK | X issues found]
 - **Knowledge Health:** [OK | X notes]
 
@@ -185,4 +195,5 @@ Common suggested fixes (use plain language — the user may be a non-programmer)
 | EVENTS.md sections missing | "The events log is incomplete. Run `/setup` to regenerate it." |
 | Dispatch chain broken | "The system can't route tasks to skills properly. Run `/fix-registry` to rebuild the connections." |
 | Cross-references broken | "Some internal references are broken. Run `/fix-registry` first, then `/doctor` again." |
+| Task format missing Skill column | "Your task queue is using an older format without the Skill column. Run `/clone-framework --upgrade` to patch it, or see `.claude/project/knowledge/TASK-FORMAT.md` for the current format." |
 | State consistency issues | "Found some inconsistencies in your project state. Run `/doctor` again — it will offer to fix them automatically." |

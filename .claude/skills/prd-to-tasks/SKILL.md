@@ -75,7 +75,7 @@ Produce an ordered list of **8 to 15 tasks** following these rules:
    - If a task spans multiple skills, assign the **primary** skill (the one that covers the most work).
    - If no skill clearly applies, leave the Skill column as `—` (the orchestrator will use fallback routing).
 
-**Task format** (matches STATE.md Next Task Queue table):
+**Task format** (see `.claude/project/knowledge/TASK-FORMAT.md` for full column definitions):
 
 ```
 | # | Task | Priority | Skill |

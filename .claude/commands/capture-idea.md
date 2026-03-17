@@ -126,13 +126,13 @@ A queue is considered **empty/placeholder-only** if it matches ANY of these patt
 
 **If the queue is empty or placeholder-only**, replace it with these 5 starter tasks:
 
-| # | Task | Priority |
-|---|------|----------|
-| 1 | Draft PRD v1 (docs/PRD.md) | High |
-| 2 | Review PRD for beginner clarity | High |
-| 3 | Draft Architecture v1 (docs/ARCHITECTURE.md) | High |
-| 4 | Break PRD into tasks | Medium |
-| 5 | Run first build scaffold | Medium |
+| # | Task | Priority | Skill |
+|---|------|----------|-------|
+| 1 | Draft PRD v1 (docs/PRD.md) | High | SKL-0004 |
+| 2 | Review PRD for beginner clarity | High | SKL-0016 |
+| 3 | Draft Architecture v1 (docs/ARCHITECTURE.md) | High | — |
+| 4 | Break PRD into tasks | Medium | SKL-0003 |
+| 5 | Run first build scaffold | Medium | — |
 
 ### Step 5: Emit IDEA_CAPTURED Event
 
@@ -165,8 +165,8 @@ Print a concise confirmation:
 
 ### Next Task Queue
 
-| # | Task | Priority |
-|---|------|----------|
+| # | Task | Priority | Skill |
+|---|------|----------|-------|
 | ... | ... | ... |
 ```
 

@@ -202,19 +202,19 @@ A queue is considered **empty/placeholder-only** (and therefore eligible for see
 
 **Book:**
 
-| # | Task | Priority |
-|---|------|----------|
-| 1 | Draft Preface v1 | High |
-| 2 | Outline Chapter 1 | High |
-| 3 | Draft Chapter 1 | Medium |
+| # | Task | Priority | Skill |
+|---|------|----------|-------|
+| 1 | Draft Preface v1 | High | — |
+| 2 | Outline Chapter 1 | High | — |
+| 3 | Draft Chapter 1 | Medium | — |
 
 **Web App / Mobile App:**
 
-| # | Task | Priority |
-|---|------|----------|
-| 1 | Draft PRD v1 | High |
-| 2 | Draft Architecture v1 | High |
-| 3 | Create initial app scaffold | Medium |
+| # | Task | Priority | Skill |
+|---|------|----------|-------|
+| 1 | Draft PRD v1 | High | SKL-0004 |
+| 2 | Draft Architecture v1 | High | — |
+| 3 | Create initial app scaffold | Medium | — |
 
 ### Step 9: Skills Registry Self-Heal
 
@@ -360,9 +360,9 @@ Default recommended actions for a fresh project:
 
 ## Next Task Queue
 
-| # | Task | Priority |
-|---|------|----------|
-| — | *(none — will be seeded by /setup)* | — |
+| # | Task | Priority | Skill |
+|---|------|----------|-------|
+| — | *(none — will be seeded by /setup)* | — | — |
 
 ---
 

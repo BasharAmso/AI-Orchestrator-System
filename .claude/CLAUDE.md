@@ -37,6 +37,7 @@
 | `GLOSSARY.md` | Term definitions |
 | `OPEN_QUESTIONS.md` | Unresolved questions and uncertainties |
 | `TODOS-FORMAT.md` | Standard format for TODOS.md (cross-skill convention) |
+| `TASK-FORMAT.md` | Canonical task table format for STATE.md Next Task Queue |
 
 ## Commands
 
