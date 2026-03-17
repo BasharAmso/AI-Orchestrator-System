@@ -29,6 +29,7 @@
 | Bug Reports | `fixer` | Reviewer | Bug investigation and fix (SKL-0020) |
 | Deployment / Ship | `deployer` | Orchestrator | Ship workflow, CI/CD, release (SKL-0021) |
 | MCP Tool Connections | `deployer` | Orchestrator | Connect to external tools via MCP (SKL-0022) |
+| Architecture / System Design | `architecture-designer` | Orchestrator | Tech stack, components, data model, ADRs |
 | UX / Design | `designer` | Orchestrator | Wireframes, flows, onboarding (SKL-0023) |
 | Documentation | `documenter` | Orchestrator | README, API docs, changelogs, guides (SKL-0024) |
 | Research | `explorer` | Orchestrator | Gathering information, evaluating options |

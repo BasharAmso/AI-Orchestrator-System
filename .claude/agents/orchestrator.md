@@ -64,6 +64,7 @@ Read these files at the start of every run:
 | `.claude/agents/fixer.md` | Consolidated maintenance agent — bug investigation, refactoring |
 | `.claude/agents/deployer.md` | Consolidated infrastructure agent — deployment, CI/CD, MCP configuration |
 | `.claude/agents/documenter.md` | Documentation agent — README, API docs, changelogs, setup guides |
+| `.claude/agents/architecture-designer.md` | Architecture agent — tech stack, components, data model, ADRs |
 | `.claude/agents/designer.md` | UX design agent — user flows, screen layouts, onboarding |
 | `.claude/agents/explorer.md` | Research agent — investigates unknowns, evaluates options |
 | `.claude/agents/product-manager.md` | Product agent — vision, PRD, scope decisions, user needs |

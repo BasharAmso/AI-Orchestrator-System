@@ -111,6 +111,48 @@ Architecture details will be defined after the PRD is reviewed and approved.
 See [.claude/project/knowledge/OPEN_QUESTIONS.md](./.claude/project/knowledge/OPEN_QUESTIONS.md) for unresolved technical questions.
 ```
 
+### Step 3b: Create or Update Project Charter
+
+If `docs/PROJECT_CHARTER.md` does not exist, create it. If it exists, skip.
+
+Populate from intake fields:
+
+```
+# Project Charter
+
+## Project Name
+
+<NAME from intake>
+
+## Vision
+
+<ONE-LINER from intake>
+
+## Goals
+
+<WHAT SUCCESS LOOKS LIKE from intake, as numbered list>
+
+## Target Users
+
+<WHO IT'S FOR from intake>
+
+## Constraints
+
+<LIMITS from intake, structured as Time/Budget/Technical/Knowledge>
+
+## Success Criteria
+
+<WHAT SUCCESS LOOKS LIKE from intake, rephrased as measurable outcomes>
+
+## Non-Goals
+
+<WHAT IT SHOULD NOT DO from intake>
+
+## Risks
+
+<Inferred from LIMITS and THE PROBLEM>
+```
+
 ### Step 4: Seed Next Task Queue
 
 Read `.claude/project/STATE.md` and locate the `## Next Task Queue` section.

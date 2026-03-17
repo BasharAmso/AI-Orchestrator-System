@@ -14,6 +14,7 @@
 | QUALITY_REVIEW_REQUESTED | Reviewer | Orchestrator | Run quality/clarity review (SKL-0016) |
 | BUG_REPORTED | Fixer | Reviewer | Investigate, create fix task (SKL-0020) |
 | DEPLOY_REQUESTED | Deployer | Orchestrator | Validate readiness, execute deploy (SKL-0021) |
+| ARCHITECTURE_REQUESTED | architecture-designer | Orchestrator | Design system architecture (docs/ARCHITECTURE.md) |
 | SECURITY_REVIEW_REQUESTED | Reviewer | Orchestrator | Run security checks (SKL-0015) |
 
 ---

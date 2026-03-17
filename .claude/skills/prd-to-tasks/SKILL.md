@@ -83,6 +83,45 @@ Produce an ordered list of **8 to 15 tasks** following these rules:
 | 1 | <short title> (<target file/folder>) | High | SKL-0006 |
 ```
 
+### B2) Phase Grouping (Conditional)
+
+**Trigger:** Check if `docs/ARCHITECTURE.md` exists and contains real content (not just the placeholder template).
+
+**If ARCHITECTURE.md exists:** Group the generated tasks into phases. Each phase gets its own header in the task queue. Tasks are numbered sequentially across all phases.
+
+| Phase | Contains | Typical Priority |
+|-------|----------|-----------------|
+| **Phase 1: Foundation** | Project setup, config, tooling, environment | High |
+| **Phase 2: Core** | Data model, auth, core APIs, database schema | High |
+| **Phase 3: Features** | User-facing functionality, UI, business logic | High/Medium |
+| **Phase 4: Integration** | Third-party APIs, webhooks, external services | Medium |
+| **Phase 5: Quality** | Testing, code review, polish, accessibility | Medium |
+| **Phase 6: Ship** | Deployment, documentation, launch prep | Medium/Low |
+
+**Output format with phases:**
+
+```
+### Phase 1: Foundation
+| # | Task | Priority | Skill |
+|---|------|----------|-------|
+| 1 | ... | High | SKL-0008 |
+| 2 | ... | High | — |
+
+### Phase 2: Core
+| # | Task | Priority | Skill |
+|---|------|----------|-------|
+| 3 | ... | High | SKL-0006 |
+...
+```
+
+**If ARCHITECTURE.md does not exist:** Skip phase grouping. Output a flat task list as in Step B. This scales naturally: simple projects get flat lists, complex projects with architecture docs get phased breakdown.
+
+**Rules:**
+- Tasks are still numbered sequentially across all phases (1, 2, 3... not restarting per phase)
+- Empty phases are omitted (don't create a phase with no tasks)
+- The Orchestrator processes tasks in order regardless of phase headers
+- Phase headers are organizational only — they help humans understand the sequence
+
 ### C) Write to STATE.md (Idempotency Rules)
 
 Read `.claude/project/STATE.md` and locate the `## Next Task Queue` section.

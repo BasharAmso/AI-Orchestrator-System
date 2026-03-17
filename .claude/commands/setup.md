@@ -114,6 +114,48 @@ Create each file **only if it does not already exist**. Never overwrite an exist
   *(Describe what you are building, who it is for, and why it matters.)*
   ```
 
+- `docs/PROJECT_CHARTER.md`
+  ```
+  # Project Charter
+
+  ## Project Name
+
+  *(Your project name)*
+
+  ## Vision
+
+  *(One sentence: what does this project exist to do?)*
+
+  ## Goals
+
+  1. *(Primary goal)*
+  2. *(Secondary goal)*
+  3. *(Tertiary goal)*
+
+  ## Target Users
+
+  *(Who is this for? Be specific.)*
+
+  ## Constraints
+
+  - **Time:** *(deadline or pace)*
+  - **Budget:** *(cost limits)*
+  - **Technical:** *(platform, language, or tool constraints)*
+  - **Knowledge:** *(what you don't know yet)*
+
+  ## Success Criteria
+
+  *(How will you know this project succeeded? Be measurable.)*
+
+  ## Non-Goals
+
+  - *(What this project will NOT do)*
+
+  ## Risks
+
+  - *(What could go wrong?)*
+  ```
+
 - `docs/ARCHITECTURE.md`
   ```
   # Architecture
