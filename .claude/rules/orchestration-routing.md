@@ -30,7 +30,7 @@
 | Deployment / Ship | `deployer` | Orchestrator | Ship workflow, CI/CD, release (SKL-0021) |
 | MCP Tool Connections | `deployer` | Orchestrator | Connect to external tools via MCP (SKL-0022) |
 | UX / Design | `designer` | Orchestrator | Wireframes, flows, onboarding (SKL-0023) |
-| Documentation | `documenter` | Project Manager | README, API docs, changelogs, guides (SKL-0024) |
+| Documentation | `documenter` | Orchestrator | README, API docs, changelogs, guides (SKL-0024) |
 | Research | `explorer` | Orchestrator | Gathering information, evaluating options |
 | Checkpoint | `orchestrator` | — | Session compression via `/save` |
 | Multi-Domain (2+ specialists) | `orchestrator` | — | Tasks spanning multiple agent domains |

@@ -168,7 +168,7 @@ For each cycle (up to Max Cycles This Run):
    - c) Next queued task (from Next Task Queue in STATE.md)
 
 2. **Route the work** using the canonical Dispatch Chain:
-   - Events → Skills (registry-first) → Direct Agent Routing (fallback)
+   - Events: REGISTRY trigger → event-hooks → routing-table. Tasks: Skill column → REGISTRY trigger → routing-table
 
 3. **Execute** the task or skill.
 
