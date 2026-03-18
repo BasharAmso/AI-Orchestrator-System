@@ -18,7 +18,7 @@ Read these files to determine the current situation:
 
 Read the `## Framework Mode` section of STATE.md (if it exists).
 
-- If the value is `Architect` or `Beginner`: record it and proceed.
+- If the value is `Full Planning` or `Quick Start`: record it and proceed.
 - If the section is missing or the value is not set: this is a first-time user. Before classifying the situation, ask the user to choose their framework mode:
 
 ```

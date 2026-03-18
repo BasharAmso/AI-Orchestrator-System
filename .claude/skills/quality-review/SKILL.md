@@ -5,7 +5,7 @@ description: |
   Review code, content, or deliverables for quality, clarity, and correctness.
   Use this skill when a quality review has been requested on completed work.
 version: 1.0
-owner: Orchestrator
+owner: reviewer
 triggers:
   - QUALITY_REVIEW_REQUESTED
 inputs:
@@ -26,7 +26,7 @@ tags:
 |-------|-------|
 | **Skill ID** | SKL-0002 |
 | **Version** | 1.0 |
-| **Owner** | Orchestrator |
+| **Owner** | reviewer |
 | **Inputs** | Files or content to review (from event description or active task) |
 | **Outputs** | Review summary with findings and suggestions |
 | **Triggers** | `QUALITY_REVIEW_REQUESTED` |

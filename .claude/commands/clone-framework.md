@@ -208,7 +208,7 @@ Write blank templates (not actual project state) to the target:
 
 1. **`templates/STATE.md`** — Copy the structure from the source STATE.md but clear all task data, set phase to "Not Started", clear completed/queued tables. Add a comment at top: `<!-- Copy this file to your project's state tracking location -->`
 2. **`templates/EVENTS.md`** — Copy the structure from the source EVENTS.md but clear all events. Add a comment at top: `<!-- Copy this file to your project's event queue location -->`
-3. **`templates/knowledge/`** — Create empty template files for DECISIONS.md, RESEARCH.md, GLOSSARY.md, OPEN_QUESTIONS.md with just the entry templates from each.
+3. **`templates/knowledge/`** — Create empty template files for DECISIONS.md, RESEARCH.md, GLOSSARY.md, OPEN_QUESTIONS.md with just the entry templates from each. Also copy TASK-FORMAT.md and TODOS-FORMAT.md as-is (these are convention files, not project data).
 
 #### 8d. Generate ADAPTATION_GUIDE.md
 

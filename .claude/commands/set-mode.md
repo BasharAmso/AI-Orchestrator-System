@@ -34,7 +34,7 @@ If `<mode>` is one of `full-planning` or `quick-start`:
 - Stop (do not proceed to Step 2-6).
 
 If `<mode>` is not one of `safe`, `semi`, `auto`, `full-planning`, or `quick-start`:
-- Print: "Invalid mode. Use: `safe`, `semi`, `auto`, `architect`, or `beginner`."
+- Print: "Invalid mode. Use: `safe`, `semi`, `auto`, `full-planning`, or `quick-start`."
 - Stop.
 
 ### Step 2: Read Current State

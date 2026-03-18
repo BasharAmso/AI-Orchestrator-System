@@ -55,6 +55,8 @@ Check each runtime file. If missing, create it from the corresponding template i
 | `.claude/project/knowledge/RESEARCH.md` | Yes |
 | `.claude/project/knowledge/GLOSSARY.md` | Yes |
 | `.claude/project/knowledge/OPEN_QUESTIONS.md` | Yes |
+| `.claude/project/knowledge/TASK-FORMAT.md` | Yes |
+| `.claude/project/knowledge/TODOS-FORMAT.md` | Yes |
 
 ### Step 4: Determine Project Type
 

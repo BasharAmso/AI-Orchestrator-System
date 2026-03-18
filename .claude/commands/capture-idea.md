@@ -1,8 +1,8 @@
 # Command: /capture-idea
 
 > Capture a project idea and seed the system. Behavior adapts to Framework Mode:
-> - **Architect mode:** Full intake → PRD stub → architecture stub → tasks → event
-> - **Beginner mode:** Quick conversation → immediate scaffold tasks → event
+> - **Full Planning mode:** Full intake → PRD stub → architecture stub → tasks → event
+> - **Quick Start mode:** Quick conversation → immediate scaffold tasks → event
 
 ---
 
@@ -65,7 +65,7 @@ The Skill column uses `—` for scaffold tasks because the specific skill depend
 
 ### B4: Emit Event
 
-Emit `IDEA_CAPTURED` event (same as Architect path Step 5).
+Emit `IDEA_CAPTURED` event (same as Full Planning path Step 5).
 
 ### B5: Print Summary
 
@@ -83,7 +83,7 @@ if you want more detailed planning.
 
 ---
 
-# Architect Path
+# Full Planning Path
 
 > Full planning pipeline. This is the original `/capture-idea` behavior.
 

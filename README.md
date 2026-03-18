@@ -80,7 +80,20 @@ These are available when you need them. The system will suggest them at the righ
 5. /run-project      — Execute the first task from the queue
 ```
 
+## Framework Mode
+
+Choose how much planning happens before building. Set during `/start` or change anytime with `/set-mode`.
+
+| Mode | What Happens |
+|------|-------------|
+| **Quick Start** | Scaffold first, plan as you go. Describe your idea in 3 questions, get a working app immediately, add features one at a time. Planning docs grow with the code. |
+| **Full Planning** *(Default)* | Plan before you build. Write a detailed PRD, design the architecture, break it into tasks, then build systematically. Best for complex projects. |
+
+Switch with `/set-mode quick-start` or `/set-mode full-planning`. The system adapts: in Quick Start mode, if your project grows complex (10+ tasks, multiple integrations), the framework will suggest switching to Full Planning.
+
 ## Run Modes
+
+Control how fast work happens within either framework mode.
 
 | Mode | What Happens |
 |------|-------------|

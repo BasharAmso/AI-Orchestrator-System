@@ -31,7 +31,7 @@ Guide the user through the The AI Orchestrator System framework by recommending 
 
 ### Step 1 — Read current state and available commands
 Read STATE.md to understand where the user is in their build cycle:
-- **Framework Mode** (Architect or Beginner) — this determines the phase sequence
+- **Framework Mode** (Full Planning or Quick Start) — this determines the phase sequence
 - Current Mode
 - Active Task
 - Next Task Queue
