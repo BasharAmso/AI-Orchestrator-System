@@ -176,6 +176,7 @@ For each cycle (up to Max Cycles This Run):
 4. **Auto-emit follow-up events.** After execution, check if the completed skill or task produced output that suggests a follow-up event. Common patterns:
    - Skill output contains "suggest emitting" or "next event" → extract the event type and description
    - PRD completion → emit `PRD_UPDATED`
+   - Architecture completion → emit `ARCHITECTURE_COMPLETE`. Also print: "Architecture is ready. Consider designing key screens before breaking into tasks. Run `/trigger UX_DESIGN_REQUESTED` to start design, or `/run-project` to skip and go straight to task breakdown."
    - Task queue proposed → emit `TASK_QUEUE_PROPOSED`
    - All build tasks complete → emit `BUILD_COMPLETE`
    - Deployment verified → emit `DEPLOYMENT_VERIFIED`
@@ -278,7 +279,7 @@ When the queue is empty and no events are pending, check `Current Phase` in STAT
 | Current Phase | Suggestion |
 |---------------|------------|
 | `Not Started` | "No tasks or events queued. Run `/capture-idea` to begin." |
-| `Planning` | "Planning phase active but queue is empty. Check if PRD, Architecture, or task breakdown still needs work." |
+| `Planning` | "Planning phase active but queue is empty. Run `/run-project` to continue the planning pipeline, or `/trigger PRD_CREATION_REQUESTED` to start a PRD, `/trigger ARCHITECTURE_REQUESTED` to design the architecture, or `/trigger PRD_UPDATED` to break the PRD into tasks." |
 | `Building` | "All build tasks complete. Consider running `/trigger DEPLOYMENT_REQUESTED` to begin deployment, or `/save` to save progress." |
 | `Ready for Deploy` | "Ready to deploy. Run `/trigger DEPLOYMENT_REQUESTED` to begin." |
 | `Deploying` | "Deployment in progress. Check deployment status and verify." |

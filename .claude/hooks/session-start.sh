@@ -38,10 +38,19 @@ print(m.group(1).strip() if m else 'Not Started')
 " 2>/dev/null || echo "Not Started")
     MODE=$($PYTHON -c "
 with open('$STATE_FILE','r',encoding='utf-8') as f:
-    for line in f:
-        if '**YES**' in line and '|' in line:
+    lines=f.readlines()
+    headers=None
+    mode_col=0
+    for line in lines:
+        if '|' in line and '**YES**' not in line and 'Mode' in line and 'Active' in line:
+            cols=[c.strip() for c in line.split('|') if c.strip()]
+            for i,c in enumerate(cols):
+                if c.lower()=='mode': mode_col=i
+            headers=True
+            continue
+        if headers and '**YES**' in line and '|' in line:
             parts=[p.strip() for p in line.split('|') if p.strip()]
-            if parts: print(parts[0]); break
+            if len(parts)>mode_col: print(parts[mode_col]); break
     else: print('Unknown')
 " 2>/dev/null || echo "Unknown")
     ACTIVE_DESC="—"

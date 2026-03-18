@@ -50,8 +50,8 @@ FILE_PATH="${RESULT#*|}"
 LIMIT=500
 
 if [ "$LINE_COUNT" -gt "$LIMIT" ] 2>/dev/null; then
-  echo "BLOCKED by pre-write-size-guard: $LINE_COUNT lines exceeds $LIMIT-line limit for $FILE_PATH" >&2
-  echo "Break the change into smaller pieces or ask the user to confirm this large write." >&2
+  echo "Large file write blocked: $LINE_COUNT lines is over the $LIMIT-line safety limit for $FILE_PATH." >&2
+  echo "What to do: Break this into smaller changes, or confirm you want to write this large file." >&2
   exit 2
 fi
 

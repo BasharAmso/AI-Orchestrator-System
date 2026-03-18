@@ -62,10 +62,16 @@ Also update the Run Cycle section:
 If switching to `auto`, print:
 
 ```
-Tip: Autonomous mode runs multiple cycles, but Claude Code may still prompt
-for tool permissions. To minimize interruptions, consider allowing common
-file operations for this session. See RUN_POLICY.md § "Claude Code Permissions"
-for details.
+Heads up: Autonomous mode runs multiple cycles without stopping, but Claude
+Code may still ask permission for each file write or command.
+
+To get the most out of Autonomous mode:
+  1. When Claude Code prompts "Allow this action?", select "Allow for this session"
+  2. This only lasts until you close the session — your files stay safe
+  3. You can always say "stop" to pause at any time
+
+Without this, Autonomous mode will feel the same as Semi-Autonomous because
+every action still requires your approval.
 ```
 
 ### Step 6: Print Confirmation

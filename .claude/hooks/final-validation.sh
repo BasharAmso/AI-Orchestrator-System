@@ -55,13 +55,13 @@ done
 PHANTOM_AGENTS=("clarity-editor" "beginner-advocate" "visionary-book" "flow-auditor")
 for agent in "${PHANTOM_AGENTS[@]}"; do
   if grep -r "$agent" "$CLAUDE_DIR" --include="*.md" -l 2>/dev/null | grep -q .; then
-    echo "PHANTOM AGENT REFERENCE: $agent still referenced in files" >&2
+    echo "Stale reference found: '$agent' is referenced in framework files but this agent no longer exists. Run /doctor to check." >&2
     ALL_GOOD=false
   fi
 done
 
 if grep -rE "C:\\\\Users\\\\[a-zA-Z]+" "$CLAUDE_DIR" --include="*.md" -l 2>/dev/null | grep -q .; then
-  echo "HARDCODED PATH: Personal Windows path still exists in framework files" >&2
+  echo "Hardcoded path found: A personal file path (C:\\Users\\...) is still in framework files. Replace with a relative path or variable." >&2
   ALL_GOOD=false
 fi
 
