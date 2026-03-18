@@ -122,7 +122,16 @@ Go beyond file presence — verify the dispatch chain and cross-references actua
 5. Reference: `.claude/project/knowledge/TASK-FORMAT.md` defines the canonical format.
 6. Result: `Task format: OK` or `Task format: Skill column missing`
 
-#### 7g. Knowledge File Health Test
+#### 7g. Skill ID Validation
+
+1. Read STATE.md `## Next Task Queue` section.
+2. For each task row that has a Skill column value (not `—`):
+   - Check that the Skill ID (e.g., `SKL-0006`) exists in REGISTRY.md's Skills Index table.
+   - If the ID is not found: flag as warning: `"Task #X references SKL-XXXX but this skill is not in REGISTRY.md. Run /fix-registry or update the task."`
+3. Also check the Completed Tasks Log `Skill Used` column for unknown IDs (informational only).
+4. Result: `Skill IDs: OK` or `Skill IDs: X unknown references`
+
+#### 7h. Knowledge File Health Test
 
 1. **Empty knowledge files:** Check each file in `.claude/project/knowledge/`. If a file exists but contains only its template header (no actual entries), flag as informational: "[filename] exists but has no entries yet."
 2. **Broken decision references:** Scan `DECISIONS.md` for any entry with Status = `Superseded`. Verify the superseding decision ID exists. Flag broken references.
@@ -170,6 +179,7 @@ Compile all results into this format:
 - **Cross-References:** [OK | X broken links]
 - **Event Health:** [OK | X issues found]
 - **Task Format:** [OK | Skill column missing]
+- **Skill IDs:** [OK | X unknown references]
 - **Phase-Progress:** [OK | X issues found]
 - **Knowledge Health:** [OK | X notes]
 

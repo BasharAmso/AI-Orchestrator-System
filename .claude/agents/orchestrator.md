@@ -31,7 +31,9 @@ B) Skills Lookup (task-assigned first, then registry)
       --> Look up that skill directly in REGISTRY.md by ID.
       --> Execute the skill's procedure. Skip trigger matching entirely.
    2. If the task has no Skill ID (or Skill = "—"):
-      --> Fall back to trigger matching in REGISTRY.md as before.
+      --> Attempt auto-classification: match task keywords against REGISTRY skill descriptions.
+      --> If high-confidence match: assign skill ID, write back to STATE.md.
+      --> If no match: fall back to trigger matching in REGISTRY.md as before.
    3. If REGISTRY.md is missing or stale --> instruct user to run /fix-registry
       (do not fail; proceed with fallback routing).
 
@@ -106,7 +108,12 @@ If no unprocessed events exist:
 3. **Route the task** using the Dispatch Chain:
    - **B) Skills Lookup (task-assigned first):**
      - If the task row has a `Skill` column with a valid `SKL-XXXX` ID: look up that skill directly in `REGISTRY.md` and execute its procedure.
-     - If the task has no Skill ID (or `—`): fall back to trigger matching against the task description in `REGISTRY.md`.
+     - If the task has no Skill ID (or `—`): attempt **auto-classification** before falling back:
+       1. Read the task description and REGISTRY.md skill list.
+       2. Match the task's domain keywords against skill names and descriptions (e.g., "API endpoint" → SKL-0006 Backend Development, "login screen" → SKL-0005 Frontend Development, "Stripe webhook" → SKL-0011 Monetization).
+       3. If a single skill matches with high confidence: assign it, write the Skill ID back to the task row in STATE.md, and log: `"Auto-classified: [task] → [SKL-XXXX] ([skill name])"`.
+       4. If multiple skills match or no clear match: skip classification and proceed to trigger matching in REGISTRY.md as before.
+       5. Reference `.claude/project/knowledge/TASK-FORMAT.md` § Common Mappings for the keyword-to-skill lookup table.
      - If `REGISTRY.md` is missing or stale: warn the user to run `/fix-registry` and proceed to fallback.
    - **C) Fallback:** If no match from B, use `orchestration-routing.md` fallback.
 4. **Execute** the routed skill/action.

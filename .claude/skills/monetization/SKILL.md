@@ -42,7 +42,25 @@ tags:
 
 ## Purpose
 
-Implement payment processing, subscriptions, paywalls, and billing using Stripe. Start with the simplest billing model that works; make it easy to change pricing later.
+Implement payment processing, subscriptions, paywalls, and billing. Start with the simplest billing model that works; make it easy to change pricing later.
+
+---
+
+## Step 0: Provider Detection
+
+Before proceeding, determine the billing provider. Read `docs/ARCHITECTURE.md` and `docs/PRD.md` for platform context.
+
+| Platform / Context | Provider | Notes |
+|-------------------|----------|-------|
+| Web app (default) | **Stripe** | Use the Stripe procedure below |
+| Shopify app | **Shopify AppSubscription** | Use Shopify Billing API, not Stripe. Route to SKL-0010 (API Integration) instead. |
+| iOS app | **Apple In-App Purchase** | Use StoreKit 2. Apple requires IAP for digital goods. Route to SKL-0007 (Mobile Dev) instead. |
+| Android app | **Google Play Billing** | Use Google Play Billing Library. Required for digital goods on Play Store. Route to SKL-0007 instead. |
+| Physical goods / services | **Stripe** | Platform billing rules don't apply to physical goods |
+
+**If the provider is not Stripe:** Log a decision in DECISIONS.md noting the provider choice, then route to the appropriate skill (SKL-0010 or SKL-0007). Do not proceed with the Stripe procedure below.
+
+**If the provider is Stripe:** Continue with the procedure below.
 
 ---
 
