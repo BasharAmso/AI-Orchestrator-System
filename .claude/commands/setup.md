@@ -337,6 +337,16 @@ Default recommended actions for a fresh project:
 
 ---
 
+## Framework Mode
+
+`Architect`
+
+> **Architect** — Full planning pipeline: charter → PRD → architecture → design → tasks → build. Best for complex projects.
+> **Beginner** — Scaffold first, plan as you go: idea → immediate app scaffold → build features one at a time. Best for learning and simple projects.
+> Set during `/start`. Change with `/set-mode beginner` or `/set-mode architect`.
+
+---
+
 ## Current Mode
 
 | Mode | Description | Active |

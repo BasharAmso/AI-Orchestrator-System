@@ -14,6 +14,30 @@ Read these files to determine the current situation:
 2. `PROJECT_TYPE.md` (repo root) — check if project type is set. If missing, check if `README.md` contains "The AI Orchestrator System" — if yes, this is the framework template itself (treat as initialized).
 3. `.claude/project/EVENTS.md` — check for unprocessed events
 
+### Step 1b: Check Framework Mode
+
+Read the `## Framework Mode` section of STATE.md (if it exists).
+
+- If the value is `Architect` or `Beginner`: record it and proceed.
+- If the section is missing or the value is not set: this is a first-time user. Before classifying the situation, ask the user to choose their framework mode:
+
+```
+How would you like to work?
+
+**Beginner** — Start building right away. You'll describe your idea in a quick
+conversation, get a working app scaffold immediately, and add features one at
+a time. Planning docs grow as you build.
+
+**Architect** — Plan before you build. You'll write a detailed PRD, design the
+architecture, break it into tasks, then build systematically. Best for complex
+projects where upfront design prevents rework.
+
+Not sure? Start with Beginner — you can switch to Architect anytime with
+`/set-mode architect`.
+```
+
+After the user chooses: update STATE.md `## Framework Mode` to the selected value. Then proceed to Step 2.
+
 ### Step 2: Classify Situation
 
 Based on what was found, classify into the first matching situation:

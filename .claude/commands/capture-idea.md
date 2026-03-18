@@ -1,10 +1,91 @@
 # Command: /capture-idea
 
-> Capture a project idea and seed the system with a PRD stub, architecture stub, tasks, and an event — all in one step.
+> Capture a project idea and seed the system. Behavior adapts to Framework Mode:
+> - **Architect mode:** Full intake → PRD stub → architecture stub → tasks → event
+> - **Beginner mode:** Quick conversation → immediate scaffold tasks → event
 
 ---
 
 ## Procedure
+
+### Step 0: Check Framework Mode
+
+Read `.claude/project/STATE.md` § `## Framework Mode`.
+
+- If `Beginner`: follow the **Beginner Path** below.
+- If `Architect` (or not set): follow the **Architect Path** (default, Steps 1-6).
+
+---
+
+# Beginner Path
+
+> Goal: Get a working app scaffold in the first `/run-project` cycle. Planning docs come later.
+
+### B1: Quick Conversation (5 minutes max)
+
+Ask only these 3 questions:
+
+```
+What are you making? (e.g., "a to-do app", "a recipe website", "a mobile game")
+What's it called?
+What's the #1 thing it needs to do?
+```
+
+Accept freeform answers. Do not enforce templates. If the user provides more detail, great — extract it. If they give one sentence, that's enough.
+
+### B2: Create Minimal Docs
+
+Create `docs/PRD.md` (only if it doesn't exist) with a minimal stub:
+
+```markdown
+# [Project Name]
+
+> [One sentence: what it does]
+
+## Core Feature
+- [The #1 thing from B1]
+
+## Notes
+*(This doc grows as you build. Don't worry about making it perfect now.)*
+```
+
+Create `docs/PROJECT_CHARTER.md` with just the name and one-liner (if it doesn't exist).
+
+### B3: Seed Scaffold Tasks
+
+Write to STATE.md Next Task Queue (if empty/placeholder):
+
+| # | Task | Priority | Skill |
+|---|------|----------|-------|
+| 1 | Create initial app scaffold (src/) | High | — |
+| 2 | Build [core feature from B1] | High | — |
+| 3 | Add basic styling and layout | Medium | SKL-0005 |
+
+The Skill column uses `—` for scaffold tasks because the specific skill depends on the project type (web, mobile, etc.) — the orchestrator's auto-classification will handle it.
+
+### B4: Emit Event
+
+Emit `IDEA_CAPTURED` event (same as Architect path Step 5).
+
+### B5: Print Summary
+
+```
+Your idea is captured! Run `/run-project` to start building.
+
+What happens next:
+- The system will create your app's basic structure
+- Then it will build your core feature: [#1 thing from B1]
+- You can add more features anytime by describing what you want
+
+Tip: You can switch to Architect mode anytime with `/set-mode architect`
+if you want more detailed planning.
+```
+
+---
+
+# Architect Path
+
+> Full planning pipeline. This is the original `/capture-idea` behavior.
 
 ### Step 1: Collect the Idea
 

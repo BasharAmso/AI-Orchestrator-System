@@ -225,6 +225,10 @@ After each cycle's state update, evaluate the current project state and update `
 
 ### Phase Transition Rules
 
+Check `## Framework Mode` in STATE.md to determine which transition rules apply.
+
+**Architect Mode (default):**
+
 | Condition | New Phase |
 |-----------|-----------|
 | `IDEA_CAPTURED` event processed | `Planning` |
@@ -232,6 +236,17 @@ After each cycle's state update, evaluate the current project state and update `
 | All tasks in Next Task Queue completed (queue empty, Completed Tasks Log has build tasks) | `Ready for Deploy` |
 | `DEPLOYMENT_REQUESTED` event processed | `Deploying` |
 | Deployment verified successfully | `Live` |
+
+**Beginner Mode:**
+
+| Condition | New Phase |
+|-----------|-----------|
+| `IDEA_CAPTURED` event processed | `Building` (skip Planning — go straight to scaffold) |
+| All tasks in Next Task Queue completed (queue empty, Completed Tasks Log has build tasks) | `Ready for Deploy` |
+| `DEPLOYMENT_REQUESTED` event processed | `Deploying` |
+| Deployment verified successfully | `Live` |
+
+In Beginner Mode, the `Planning` phase is skipped entirely. The first `/run-project` after `/capture-idea` starts building the scaffold immediately. Planning artifacts (PRD, Architecture) can be created later on-demand if the user requests them or if the coach detects complexity that warrants planning.
 
 ### Transition Markers
 

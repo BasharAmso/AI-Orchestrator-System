@@ -11,9 +11,15 @@
 ```
 
 Where `<mode>` is one of:
+
+**Execution modes** (how fast work happens):
 - `safe` — Propose only, no file changes (0 cycles)
 - `semi` — Execute one unit of work, then stop for review (1 cycle)
 - `auto` — Execute multiple units of work autonomously (cycle limit from RUN_POLICY.md)
+
+**Framework modes** (how much planning happens):
+- `architect` — Full planning pipeline: PRD → architecture → design → tasks → build
+- `beginner` — Scaffold first, plan as you go: idea → immediate build → docs evolve
 
 ---
 
@@ -21,8 +27,14 @@ Where `<mode>` is one of:
 
 ### Step 1: Validate Argument
 
-If `<mode>` is not one of `safe`, `semi`, or `auto`:
-- Print: "Invalid mode. Use: `safe`, `semi`, or `auto`."
+If `<mode>` is one of `architect` or `beginner`:
+- This is a **framework mode** switch (not an execution mode switch).
+- Update STATE.md `## Framework Mode` to the selected value.
+- Print: `"Framework mode switched to [mode]. This changes how much planning happens before building."`
+- Stop (do not proceed to Step 2-6).
+
+If `<mode>` is not one of `safe`, `semi`, `auto`, `architect`, or `beginner`:
+- Print: "Invalid mode. Use: `safe`, `semi`, `auto`, `architect`, or `beginner`."
 - Stop.
 
 ### Step 2: Read Current State

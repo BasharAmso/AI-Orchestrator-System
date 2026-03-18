@@ -31,12 +31,22 @@ Guide the user through the The AI Orchestrator System framework by recommending 
 
 ### Step 1 — Read current state and available commands
 Read STATE.md to understand where the user is in their build cycle:
+- **Framework Mode** (Architect or Beginner) — this determines the phase sequence
 - Current Mode
 - Active Task
 - Next Task Queue
 - Completed Tasks Log
 
 Also read all files in .claude/commands/ to get the exact list of available commands and their purposes. Use this as the source of truth — never assume command names from memory.
+
+**Framework Mode affects all guidance:**
+
+| Situation | Architect Mode | Beginner Mode |
+|-----------|---------------|---------------|
+| After `/capture-idea` | "Run `/run-project` to generate a PRD" | "Run `/run-project` to scaffold your app" |
+| After first build | "Consider architecture design before adding features" | "Pick the next feature and run `/run-project`" |
+| Planning suggestion | Proactive — suggest PRD, architecture, design phases | Reactive — suggest planning only when complexity causes friction |
+| PRD/Architecture | Required before building | Optional, created on-demand when needed |
 
 ### Step 2 — Identify the user's situation
 Classify the user into one of five situations:
