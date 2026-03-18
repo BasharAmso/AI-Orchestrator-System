@@ -10,7 +10,8 @@ STATE_FILE="$CLAUDE_DIR/project/STATE.md"
 EVENTS_FILE="$CLAUDE_DIR/project/EVENTS.md"
 POLICY_FILE="$CLAUDE_DIR/project/RUN_POLICY.md"
 PARSER="$CLAUDE_DIR/hooks/lib/parse_state.py"
-PYTHON=$(python3 -c "import sys" 2>/dev/null && echo python3 || echo python)
+# shellcheck source=lib/detect-python.sh
+source "$(dirname "${BASH_SOURCE[0]}")/lib/detect-python.sh"
 
 echo "--- AI-Orchestrator-System Session Context ---"
 echo "Framework root: $FRAMEWORK_ROOT"
@@ -21,13 +22,13 @@ if [ -f "$STATE_FILE" ]; then
   if [ -f "$PARSER" ]; then
     STATE_JSON=$($PYTHON "$PARSER" "$STATE_FILE" all 2>/dev/null || echo '{}')
 
-    PHASE=$($PYTHON -c "import json; d=json.loads('$STATE_JSON'); print(d.get('phase','Not Started'))" 2>/dev/null || echo "Not Started")
-    MODE=$($PYTHON -c "import json; d=json.loads('$STATE_JSON'); print(d.get('mode','Unknown'))" 2>/dev/null || echo "Unknown")
-    ACTIVE_DESC=$($PYTHON -c "import json; d=json.loads('$STATE_JSON'); print(d.get('active_desc','—'))" 2>/dev/null || echo "—")
-    COMPLETED=$($PYTHON -c "import json; d=json.loads('$STATE_JSON'); print(d.get('completed',0))" 2>/dev/null || echo "0")
-    QUEUED=$($PYTHON -c "import json; d=json.loads('$STATE_JSON'); print(d.get('queued',0))" 2>/dev/null || echo "0")
-    CHECKPOINTED=$($PYTHON -c "import json; d=json.loads('$STATE_JSON'); print(d.get('checkpointed',''))" 2>/dev/null || echo "")
-    SESSION_STARTED=$($PYTHON -c "import json; d=json.loads('$STATE_JSON'); print(d.get('session_started',''))" 2>/dev/null || echo "")
+    PHASE=$(echo "$STATE_JSON" | $PYTHON -c "import json,sys; d=json.loads(sys.stdin.read()); print(d.get('phase','Not Started'))" 2>/dev/null || echo "Not Started")
+    MODE=$(echo "$STATE_JSON" | $PYTHON -c "import json,sys; d=json.loads(sys.stdin.read()); print(d.get('mode','Unknown'))" 2>/dev/null || echo "Unknown")
+    ACTIVE_DESC=$(echo "$STATE_JSON" | $PYTHON -c "import json,sys; d=json.loads(sys.stdin.read()); print(d.get('active_desc','—'))" 2>/dev/null || echo "—")
+    COMPLETED=$(echo "$STATE_JSON" | $PYTHON -c "import json,sys; d=json.loads(sys.stdin.read()); print(d.get('completed',0))" 2>/dev/null || echo "0")
+    QUEUED=$(echo "$STATE_JSON" | $PYTHON -c "import json,sys; d=json.loads(sys.stdin.read()); print(d.get('queued',0))" 2>/dev/null || echo "0")
+    CHECKPOINTED=$(echo "$STATE_JSON" | $PYTHON -c "import json,sys; d=json.loads(sys.stdin.read()); print(d.get('checkpointed',''))" 2>/dev/null || echo "")
+    SESSION_STARTED=$(echo "$STATE_JSON" | $PYTHON -c "import json,sys; d=json.loads(sys.stdin.read()); print(d.get('session_started',''))" 2>/dev/null || echo "")
   else
     # Fallback: basic extraction if parser not found (matches STATE.md table/backtick format)
     PHASE=$($PYTHON -c "
@@ -71,7 +72,7 @@ with open('$STATE_FILE','r',encoding='utf-8') as f:
   # Get cycle limit from RUN_POLICY
   CYCLE_LIMIT="10"
   if [ -f "$POLICY_FILE" ]; then
-    CL=$(grep -i 'autonomous' "$POLICY_FILE" 2>/dev/null | grep -oP '\d+' | head -1 || echo "10")
+    CL=$(grep -i 'autonomous' "$POLICY_FILE" 2>/dev/null | grep -oE '[0-9]+' | head -1 || echo "10")
     [ -n "$CL" ] && CYCLE_LIMIT="$CL"
   fi
 

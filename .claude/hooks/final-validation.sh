@@ -5,7 +5,7 @@
 # Note: BASH_SOURCE path resolution may behave unexpectedly under Git Bash
 # on Windows — this script is designed for Linux/Mac deployment environments
 
-set -euo pipefail
+set -uo pipefail
 
 FRAMEWORK_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 CLAUDE_DIR="$FRAMEWORK_ROOT/.claude"
@@ -65,6 +65,16 @@ if grep -rE "C:\\\\Users\\\\[a-zA-Z]+" "$CLAUDE_DIR" --include="*.md" -l 2>/dev/
   ALL_GOOD=false
 fi
 
+if grep -rE "(^|[^a-zA-Z])/Users/[a-zA-Z]+" "$CLAUDE_DIR" --include="*.md" -l 2>/dev/null | grep -q .; then
+  echo "Hardcoded path found: A personal file path (/Users/...) is still in framework files. Replace with a relative path or variable." >&2
+  ALL_GOOD=false
+fi
+
+if grep -rE "(^|[^a-zA-Z])/home/[a-zA-Z]+" "$CLAUDE_DIR" --include="*.md" -l 2>/dev/null | grep -q .; then
+  echo "Hardcoded path found: A personal file path (/home/...) is still in framework files. Replace with a relative path or variable." >&2
+  ALL_GOOD=false
+fi
+
 if [ "$ALL_GOOD" = true ]; then
   echo "All validation checks passed."
 else
@@ -75,7 +85,8 @@ fi
 STATE_FILE="$CLAUDE_DIR/project/STATE.md"
 PARSER="$CLAUDE_DIR/hooks/lib/parse_state.py"
 if [ -f "$STATE_FILE" ]; then
-  PYTHON=$(python3 -c "import sys" 2>/dev/null && echo python3 || echo python)
+  # shellcheck source=lib/detect-python.sh
+  source "$(dirname "${BASH_SOURCE[0]}")/lib/detect-python.sh"
   if [ -f "$PARSER" ]; then
     ACTIVE_ID=$($PYTHON "$PARSER" "$STATE_FILE" active_id 2>/dev/null || echo "—")
   else

@@ -178,13 +178,11 @@ def parse_state(filepath):
     queued_count = 0
     for row in queued_rows:
         vals = " ".join(row.values()).lower()
-        if "none" in vals and "seeded" in vals:
+        if "none" in vals or "---" in vals:
             continue
-        if row.get("#", row.get("", "")).strip().isdigit() or queued_count >= 0:
-            # Has a task number or is a real row
-            first_val = list(row.values())[0].strip()
-            if first_val and first_val != "...":
-                queued_count += 1
+        first_val = list(row.values())[0].strip()
+        if first_val and first_val != "..." and first_val.isdigit():
+            queued_count += 1
     result["queued"] = queued_count
 
     # Session lock

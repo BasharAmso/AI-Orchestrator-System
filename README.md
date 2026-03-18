@@ -117,6 +117,41 @@ The AI Orchestrator System can capture proposed improvements to reusable skills.
 
 Skills do not rewrite themselves automatically. Instead, the system logs proposed improvements for later review and approval. This keeps the improvement loop safe and human-controlled.
 
+## Architecture
+
+How commands, events, skills, and agents connect:
+
+```mermaid
+flowchart TD
+    User([User]) -->|runs| CMD["/command"]
+    CMD -->|emits| EVT[(EVENTS.md)]
+    EVT -->|oldest first| ORCH{Orchestrator}
+    ORCH -->|1. check| REG[(REGISTRY.md)]
+    REG -->|skill trigger match| SKILL[Skill Procedure]
+    ORCH -->|2. fallback| RULES[Routing Rules]
+    RULES -->|task type match| SKILL
+    SKILL -->|delegates to| AGENT[Agent]
+    AGENT -->|updates| STATE[(STATE.md)]
+    STATE -->|next task| ORCH
+
+    subgraph Hooks [Hooks — automatic guards]
+        H1[secrets scan]
+        H2[size guard]
+        H3[quality check]
+        H4[session start]
+    end
+
+    AGENT -.->|every write| Hooks
+
+    style User fill:#f9f,stroke:#333
+    style ORCH fill:#ff9,stroke:#333
+    style STATE fill:#9cf,stroke:#333
+    style EVT fill:#9cf,stroke:#333
+    style REG fill:#9cf,stroke:#333
+```
+
+**Dispatch chain:** `Events → Skills (via REGISTRY) → Agents (via routing rules) → State updates`
+
 ## Learn More
 
 - **[User Guide](docs/USER_GUIDE.md)** — Step-by-step walkthrough for first-time users.

@@ -6,7 +6,8 @@
 set -euo pipefail
 
 INPUT=$(cat)
-PYTHON=$(python3 -c "import sys" 2>/dev/null && echo python3 || echo python)
+# shellcheck source=lib/detect-python.sh
+source "$(dirname "${BASH_SOURCE[0]}")/lib/detect-python.sh"
 
 VALIDATION=$(echo "$INPUT" | $PYTHON -c "
 import sys, json

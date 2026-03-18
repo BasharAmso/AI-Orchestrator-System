@@ -4,12 +4,15 @@
 # can be lost. This hook outputs a state summary that survives compaction.
 # Exit code 0 = always allow compaction to proceed
 
-set -euo pipefail
+set -uo pipefail
 
-STATE_FILE=".claude/project/STATE.md"
-EVENTS_FILE=".claude/project/EVENTS.md"
-PARSER=".claude/hooks/lib/parse_state.py"
-PYTHON=$(python3 -c "import sys" 2>/dev/null && echo python3 || echo python)
+FRAMEWORK_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+CLAUDE_DIR="$FRAMEWORK_ROOT/.claude"
+STATE_FILE="$CLAUDE_DIR/project/STATE.md"
+EVENTS_FILE="$CLAUDE_DIR/project/EVENTS.md"
+PARSER="$CLAUDE_DIR/hooks/lib/parse_state.py"
+# shellcheck source=lib/detect-python.sh
+source "$(dirname "${BASH_SOURCE[0]}")/lib/detect-python.sh"
 
 echo "--- Pre-Compact State Snapshot ---"
 

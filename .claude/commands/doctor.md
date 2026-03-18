@@ -32,8 +32,11 @@ Check that each core file exists. Record pass/fail for each:
 - `.claude/agents/orchestrator.md`
 - `.claude/CLAUDE.md`
 - `.claudeignore`
+- `FRAMEWORK_VERSION`
 
-If any are missing, record the filename for the suggested fixes list.
+If any are missing, record the filename for the suggested fixes list. If `FRAMEWORK_VERSION` is missing, add a note: `"No FRAMEWORK_VERSION file found. Run /clone-framework --upgrade from the source framework to add versioning."`
+
+If `FRAMEWORK_VERSION` exists, read and display the version number in the health summary.
 
 ### Step 3: Verify PROJECT_TYPE.md
 
@@ -168,6 +171,7 @@ Compile all results into this format:
 ```
 ## System Health
 
+- **Framework Version:** [version from FRAMEWORK_VERSION | Not found]
 - **Directories:** [OK | X missing]
 - **Core Files:** [OK | X missing]
 - **Project Type:** [Book | Web App | Mobile App | Framework Template | Not initialized]

@@ -10,13 +10,8 @@ LOG_FILE="$FRAMEWORK_ROOT/.claude/project/session-log.csv"
 
 # Create log with header if it doesn't exist
 if [ ! -f "$LOG_FILE" ]; then
-  echo "date,session_start,session_end,duration_min,stop_count" > "$LOG_FILE"
+  echo "date,session_start,session_end,duration_min" > "$LOG_FILE"
 fi
-
-# Read the stop count file (incremented by post-edit hook's existence as proxy)
-# We track how many times the Stop hook fires per session as a rough activity signal
-COUNTER_FILE="/tmp/aos-stop-count-$$"
-STOP_COUNT=1
 
 # Session timing: read start time written by session-start hook
 START_FILE="/tmp/aos-session-start-time"
@@ -36,7 +31,7 @@ fi
 END_FMT=$(date "+%H:%M")
 
 # Append session record
-echo "$TODAY,$START_FMT,$END_FMT,$ELAPSED,$STOP_COUNT" >> "$LOG_FILE"
+echo "$TODAY,$START_FMT,$END_FMT,$ELAPSED" >> "$LOG_FILE"
 
 # Report to user
 if [ "$ELAPSED" -gt 0 ]; then

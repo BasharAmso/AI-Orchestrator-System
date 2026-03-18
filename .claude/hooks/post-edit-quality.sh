@@ -2,10 +2,11 @@
 # Post-Edit Quality Check — runs after any Write/Edit tool use
 # Always exits 0 — this hook reports issues, it does not block
 
-set -euo pipefail
+set -uo pipefail
 
 INPUT=$(cat)
-PYTHON=$(python3 -c "import sys" 2>/dev/null && echo python3 || echo python)
+# shellcheck source=lib/detect-python.sh
+source "$(dirname "${BASH_SOURCE[0]}")/lib/detect-python.sh"
 FILE=$(echo "$INPUT" | $PYTHON -c "
 import sys, json
 d = json.load(sys.stdin)
@@ -38,10 +39,10 @@ case "$EXT" in
 
     # --- Framework convention validation for STATE.md ---
     if echo "$FILE" | grep -q "STATE\.md$" 2>/dev/null; then
-      $PYTHON -c "
-import sys
+      $PYTHON - "$FILE" <<'PYEOF' 2>/dev/null || true
+import sys, re
 
-with open('$FILE', 'r', encoding='utf-8') as f:
+with open(sys.argv[1], 'r', encoding='utf-8') as f:
     content = f.read()
 
 warnings = []
@@ -52,19 +53,18 @@ if '| # | Task | Priority |' in content and '| # | Task | Priority | Skill |' no
 
 # Check Current Phase is valid
 valid_phases = ['Not Started', 'Planning', 'Building', 'Ready for Deploy', 'Deploying', 'Live']
-import re
 phase_match = re.search(r'## Current Phase\s+\x60([^\x60]+)\x60', content)
 if phase_match:
     phase = phase_match.group(1).strip()
     if phase not in valid_phases:
-        warnings.append(f'Invalid phase: \"{phase}\". Valid: {valid_phases}')
+        warnings.append(f'Invalid phase: "{phase}". Valid: {valid_phases}')
 
 # Check Framework Mode is valid
 mode_match = re.search(r'## Framework Mode\s+\x60([^\x60]+)\x60', content)
 if mode_match:
     mode = mode_match.group(1).strip()
     if mode not in ['Full Planning', 'Quick Start']:
-        warnings.append(f'Invalid framework mode: \"{mode}\". Use Full Planning or Quick Start.')
+        warnings.append(f'Invalid framework mode: "{mode}". Use Full Planning or Quick Start.')
 
 # Check for duplicate task numbers
 task_nums = re.findall(r'^\|\s*(\d+)\s*\|', content, re.MULTILINE)
@@ -73,15 +73,93 @@ if len(task_nums) != len(set(task_nums)):
 
 for w in warnings:
     print(f'CONVENTION: {w}', file=sys.stderr)
-" 2>/dev/null || true
+PYEOF
+    fi
+
+    # --- Semantic validation for SKILL.md files ---
+    if echo "$FILE" | grep -q "skills/.*SKILL\.md$" 2>/dev/null; then
+      $PYTHON - "$FILE" <<'PYEOF' 2>/dev/null || true
+import sys, re
+
+with open(sys.argv[1], 'r', encoding='utf-8') as f:
+    content = f.read()
+
+warnings = []
+
+# Check YAML frontmatter exists and has required fields
+fm_match = re.match(r'^---\s*\n(.*?)\n---', content, re.DOTALL)
+if not fm_match:
+    warnings.append('SKILL.md missing YAML frontmatter (--- block at top)')
+else:
+    fm = fm_match.group(1)
+    for field in ['id', 'name', 'owner', 'triggers']:
+        if not re.search(rf'^{field}:', fm, re.MULTILINE):
+            warnings.append(f'SKILL.md frontmatter missing required field: {field}')
+
+    # Validate id format
+    id_match = re.search(r'^id:\s*(SKL-\d+)', fm, re.MULTILINE)
+    if not id_match:
+        warnings.append('SKILL.md id should match format SKL-XXXX')
+
+    # Validate owner is a known agent name
+    owner_match = re.search(r'^owner:\s*(\S+)', fm, re.MULTILINE)
+    if owner_match:
+        known_agents = [
+            'orchestrator', 'builder', 'reviewer', 'fixer', 'deployer',
+            'designer', 'documenter', 'explorer', 'coach',
+            'product-manager', 'project-manager', 'architecture-designer'
+        ]
+        if owner_match.group(1) not in known_agents:
+            warnings.append(f'SKILL.md owner "{owner_match.group(1)}" is not a known agent')
+
+# Check for Definition of Done section
+if '## Definition of Done' not in content and '### Definition of Done' not in content:
+    warnings.append('SKILL.md missing Definition of Done section')
+
+for w in warnings:
+    print(f'SEMANTIC: {w}', file=sys.stderr)
+PYEOF
+    fi
+
+    # --- Semantic validation for REGISTRY.md ---
+    if echo "$FILE" | grep -q "REGISTRY\.md$" 2>/dev/null; then
+      HOOKS_DIR="$(dirname "${BASH_SOURCE[0]}")"
+      FRAMEWORK_ROOT="$(cd "$HOOKS_DIR/../.." && pwd)"
+      $PYTHON - "$FILE" "$FRAMEWORK_ROOT" <<'PYEOF' 2>/dev/null || true
+import sys, re, os
+
+with open(sys.argv[1], 'r', encoding='utf-8') as f:
+    content = f.read()
+
+framework_root = sys.argv[2]
+warnings = []
+
+# Extract skill folder paths from registry table
+paths = re.findall(r'\.claude/skills/([^/`\s|]+)/?', content)
+for folder in set(paths):
+    skill_path = os.path.join(framework_root, '.claude', 'skills', folder, 'SKILL.md')
+    if not os.path.isfile(skill_path):
+        warnings.append(f'Registry references .claude/skills/{folder}/ but SKILL.md not found on disk')
+
+# Check for duplicate SKL IDs
+skl_ids = re.findall(r'(SKL-\d+)', content)
+seen = set()
+for sid in skl_ids:
+    if sid in seen:
+        warnings.append(f'Duplicate skill ID in registry: {sid}')
+    seen.add(sid)
+
+for w in warnings:
+    print(f'SEMANTIC: {w}', file=sys.stderr)
+PYEOF
     fi
 
     # --- Framework convention validation for EVENTS.md ---
     if echo "$FILE" | grep -q "EVENTS\.md$" 2>/dev/null; then
-      $PYTHON -c "
+      $PYTHON - "$FILE" <<'PYEOF' 2>/dev/null || true
 import sys, re
 
-with open('$FILE', 'r', encoding='utf-8') as f:
+with open(sys.argv[1], 'r', encoding='utf-8') as f:
     content = f.read()
 
 warnings = []
@@ -99,7 +177,7 @@ if dupes:
 
 for w in warnings:
     print(f'CONVENTION: {w}', file=sys.stderr)
-" 2>/dev/null || true
+PYEOF
     fi
     ;;
 esac

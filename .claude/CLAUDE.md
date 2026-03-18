@@ -13,6 +13,7 @@
 
 | File | Purpose |
 |------|---------|
+| `FRAMEWORK_VERSION` | Semver version stamp for upgrade tracking |
 | `README.md` | Human-readable overview, quick start, and command reference |
 | `.claude/project/STATE.md` | Current task, mode, blockers, history |
 | `.claude/project/EVENTS.md` | Event queue (unprocessed + processed) |
@@ -57,6 +58,7 @@
 | `/clone-framework` | `.claude/commands/clone-framework.md` |
 | `/cleanup` | `.claude/commands/cleanup.md` |
 | `/retro` | `.claude/commands/retro.md` |
+| `/test-framework` | `.claude/commands/test-framework.md` |
 
 ## Architecture Primitives
 

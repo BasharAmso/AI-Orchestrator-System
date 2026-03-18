@@ -7,35 +7,22 @@ set -euo pipefail
 
 INPUT=$(cat)
 
-# Extract file path and content to scan
-PYTHON=$(python3 -c "import sys" 2>/dev/null && echo python3 || echo python)
-PARSED=$(echo "$INPUT" | $PYTHON -c "
-import sys, json
+# Extract file path and content, then scan for secrets — all in one Python call
+# shellcheck source=lib/detect-python.sh
+source "$(dirname "${BASH_SOURCE[0]}")/lib/detect-python.sh"
+FOUND=$(echo "$INPUT" | $PYTHON -c "
+import sys, json, re
+
 data = json.load(sys.stdin)
 file_path = data.get('file_path', data.get('path', ''))
-# Write tool uses 'content', Edit uses 'new_string'
 text = data.get('content', '') or data.get('new_string', '')
-print(file_path)
-print('---SPLIT---')
-print(text)
-" 2>/dev/null || echo "")
-
-FILE_PATH="${PARSED%%---SPLIT---*}"
-FILE_PATH=$(echo "$FILE_PATH" | tr -d '[:space:]')
-CONTENT="${PARSED#*---SPLIT---}"
 
 # Skip hook files to avoid self-blocking on pattern strings
-if echo "$FILE_PATH" | grep -qE "(\.claude[/\\\\]hooks[/\\\\]|\.claude\\\\hooks\\\\)"; then
-  exit 0
-fi
+if '.claude/hooks/' in file_path or '.claude\\\\hooks\\\\' in file_path:
+    sys.exit(0)
 
-if [ -z "$CONTENT" ]; then
-  exit 0
-fi
-
-# Use Python for robust regex matching on multiline content
-FOUND=$(echo "$CONTENT" | $PYTHON -c "
-import sys, re
+if not text:
+    sys.exit(0)
 
 patterns = [
     (r'sk-[a-zA-Z0-9]{20,}', 'OpenAI API key'),
@@ -58,16 +45,17 @@ patterns = [
     (r'amzn\.mws\.[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', 'AWS MWS token'),
 ]
 
-text = sys.stdin.read()
 for pat, name in patterns:
     if re.search(pat, text):
-        print(name)
+        # Output: SECRET_TYPE|file_path
+        print(f'{name}|{file_path}')
         sys.exit(0)
-print('')
 " 2>/dev/null || echo "")
 
 if [ -n "$FOUND" ]; then
-  echo "BLOCKED by pre-write-secrets-scan: Possible $FOUND detected in content for $FILE_PATH" >&2
+  SECRET_TYPE="${FOUND%%|*}"
+  FILE_PATH="${FOUND#*|}"
+  echo "BLOCKED by pre-write-secrets-scan: Possible $SECRET_TYPE detected in content for $FILE_PATH" >&2
   echo "If this is a false positive, remove the secret-like pattern or write the file manually." >&2
   exit 2
 fi

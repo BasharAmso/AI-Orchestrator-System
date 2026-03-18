@@ -19,6 +19,20 @@ Validate:
 - The target directory exists (or its parent exists and can be created).
 - If the target directory doesn't exist, create it.
 
+### Step 1b: Version Check (Upgrade Mode Only)
+
+Skip this step in default mode and portable mode.
+
+In upgrade mode:
+
+1. Read `FRAMEWORK_VERSION` from the **source** framework root. If missing, treat as `0.0.0`.
+2. Read `FRAMEWORK_VERSION` from the **target** directory root. If missing, treat as `0.0.0`.
+3. Compare versions (semver: major.minor.patch):
+   - **Source > Target:** Normal upgrade. Log: `Upgrading: v[target] → v[source]`
+   - **Source = Target:** Already current. Log: `Already at v[source]. Re-running upgrade to ensure file consistency.` Continue with upgrade.
+   - **Source < Target:** Downgrade detected. Print warning: `"Warning: Source (v[source]) is older than target (v[target]). This would downgrade the framework. Proceed anyway?"` Wait for user confirmation before continuing.
+4. After upgrade completes (Step 7), copy the source `FRAMEWORK_VERSION` file to the target root.
+
 ### Step 2: Identify Framework Files to Copy
 
 Copy these framework directories and their contents:
@@ -32,6 +46,7 @@ Copy these framework directories and their contents:
 | `.claude/hooks/` | Hook scripts |
 | `.claude/CLAUDE.md` | Context index |
 | `.claudeignore` | Ignore patterns |
+| `FRAMEWORK_VERSION` | Version stamp for upgrade tracking |
 
 ### Step 3: Identify Files to SKIP
 
