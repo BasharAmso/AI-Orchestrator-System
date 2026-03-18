@@ -12,12 +12,12 @@
 
 Read `.claude/project/STATE.md` § `## Framework Mode`.
 
-- If `Beginner`: follow the **Beginner Path** below.
-- If `Architect` (or not set): follow the **Architect Path** (default, Steps 1-6).
+- If `Quick Start`: follow the **Quick Start Path** below.
+- If `Full Planning` (or not set): follow the **Full Planning Path** (default, Steps 1-6).
 
 ---
 
-# Beginner Path
+# Quick Start Path
 
 > Goal: Get a working app scaffold in the first `/run-project` cycle. Planning docs come later.
 
@@ -77,7 +77,7 @@ What happens next:
 - Then it will build your core feature: [#1 thing from B1]
 - You can add more features anytime by describing what you want
 
-Tip: You can switch to Architect mode anytime with `/set-mode architect`
+Tip: You can switch to Full Planning mode anytime with `/set-mode full-planning`
 if you want more detailed planning.
 ```
 

@@ -211,6 +211,22 @@ Before starting the next cycle, evaluate **all stop conditions** from RUN_POLICY
 - If any stop condition is met: set Last Run Status to the reason and **stop immediately**.
 - If Max Cycles This Run is reached: set Last Run Status = `Completed` and **stop cleanly**.
 
+### Adaptive Escalation (Quick Start Mode Only)
+
+After completing a task in Quick Start mode, check if the project's complexity has outgrown the mode. These are **suggestions printed in the execution summary**, not automatic mode switches.
+
+| Signal | Threshold | Suggestion |
+|--------|-----------|------------|
+| Task count growing | >10 tasks in Completed + Queue combined | "Your project is getting complex. Consider `/set-mode full-planning` to add a PRD and architecture before continuing." |
+| Multiple integrations | 3+ different API/integration tasks completed (Skill IDs SKL-0010, SKL-0011, or task descriptions mentioning external services) | "You're integrating multiple external services. An architecture doc would help keep things organized. Run `/trigger ARCHITECTURE_REQUESTED`." |
+| Rework detected | Same file path appears in Files Modified across 3+ different completed tasks | "You're revisiting the same files repeatedly. A quick architecture review might reduce rework. Run `/trigger ARCHITECTURE_REQUESTED`." |
+
+**Rules:**
+- Only check these in Quick Start mode (Full Planning already has planning built in)
+- Print each suggestion at most once per session (track in execution summary, not STATE.md)
+- Never auto-switch modes — the user decides
+- If the user ignores a suggestion, don't repeat it in the same session
+
 ### Safe Mode Behavior
 
 - Do **not** modify any files.
@@ -227,7 +243,7 @@ After each cycle's state update, evaluate the current project state and update `
 
 Check `## Framework Mode` in STATE.md to determine which transition rules apply.
 
-**Architect Mode (default):**
+**Full Planning Mode (default):**
 
 | Condition | New Phase |
 |-----------|-----------|
@@ -237,7 +253,7 @@ Check `## Framework Mode` in STATE.md to determine which transition rules apply.
 | `DEPLOYMENT_REQUESTED` event processed | `Deploying` |
 | Deployment verified successfully | `Live` |
 
-**Beginner Mode:**
+**Quick Start Mode:**
 
 | Condition | New Phase |
 |-----------|-----------|
@@ -246,7 +262,7 @@ Check `## Framework Mode` in STATE.md to determine which transition rules apply.
 | `DEPLOYMENT_REQUESTED` event processed | `Deploying` |
 | Deployment verified successfully | `Live` |
 
-In Beginner Mode, the `Planning` phase is skipped entirely. The first `/run-project` after `/capture-idea` starts building the scaffold immediately. Planning artifacts (PRD, Architecture) can be created later on-demand if the user requests them or if the coach detects complexity that warrants planning.
+In Quick Start Mode, the `Planning` phase is skipped entirely. The first `/run-project` after `/capture-idea` starts building the scaffold immediately. Planning artifacts (PRD, Architecture) can be created later on-demand if the user requests them or if the coach detects complexity that warrants planning.
 
 ### Transition Markers
 

@@ -41,8 +41,8 @@ Also read all files in .claude/commands/ to get the exact list of available comm
 
 **Framework Mode affects all guidance:**
 
-| Situation | Architect Mode | Beginner Mode |
-|-----------|---------------|---------------|
+| Situation | Full Planning Mode | Quick Start Mode |
+|-----------|-------------------|-----------------|
 | After `/capture-idea` | "Run `/run-project` to generate a PRD" | "Run `/run-project` to scaffold your app" |
 | After first build | "Consider architecture design before adding features" | "Pick the next feature and run `/run-project`" |
 | Planning suggestion | Proactive — suggest PRD, architecture, design phases | Reactive — suggest planning only when complexity causes friction |

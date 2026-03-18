@@ -24,16 +24,16 @@ Read the `## Framework Mode` section of STATE.md (if it exists).
 ```
 How would you like to work?
 
-**Beginner** — Start building right away. You'll describe your idea in a quick
+**Quick Start** — Start building right away. You'll describe your idea in a quick
 conversation, get a working app scaffold immediately, and add features one at
 a time. Planning docs grow as you build.
 
-**Architect** — Plan before you build. You'll write a detailed PRD, design the
+**Full Planning** — Plan before you build. You'll write a detailed PRD, design the
 architecture, break it into tasks, then build systematically. Best for complex
 projects where upfront design prevents rework.
 
-Not sure? Start with Beginner — you can switch to Architect anytime with
-`/set-mode architect`.
+Not sure? Start with Quick Start — you can switch to Full Planning anytime with
+`/set-mode full-planning`.
 ```
 
 After the user chooses: update STATE.md `## Framework Mode` to the selected value. Then proceed to Step 2.
