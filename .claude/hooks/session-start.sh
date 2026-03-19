@@ -162,5 +162,21 @@ fi
 # Write session start timestamp for cost tracker
 date +%s > /tmp/aos-session-start-time
 
+# Session start notification
+PROJECT_NAME=$(basename "$FRAMEWORK_ROOT")
+if command -v powershell.exe &>/dev/null; then
+  powershell.exe -Command "
+    Add-Type -AssemblyName System.Windows.Forms
+    \$notify = New-Object System.Windows.Forms.NotifyIcon
+    \$notify.Icon = [System.Drawing.SystemIcons]::Information
+    \$notify.Visible = \$true
+    \$notify.ShowBalloonTip(4000, '${PROJECT_NAME} — ready', 'Claude Code session started.', [System.Windows.Forms.ToolTipIcon]::Info)
+    Start-Sleep -Milliseconds 5000
+    \$notify.Dispose()
+  " 2>/dev/null || true
+elif command -v osascript &>/dev/null; then
+  osascript -e "display notification \"Claude Code session started.\" with title \"${PROJECT_NAME} — ready\"" 2>/dev/null || true
+fi
+
 echo "--- End Session Context ---"
 exit 0
