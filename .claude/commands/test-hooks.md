@@ -98,11 +98,11 @@ Result: `PASS` if exit code is 2. `FAIL` if exit code is 0 (guard not blocking).
 
 Run:
 ```bash
-echo '{"command": "rm -rf /tmp/test"}' \
+echo '{"command": "rm -rf /"}' \
   | bash .claude/hooks/pre-bash-firewall.sh
 ```
 
-Expected: exit code `2` (blocked — matches `rm -rf /` pattern).
+Expected: exit code `2` (blocked — exact root-wipe pattern `rm -rf /[[:space:]]*$`).
 
 Result: `PASS` if exit code is 2. `FAIL` if exit code is 0 (firewall not blocking).
 
