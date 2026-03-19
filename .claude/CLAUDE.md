@@ -59,6 +59,8 @@
 | `/cleanup` | `.claude/commands/cleanup.md` |
 | `/retro` | `.claude/commands/retro.md` |
 | `/test-framework` | `.claude/commands/test-framework.md` |
+| `/log-session` | `.claude/commands/log-session.md` |
+| `/framework-review` | `.claude/commands/framework-review.md` |
 
 ## Architecture Primitives
 

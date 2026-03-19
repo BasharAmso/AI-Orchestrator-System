@@ -140,6 +140,13 @@ Go beyond file presence — verify the dispatch chain and cross-references actua
 2. **Broken decision references:** Scan `DECISIONS.md` for any entry with Status = `Superseded`. Verify the superseding decision ID exists. Flag broken references.
 3. Result: `Knowledge health: OK` or `Knowledge health: X notes`
 
+#### 7i. Progress Tracking Health
+
+1. Check if `~/.claude/logs/framework-progress.csv` exists.
+2. If it exists, validate the first line matches the expected header: `date,project,duration_min,quality,iterations,bugs_rework,notes`
+3. Count data rows (excluding header). If count > 0 but the last entry's date is older than 14 days, flag as inactive.
+4. Result: `Progress tracking: OK (X entries)` or `Progress tracking: Not initialized` or `Progress tracking: Inactive since [date]`
+
 ### Step 8: Repair (Optional)
 
 If Steps 7b, 7d, or 7e found repairable issues, offer repairs. **Behavior depends on mode:**
@@ -186,6 +193,7 @@ Compile all results into this format:
 - **Skill IDs:** [OK | X unknown references]
 - **Phase-Progress:** [OK | X issues found]
 - **Knowledge Health:** [OK | X notes]
+- **Progress Tracking:** [OK (X entries) | Not initialized | Inactive since date]
 
 **System Status:** [Healthy | Needs Attention]
 ```

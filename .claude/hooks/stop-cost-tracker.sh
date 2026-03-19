@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Stop Cost Tracker — logs session duration and activity metrics
-# Appends one line per session to .claude/project/session-log.csv
+# Updates one line per session in .claude/project/session-log.csv
 # Always exits 0 — reporting only, never blocks
 
-set -euo pipefail
+set -uo pipefail
 
 FRAMEWORK_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 LOG_FILE="$FRAMEWORK_ROOT/.claude/project/session-log.csv"
@@ -16,8 +16,8 @@ fi
 # Session timing: read start time written by session-start hook
 START_FILE="/tmp/aos-session-start-time"
 NOW=$(date +%s)
-NOW_FMT=$(date "+%Y-%m-%d %H:%M")
 TODAY=$(date "+%Y-%m-%d")
+END_FMT=$(date "+%H:%M")
 
 if [ -f "$START_FILE" ]; then
   START_TIME=$(cat "$START_FILE" 2>/dev/null || echo "$NOW")
@@ -28,14 +28,30 @@ else
   ELAPSED=0
 fi
 
-END_FMT=$(date "+%H:%M")
+# Staleness guard: if elapsed > 8 hours, the start timestamp is stale
+if [ "$ELAPSED" -gt 480 ]; then
+  ELAPSED=0
+  START_FMT="stale"
+fi
+
+# Deduplication: if the last row has the same date and start time, update it
+# instead of appending a new row (Stop hook fires on every tool stop)
+LAST_LINE=$(tail -1 "$LOG_FILE" 2>/dev/null || echo "")
+LAST_DATE=$(echo "$LAST_LINE" | cut -d',' -f1)
+LAST_START=$(echo "$LAST_LINE" | cut -d',' -f2)
+
+if [ "$LAST_DATE" = "$TODAY" ] && [ "$LAST_START" = "$START_FMT" ]; then
+  # Update the last line: remove it and append the updated version
+  sed -i '$d' "$LOG_FILE" 2>/dev/null || true
+fi
 
 # Append session record
 echo "$TODAY,$START_FMT,$END_FMT,$ELAPSED" >> "$LOG_FILE"
 
-# Report to user
+# Report to user (only on meaningful sessions)
 if [ "$ELAPSED" -gt 0 ]; then
   echo "Session: ${ELAPSED}min ($START_FMT - $END_FMT) | Logged to .claude/project/session-log.csv"
+  echo "Run /log-session to record quality metrics for this session."
 fi
 
 exit 0
