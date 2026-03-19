@@ -57,7 +57,26 @@ Check each runtime file. If missing, create it from the corresponding template i
 | `.claude/project/knowledge/OPEN_QUESTIONS.md` | Yes |
 | `.claude/project/knowledge/TASK-FORMAT.md` | Yes |
 | `.claude/project/knowledge/TODOS-FORMAT.md` | Yes |
-| `.claude/project/IDENTITY.md` | Yes |
+| `.claude/project/IDENTITY.md` | Yes — **auto-populate from project context** (see note below) |
+
+**IDENTITY.md Auto-Population Note:**
+
+When creating `.claude/project/IDENTITY.md`, do NOT use the static template — auto-detect values:
+
+1. **Project name** (use first match):
+   - Read `README.md` → extract the first `# Heading` line (strip the `# `)
+   - Run `git remote get-url origin 2>/dev/null` → extract repo name (`basename <url> .git`)
+   - Fallback: `basename $(pwd)` (directory name)
+
+2. **Purpose** (use first match):
+   - Read `README.md` → extract the first non-heading paragraph (first 150 characters, end at sentence boundary)
+   - Fallback: `[Describe what this project does — one sentence]`
+
+3. **Status:** Always write `Not Started` (accurate for a fresh setup)
+
+4. **Stack:** Always write `[Fill in after architecture decisions]` — cannot be reliably inferred
+
+Write the file using the detected values. If IDENTITY.md already exists, skip — never overwrite.
 
 ### Step 4: Determine Project Type
 
@@ -585,6 +604,9 @@ After every cycle the orchestrator must:
 
 ### IDENTITY.md Template
 
+> Note: `/setup` auto-populates Project and Purpose from README/git/directory — use this
+> template only as a fallback when no context can be detected.
+
 ```markdown
 # Project Identity
 
@@ -595,10 +617,10 @@ After every cycle the orchestrator must:
 
 ## Fields
 
-- **Project:** [project name and one-line description]
+- **Project:** [auto-detected from README heading or git repo name]
 - **Status:** Not Started
-- **Stack:** [tech stack summary — fill in after architecture decisions]
-- **Purpose:** [what the project does — one sentence]
+- **Stack:** [Fill in after architecture decisions]
+- **Purpose:** [auto-detected from README first paragraph, or describe in one sentence]
 ```
 
 ### DECISIONS.md Template

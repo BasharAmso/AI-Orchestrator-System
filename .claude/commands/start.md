@@ -24,19 +24,31 @@ Read the `## Framework Mode` section of STATE.md (if it exists).
 ```
 How would you like to work?
 
-**Quick Start** — Start building right away. You'll describe your idea in a quick
-conversation, get a working app scaffold immediately, and add features one at
-a time. Planning docs grow as you build.
+**Just start building** — Describe your idea in a few sentences and get a working
+app scaffold right away. You'll refine and add features as you go.
+Best for: first-time users, quick experiments, and simpler projects.
 
-**Full Planning** — Plan before you build. You'll write a detailed PRD, design the
-architecture, break it into tasks, then build systematically. Best for complex
-projects where upfront design prevents rework.
+**Plan first, then build** — Write a detailed spec, design the system, break it
+into a task list, then build step by step. Slower start, fewer surprises later.
+Best for: complex projects and anything with strict requirements.
 
-Not sure? Start with Quick Start — you can switch to Full Planning anytime with
-`/set-mode full-planning`.
+Not sure? → **Just start building.** You can switch anytime with `/set-mode`.
 ```
 
-After the user chooses: update STATE.md `## Framework Mode` to the selected value. Then proceed to Step 2.
+- If the user picks **Just start building**: set Framework Mode to `Quick Start`
+- If the user picks **Plan first, then build**: set Framework Mode to `Full Planning`
+
+After the user chooses: update STATE.md `## Framework Mode` to the selected value.
+
+If this is the first time Framework Mode is being set (new user), append this note before proceeding to Step 2:
+
+```
+> **What to expect:** Describe your idea and Claude will ask a few follow-up
+> questions, then create your first files automatically. You'll review and
+> approve before anything is written.
+```
+
+Then proceed to Step 2.
 
 ### Step 2: Classify Situation
 
