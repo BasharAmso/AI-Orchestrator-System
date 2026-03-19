@@ -107,18 +107,46 @@ If `<target>/.claude/project/STATE.md` exists:
 4. Do **NOT** clear or modify task data, completed tasks, or other sections.
 5. Log: `Patched: STATE.md (added Skill column to task table)`
 
-#### 5c. Clean Up Duplicate Root CLAUDE.md
+#### 5c. Restore Project Identity into CLAUDE.md
 
-If `<target>/CLAUDE.md` (root) exists AND `<target>/.claude/CLAUDE.md` also exists:
+Step 4 just overwrote `<target>/.claude/CLAUDE.md` with the source template (generic branding).
+This step re-applies the project's actual identity using one of three paths — checked in order:
 
-1. Both are loaded by Claude Code, wasting ~1.2k tokens/session.
-2. `.claude/CLAUDE.md` is the canonical location — it was just updated in Step 4.
-3. Check if the root `CLAUDE.md` contains project-specific identity (project name, client name, charter reference) that differs from the `.claude/CLAUDE.md` template identity.
-4. If the root file has project-specific fields: merge them into `.claude/CLAUDE.md`'s Project Identity section, replacing the template values.
-5. Delete the root `CLAUDE.md`.
-6. Log: `Cleaned: removed duplicate root CLAUDE.md (merged project identity into .claude/CLAUDE.md)`
+**Path A — IDENTITY.md lock file exists (normal case for projects on v1.2.0+):**
 
-If only one CLAUDE.md exists (at either location): no action needed.
+If `<target>/.claude/project/IDENTITY.md` exists:
+1. Read the file and extract the `## Fields` section values.
+2. Replace the `## Project Identity` section in `<target>/.claude/CLAUDE.md` with the values from IDENTITY.md.
+3. Log: `Merged: project identity restored from IDENTITY.md lock file`
+4. Skip Paths B and C.
+
+**Path B — No IDENTITY.md, but root CLAUDE.md exists (legacy migration):**
+
+If `<target>/CLAUDE.md` (root) exists AND `<target>/.claude/project/IDENTITY.md` does NOT exist:
+1. Read root `CLAUDE.md` for project-specific identity fields (project name, stack, purpose, status).
+2. If the root file has fields that differ from the template defaults: merge them into `<target>/.claude/CLAUDE.md` Project Identity section.
+3. Write those same identity fields to a new `<target>/.claude/project/IDENTITY.md` lock file so future upgrades use Path A.
+4. Delete the root `CLAUDE.md` (it is now fully superseded).
+5. Log: `Migrated: identity from root CLAUDE.md → IDENTITY.md lock file. Root CLAUDE.md deleted.`
+
+**Path C — No IDENTITY.md, no root CLAUDE.md, but .claude/CLAUDE.md had custom identity:**
+
+This handles projects that already deleted their root CLAUDE.md (e.g., upgraded to v1.0 or v1.1)
+but don't yet have an IDENTITY.md. The old `.claude/CLAUDE.md` was just overwritten in Step 4.
+
+Since Step 4 already overwrote the file, this path MUST be run **before Step 4** to capture identity.
+Implementation note: before copying `<target>/.claude/CLAUDE.md` in Step 4, check if:
+- `<target>/.claude/project/IDENTITY.md` does NOT exist, AND
+- The existing `<target>/.claude/CLAUDE.md` Project Identity section differs from the template values
+
+If both conditions are true:
+1. Read the existing `<target>/.claude/CLAUDE.md` Project Identity section.
+2. Write those values to `<target>/.claude/project/IDENTITY.md`.
+3. Log: `Captured: existing CLAUDE.md identity saved to IDENTITY.md lock file`
+4. Then proceed with Step 4 overwrite — Step 5c Path A will apply on this run.
+
+**If none of the above apply** (no IDENTITY.md, no custom identity anywhere): no action needed.
+Log: `Identity: no project-specific identity found — template values retained`
 
 #### 5d. Patch RUN_POLICY.md
 

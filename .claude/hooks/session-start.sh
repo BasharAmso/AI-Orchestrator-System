@@ -150,6 +150,7 @@ fi
 
 # AI-Memory check
 MEMORY_PATH="${AI_MEMORY_PATH:-$HOME/Projects/AI-Memory}"
+MEMORY_PATH="${MEMORY_PATH/#\~/$HOME}"  # expand ~ if env var used tilde literal
 if [ -d "$MEMORY_PATH" ]; then
   LESSON_COUNT=$(find "$MEMORY_PATH" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
   echo "AI-Memory: $LESSON_COUNT entries at $MEMORY_PATH"

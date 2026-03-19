@@ -52,6 +52,23 @@ echo "$TODAY,$START_FMT,$END_FMT,$ELAPSED" >> "$LOG_FILE"
 if [ "$ELAPSED" -gt 0 ]; then
   echo "Session: ${ELAPSED}min ($START_FMT - $END_FMT) | Logged to .claude/project/session-log.csv"
   echo "Run /log-session to record quality metrics for this session."
+
+  # System notification — lets you walk away while Claude works
+  if command -v powershell.exe &>/dev/null; then
+    # Windows: system tray balloon tooltip
+    powershell.exe -Command "
+      Add-Type -AssemblyName System.Windows.Forms
+      \$notify = New-Object System.Windows.Forms.NotifyIcon
+      \$notify.Icon = [System.Drawing.SystemIcons]::Information
+      \$notify.Visible = \$true
+      \$notify.ShowBalloonTip(6000, 'Claude Code', 'Session ended — ${ELAPSED}min. Run /log-session.', [System.Windows.Forms.ToolTipIcon]::Info)
+      Start-Sleep -Milliseconds 7000
+      \$notify.Dispose()
+    " 2>/dev/null || true
+  elif command -v osascript &>/dev/null; then
+    # macOS: native notification
+    osascript -e "display notification \"Session ended — ${ELAPSED}min. Run /log-session.\" with title \"Claude Code\"" 2>/dev/null || true
+  fi
 fi
 
 exit 0

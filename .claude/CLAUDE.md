@@ -62,25 +62,6 @@
 | `/log-session` | `.claude/commands/log-session.md` |
 | `/framework-review` | `.claude/commands/framework-review.md` |
 
-## Architecture Primitives
-
-| Primitive | Location | Role |
-|-----------|----------|------|
-| Commands | `.claude/commands/` | Entry points: `/run-project`, `/trigger`, `/setup`, etc. |
-| State | `.claude/project/STATE.md` | Single source of truth: current task, mode, blockers, history |
-| Events | `.claude/project/EVENTS.md` | Queue of things that happened or need to happen (FIFO) |
-| Skills | `.claude/skills/` | Reusable procedures with triggers, registered in REGISTRY.md |
-| Registry | `.claude/skills/REGISTRY.md` | Skill index mapping triggers to skill files |
-| Rules | `.claude/rules/` | Governance: routing, security, policy |
-| Agents | `.claude/agents/` | Specialized roles that execute skills (core: Orchestrator) |
-| Knowledge | `.claude/project/knowledge/` | Persistent memory: decisions, research, glossary, open questions |
-
-## Dispatch Chain
-
-`Events → Skills (via REGISTRY) → Agents (via routing rules)`
-Fallback: REGISTRY trigger → event-hooks.md → orchestration-routing.md.
-Full algorithm: `.claude/agents/orchestrator.md` § "Dispatch Chain (Canonical)".
-
 ## Context Loading Policy
 
 To stay token-efficient, load context incrementally:
@@ -104,3 +85,5 @@ To stay token-efficient, load context incrementally:
 - Default mode is Semi-Autonomous: one unit of work, then stop.
 - When the user asks a framework question, requests guidance, or describes a goal without specifying a command, follow the coach agent procedure at `.claude/agents/coach.md`.
 - For first-time orientation, run `/start` first; the coach handles follow-up conversation.
+
+> Architecture primitives, dispatch chain, and full command reference: `.claude/REFERENCE.md`

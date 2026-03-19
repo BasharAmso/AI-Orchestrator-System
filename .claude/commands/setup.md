@@ -57,6 +57,7 @@ Check each runtime file. If missing, create it from the corresponding template i
 | `.claude/project/knowledge/OPEN_QUESTIONS.md` | Yes |
 | `.claude/project/knowledge/TASK-FORMAT.md` | Yes |
 | `.claude/project/knowledge/TODOS-FORMAT.md` | Yes |
+| `.claude/project/IDENTITY.md` | Yes |
 
 ### Step 4: Determine Project Type
 
@@ -580,6 +581,24 @@ After every cycle the orchestrator must:
 1. Update `.claude/project/STATE.md` (Active Task, Outputs, Files Modified, Completed Tasks Log, Run Cycle).
 2. Print an Execution Summary.
 3. Evaluate stop conditions before starting the next cycle.
+```
+
+### IDENTITY.md Template
+
+```markdown
+# Project Identity
+
+> Persists project-specific identity across `/clone-framework --upgrade` runs.
+> Managed by `/setup` (creates) and `/clone-framework` (reads). Do not delete.
+
+---
+
+## Fields
+
+- **Project:** [project name and one-line description]
+- **Status:** Not Started
+- **Stack:** [tech stack summary — fill in after architecture decisions]
+- **Purpose:** [what the project does — one sentence]
 ```
 
 ### DECISIONS.md Template

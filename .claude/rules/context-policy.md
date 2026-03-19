@@ -28,6 +28,7 @@ All substantial output (documents, plans, code, analysis, task breakdowns) must 
 | Open questions | `.claude/project/knowledge/OPEN_QUESTIONS.md` |
 | Task status & progress | `.claude/project/STATE.md` |
 | Event records | `.claude/project/EVENTS.md` |
+| Project identity (name, stack, purpose) | `.claude/project/IDENTITY.md` |
 
 ### 3. Persist Decisions
 

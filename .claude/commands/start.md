@@ -73,6 +73,14 @@ Run `/<command>` — [one-sentence plain-language explanation of what it does an
 
 **Tone:** Write as if speaking to someone who has never used the terminal before. No jargon without explanation. Every recommendation should include what the command does in one plain sentence.
 
+Append this tip after the recommendation block:
+
+```
+> **Tip:** Before running any command, you can press **Shift+Tab** to enter Plan Mode —
+> Claude will map out exactly what it plans to do and ask for your approval before
+> touching any files. This is especially useful for new features or anything unfamiliar.
+```
+
 Do not print framework internals unless the user asks.
 
 **Command discovery:** If the user asks what commands are available, show only the 5 core commands: `/start`, `/setup`, `/capture-idea`, `/run-project`, `/save`. Mention that more commands exist for specific situations (like `/status`, `/doctor`, `/set-mode`) and the system will suggest them when relevant.
