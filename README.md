@@ -1,16 +1,16 @@
 # The AI Orchestrator System
 
-The AI Orchestrator System is a reusable project template that lets you build software projects using AI — without needing to write code yourself. Copy this folder into any new project (a web app, mobile app, API, or SaaS product), open it in VS Code with Claude Code, and start building by describing what you want in plain language.
+The AI Orchestrator System is a reusable project template that turns Claude Code into a structured software development team. Copy this folder into any new project (a web app, mobile app, API, or SaaS product), open it in VS Code with Claude Code, and start building by describing what you want in plain language.
 
-The system gives your AI assistant a structured set of agents, skills, and rules so it can plan, build, test, and ship your project step by step. You stay in control: every action is reviewed before the next one starts.
+Instead of a blank AI chat, you get 12 specialized agents, 26 skill procedures, 11 safety hooks, and a dispatch chain that routes every task to the right agent with the right process. You stay in control: every action is reviewed before the next one starts.
 
 ## The Naming Stack
 
 | Layer | Name | What It Means |
 |-------|------|---------------|
-| **Problem** | The Syntax Wall | The barrier that stops non-programmers from building software — you have the idea but not the syntax. |
-| **Method** | AI Orchestration Framework | A structured method for coordinating AI agents, skills, and events to do the building for you. |
-| **Tool** | The AI Orchestrator System | This template — the ready-to-use implementation of the framework. |
+| **Problem** | The Syntax Wall | You can design systems, think architecturally, and manage projects — but writing code line-by-line blocks you from shipping. |
+| **Method** | AI Orchestration Framework | A structured method for coordinating AI agents, skills, and events so the AI builds while you direct. |
+| **Tool** | The AI Orchestrator System | This template — the ready-to-use implementation of the framework for software development. |
 
 ## Quick Start
 

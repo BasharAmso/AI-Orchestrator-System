@@ -5,9 +5,9 @@
 ## Project Identity
 
 - **Template:** The AI Orchestrator System
-- **Problem:** The Syntax Wall (non-programmers blocked by syntax)
-- **Method:** AI Orchestration Framework (structured AI agent workflows)
-- **Tool:** The AI Orchestrator System (this template)
+- **Problem:** The Syntax Wall (you can architect and direct — but writing code line-by-line blocks shipping)
+- **Method:** AI Orchestration Framework (agents, skills, hooks, and state machine for structured AI development)
+- **Tool:** The AI Orchestrator System (this template — software development variant)
 
 ## Key Files
 
