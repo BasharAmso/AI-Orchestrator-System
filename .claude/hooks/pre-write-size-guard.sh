@@ -4,6 +4,7 @@
 # Exit code 2 = block, Exit code 0 = allow
 
 set -euo pipefail
+echo "$(basename "${BASH_SOURCE[0]}")" >> /tmp/aos-hook-usage.log 2>/dev/null || true
 
 INPUT=$(cat)
 

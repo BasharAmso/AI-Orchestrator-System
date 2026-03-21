@@ -5,6 +5,7 @@
 # Exit code 0 = allow the command to proceed
 
 set -euo pipefail
+echo "$(basename "${BASH_SOURCE[0]}")" >> /tmp/aos-hook-usage.log 2>/dev/null || true
 
 INPUT=$(cat)
 # shellcheck source=lib/detect-python.sh

@@ -6,6 +6,7 @@
 # on Windows — this script is designed for Linux/Mac deployment environments
 
 set -uo pipefail
+echo "$(basename "${BASH_SOURCE[0]}")" >> /tmp/aos-hook-usage.log 2>/dev/null || true
 
 FRAMEWORK_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 CLAUDE_DIR="$FRAMEWORK_ROOT/.claude"

@@ -61,6 +61,7 @@
 | `/test-framework` | `.claude/commands/test-framework.md` |
 | `/test-hooks` | `.claude/commands/test-hooks.md` |
 | `/log-session` | `.claude/commands/log-session.md` |
+| `/learn` | `.claude/commands/learn.md` |
 | `/framework-review` | `.claude/commands/framework-review.md` |
 
 ## Context Loading Policy

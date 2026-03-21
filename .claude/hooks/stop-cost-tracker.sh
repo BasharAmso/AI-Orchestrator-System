@@ -4,13 +4,14 @@
 # Always exits 0 — reporting only, never blocks
 
 set -uo pipefail
+echo "$(basename "${BASH_SOURCE[0]}")" >> /tmp/aos-hook-usage.log 2>/dev/null || true
 
 FRAMEWORK_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 LOG_FILE="$FRAMEWORK_ROOT/.claude/project/session-log.csv"
 
 # Create log with header if it doesn't exist
 if [ ! -f "$LOG_FILE" ]; then
-  echo "date,session_start,session_end,duration_min" > "$LOG_FILE"
+  echo "date,session_start,session_end,duration_min,hooks_fired" > "$LOG_FILE"
 fi
 
 # Session timing: read start time written by session-start hook
@@ -18,6 +19,8 @@ START_FILE="/tmp/aos-session-start-time"
 NOW=$(date +%s)
 TODAY=$(date "+%Y-%m-%d")
 END_FMT=$(date "+%H:%M")
+HOOKS_FIRED=0
+[ -f "/tmp/aos-hook-usage.log" ] && HOOKS_FIRED=$(wc -l < /tmp/aos-hook-usage.log | tr -d ' ')
 
 if [ -f "$START_FILE" ]; then
   START_TIME=$(cat "$START_FILE" 2>/dev/null || echo "$NOW")
@@ -46,16 +49,31 @@ if [ "$LAST_DATE" = "$TODAY" ] && [ "$LAST_START" = "$START_FMT" ]; then
 fi
 
 # Append session record
-echo "$TODAY,$START_FMT,$END_FMT,$ELAPSED" >> "$LOG_FILE"
+echo "$TODAY,$START_FMT,$END_FMT,$ELAPSED,$HOOKS_FIRED" >> "$LOG_FILE"
 
 # Report to user (only on meaningful sessions)
 if [ "$ELAPSED" -gt 0 ]; then
   echo "Session: ${ELAPSED}min ($START_FMT - $END_FMT) | Logged to .claude/project/session-log.csv"
   echo "Run /log-session to record quality metrics for this session."
 
-  # System notification — lets you walk away while Claude works
+  # System notification — 5-minute cooldown prevents spam on every response stop
   PROJECT_NAME=$(basename "$FRAMEWORK_ROOT")
-  if command -v powershell.exe &>/dev/null; then
+  NOTIF_COOLDOWN=300
+  LAST_NOTIF_FILE="/tmp/aos-last-stop-notif"
+  SHOULD_NOTIFY=true
+  if [ -f "$LAST_NOTIF_FILE" ]; then
+    LAST_NOTIF=$(cat "$LAST_NOTIF_FILE" 2>/dev/null || echo "0")
+    SINCE_LAST=$(( NOW - LAST_NOTIF ))
+    if [ "$SINCE_LAST" -lt "$NOTIF_COOLDOWN" ]; then
+      SHOULD_NOTIFY=false
+    fi
+  fi
+
+  if [ "$SHOULD_NOTIFY" = true ]; then
+    echo "$NOW" > "$LAST_NOTIF_FILE"
+  fi
+
+  if [ "$SHOULD_NOTIFY" = true ] && command -v powershell.exe &>/dev/null; then
     # Windows: system tray balloon tooltip
     powershell.exe -Command "
       Add-Type -AssemblyName System.Windows.Forms
@@ -66,7 +84,7 @@ if [ "$ELAPSED" -gt 0 ]; then
       Start-Sleep -Milliseconds 7000
       \$notify.Dispose()
     " 2>/dev/null || true
-  elif command -v osascript &>/dev/null; then
+  elif [ "$SHOULD_NOTIFY" = true ] && command -v osascript &>/dev/null; then
     # macOS: native notification
     osascript -e "display notification \"Session ended (${ELAPSED}min). Run /log-session.\" with title \"${PROJECT_NAME} — done\"" 2>/dev/null || true
   fi

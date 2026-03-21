@@ -46,6 +46,7 @@ Ensure `.claude/project/STATE.md` accurately reflects:
 - The Next Task Queue (correct ordering)
 - Last Run Status set to `Checkpointed`
 - **Session Lock:** Set `Checkpointed = Yes` and update `Last Activity` to the current timestamp. This signals to the next session that this session exited cleanly.
+- **Failed Approaches:** If any approaches were tried and abandoned during this session, append them to the `## Failed Approaches` table in STATE.md with a one-line description, why it failed, and today's date. Ask the user: "Were any approaches tried and abandoned this session?"
 
 ### Step 5: Log Checkpoint Event
 
@@ -57,7 +58,26 @@ EVT-XXXX | CHECKPOINT | Session checkpoint: [brief summary of work done] | syste
 
 Follow the same ID-generation logic as `/trigger` (find highest EVT-XXXX, increment by 1).
 
-### Step 6: Print Save Summary
+### Step 6: Session Usage Report
+
+Generate a compact usage report to help identify unused framework components:
+
+1. Read `/tmp/aos-hook-usage.log` if it exists. Count occurrences of each hook filename.
+2. Review the current session: which agents and skills were dispatched? (Introspect the conversation.)
+3. Print a usage summary:
+
+```
+## Session Usage
+
+**Hooks fired:** [hook-name (Nx) | hook-name (Nx) | ...]
+**Hooks NOT fired:** [list hooks that didn't fire this session]
+**Agents used:** [agent names] (N of 12)
+**Skills used:** [skill names] (N of 26)
+```
+
+This helps the user identify dead weight in the framework over time.
+
+### Step 7: Print Save Summary
 
 Print the following (must stay under 200 words):
 

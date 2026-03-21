@@ -4,6 +4,7 @@
 # Exit code 2 = block, Exit code 0 = allow
 
 set -euo pipefail
+echo "$(basename "${BASH_SOURCE[0]}")" >> /tmp/aos-hook-usage.log 2>/dev/null || true
 
 INPUT=$(cat)
 # shellcheck source=lib/detect-python.sh
@@ -16,6 +17,13 @@ print(data.get('command', ''))
 
 if [ -z "$COMMAND" ]; then
   exit 0
+fi
+
+# Block --no-verify flag (bypasses pre-commit/push hooks)
+if echo "$COMMAND" | grep -qE "\-\-no-verify"; then
+  echo "Git guard blocked: --no-verify bypasses safety hooks." >&2
+  echo "Remove the flag or run the command yourself in a separate terminal." >&2
+  exit 2
 fi
 
 # Match git followed by commit, push, or tag (with optional flags in between)

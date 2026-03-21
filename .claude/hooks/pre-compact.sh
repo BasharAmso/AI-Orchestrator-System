@@ -5,6 +5,7 @@
 # Exit code 0 = always allow compaction to proceed
 
 set -uo pipefail
+echo "$(basename "${BASH_SOURCE[0]}")" >> /tmp/aos-hook-usage.log 2>/dev/null || true
 
 FRAMEWORK_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 CLAUDE_DIR="$FRAMEWORK_ROOT/.claude"
@@ -29,12 +30,17 @@ if [ -f "$STATE_FILE" ]; then
     # Check if active ID looks like a real task ID (starts with letter/digit, not em-dash or empty)
     if echo "$ACTIVE_ID" | grep -qE '^[A-Za-z0-9]'; then
       echo "Active Task: $ACTIVE_ID: $ACTIVE_DESC"
-      echo "  WARNING: Task in progress -- implementation details may be lost by compaction"
+      echo "  WARNING: Task in progress — run /save FIRST to preserve work before compaction"
     else
       echo "Active Task: None"
     fi
 
     echo "Pending tasks: $QUEUED"
+
+    FAILED=$($PYTHON "$PARSER" "$STATE_FILE" failed_approaches 2>/dev/null || echo "0")
+    if [ "$FAILED" -gt 0 ]; then
+      echo "Failed approaches: $FAILED (DO NOT retry these — see STATE.md)"
+    fi
 
     # Format recent completed tasks — pipe to avoid shell quoting issues with task descriptions
     $PYTHON "$PARSER" "$STATE_FILE" completed_recent 2>/dev/null | $PYTHON -c "

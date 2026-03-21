@@ -1,6 +1,6 @@
 # The AI Orchestrator System
 
-The AI Orchestrator System is a reusable project template that lets you build software projects using AI — without needing to write code yourself. Copy this folder into any new project (a web app, mobile app, book, or anything else), open it in VS Code with Claude Code, and start building by describing what you want in plain language.
+The AI Orchestrator System is a reusable project template that lets you build software projects using AI — without needing to write code yourself. Copy this folder into any new project (a web app, mobile app, API, or SaaS product), open it in VS Code with Claude Code, and start building by describing what you want in plain language.
 
 The system gives your AI assistant a structured set of agents, skills, and rules so it can plan, build, test, and ship your project step by step. You stay in control: every action is reviewed before the next one starts.
 
@@ -32,14 +32,16 @@ That's it. The system will guide you from there.
 
 ```
 .claude/
-  CLAUDE.md            — Context index + architecture guide (loaded by Claude on startup)
-  agents/              — AI agent definitions (orchestrator)
-  commands/            — Entry-point commands you run
-  rules/               — Routing and governance policies
-  skills/              — Reusable task procedures + registry
+  CLAUDE.md            — Context index (loaded by Claude on startup)
+  agents/              — 12 specialized AI agents (builder, reviewer, coach, etc.)
+  commands/            — 19 entry-point commands
+  rules/               — 4 routing and governance policies
+  skills/              — 26 reusable task procedures + registry
+  hooks/               — 11 automatic guards (security, quality, session mgmt)
   project/
     STATE.md           — Current project status (single source of truth)
     EVENTS.md          — Event queue (things to process)
+    IDENTITY.md        — Project identity lock (survives upgrades)
     knowledge/         — Decisions, research, glossary, open questions
 ```
 
@@ -68,7 +70,13 @@ These are available when you need them. The system will suggest them at the righ
 | `/doctor` | Run diagnostics to verify the environment is healthy, with optional auto-repair. |
 | `/clone-framework` | Copy or upgrade the The AI Orchestrator System into another project directory. |
 | `/capture-lesson` | Save a reusable insight to global memory for cross-project learning. |
+| `/learn` | Analyze the current session and extract reusable lessons automatically. |
 | `/cleanup` | Review knowledge files for staleness and recommend cleanup. |
+| `/retro` | Run an engineering retrospective on recent work. |
+| `/test-framework` | Validate framework structure, dispatch chain, and file consistency. |
+| `/test-hooks` | Smoke-test all hooks — verify they fire and block correctly. |
+| `/log-session` | Log session quality metrics to the global progress tracker. |
+| `/framework-review` | Deep review of framework health, unused components, and improvement opportunities. |
 
 ### Recommended First-Time Flow
 
@@ -134,11 +142,11 @@ flowchart TD
     AGENT -->|updates| STATE[(STATE.md)]
     STATE -->|next task| ORCH
 
-    subgraph Hooks [Hooks — automatic guards]
-        H1[secrets scan]
-        H2[size guard]
-        H3[quality check]
-        H4[session start]
+    subgraph Hooks [Hooks — 11 automatic guards]
+        H1[security: secrets scan, git guard, firewall]
+        H2[quality: size guard, post-edit format/lint]
+        H3[session: start dashboard, cost tracker, compact snapshot]
+        H4[agents: subagent validation, MCP failure advisor]
     end
 
     AGENT -.->|every write| Hooks

@@ -3,6 +3,7 @@
 # Always exits 0 — this hook reports issues, it does not block
 
 set -uo pipefail
+echo "$(basename "${BASH_SOURCE[0]}")" >> /tmp/aos-hook-usage.log 2>/dev/null || true
 
 INPUT=$(cat)
 # shellcheck source=lib/detect-python.sh
@@ -204,7 +205,46 @@ if [ -n "$PROJECT_ROOT" ]; then
         gofmt -w "$FILE" 2>/dev/null || true
       fi
       ;;
+    rs)
+      if command -v rustfmt &>/dev/null; then
+        rustfmt "$FILE" 2>/dev/null || true
+      fi
+      ;;
+    php)
+      if [ -f "$PROJECT_ROOT/vendor/bin/pint" ]; then
+        "$PROJECT_ROOT/vendor/bin/pint" "$FILE" 2>/dev/null || true
+      elif [ -f "$PROJECT_ROOT/vendor/bin/php-cs-fixer" ]; then
+        "$PROJECT_ROOT/vendor/bin/php-cs-fixer" fix "$FILE" --quiet 2>/dev/null || true
+      fi
+      ;;
+    rb)
+      if command -v rubocop &>/dev/null; then
+        rubocop -a --fail-level error "$FILE" 2>/dev/null || true
+      fi
+      ;;
   esac
+  # Universal fallback: trim trailing whitespace + ensure final newline
+  if [ -f "$PROJECT_ROOT/.editorconfig" ]; then
+    case "$EXT" in
+      js|jsx|ts|tsx|css|scss|html|py|go|rs|php|rb) ;; # already formatted
+      *)
+        sed -i 's/[[:space:]]*$//' "$FILE" 2>/dev/null || true
+        [ -s "$FILE" ] && [ "$(tail -c1 "$FILE" | wc -l)" -eq 0 ] && echo "" >> "$FILE" 2>/dev/null || true
+        ;;
+    esac
+  fi
+fi
+
+# --- Strategic compact suggestion ---
+EDIT_COUNTER="/tmp/aos-edit-count"
+COUNT=0
+[ -f "$EDIT_COUNTER" ] && COUNT=$(cat "$EDIT_COUNTER" 2>/dev/null || echo "0")
+COUNT=$((COUNT + 1))
+echo "$COUNT" > "$EDIT_COUNTER"
+
+if [ $((COUNT % 30)) -eq 0 ]; then
+  echo "" >&2
+  echo "Context check: $COUNT edits this session. Consider /save then /compact to free context." >&2
 fi
 
 exit 0

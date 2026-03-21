@@ -185,6 +185,16 @@ def parse_state(filepath):
             queued_count += 1
     result["queued"] = queued_count
 
+    # Failed approaches count
+    failed_rows = parse_table_section(content, "Failed Approaches")
+    failed_count = 0
+    for row in failed_rows:
+        vals = " ".join(row.values()).lower()
+        if "none yet" in vals or "---" in vals:
+            continue
+        failed_count += 1
+    result["failed_approaches"] = failed_count
+
     # Session lock
     session = parse_key_value_table(content, "Session Lock")
     result["checkpointed"] = session.get("Checkpointed", session.get("checkpointed", ""))

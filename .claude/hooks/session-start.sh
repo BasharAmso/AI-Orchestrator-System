@@ -3,6 +3,7 @@
 # Exit code 0 — informational only
 
 set -euo pipefail
+echo "$(basename "${BASH_SOURCE[0]}")" >> /tmp/aos-hook-usage.log 2>/dev/null || true
 
 FRAMEWORK_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 CLAUDE_DIR="$FRAMEWORK_ROOT/.claude"
@@ -148,6 +149,12 @@ if warnings:
   fi
 fi
 
+# Failed approaches check
+FAILED=$($PYTHON "$PARSER" "$STATE_FILE" failed_approaches 2>/dev/null || echo "0")
+if [ "$FAILED" -gt 0 ]; then
+  echo "Failed approaches: $FAILED — review STATE.md before retrying similar strategies"
+fi
+
 # AI-Memory check
 MEMORY_PATH="${AI_MEMORY_PATH:-$HOME/Projects/AI-Memory}"
 MEMORY_PATH="${MEMORY_PATH/#\~/$HOME}"  # expand ~ if env var used tilde literal
@@ -161,6 +168,10 @@ fi
 
 # Write session start timestamp for cost tracker
 date +%s > /tmp/aos-session-start-time
+# Reset edit counter for strategic compact suggestions
+echo "0" > /tmp/aos-edit-count
+# Initialize hook usage log for this session
+echo "" > /tmp/aos-hook-usage.log
 
 # Session start notification
 PROJECT_NAME=$(basename "$FRAMEWORK_ROOT")
