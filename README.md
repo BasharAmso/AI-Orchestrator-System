@@ -34,7 +34,7 @@ That's it. The system will guide you from there.
 .claude/
   CLAUDE.md            — Context index (loaded by Claude on startup)
   agents/              — 12 specialized AI agents (builder, reviewer, coach, etc.)
-  commands/            — 19 entry-point commands
+  commands/            — 20 entry-point commands
   rules/               — 4 routing and governance policies
   skills/              — 26 reusable task procedures + registry
   hooks/               — 11 automatic guards (security, quality, session mgmt)
@@ -47,7 +47,7 @@ That's it. The system will guide you from there.
 
 ## Commands
 
-19 commands, but you only need 3 to get started. The rest are there when you need them.
+20 commands, but you only need 3 to get started. The rest are there when you need them.
 
 ### Core — Every Session
 
