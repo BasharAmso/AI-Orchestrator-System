@@ -45,38 +45,47 @@ That's it. The system will guide you from there.
     knowledge/         — Decisions, research, glossary, open questions
 ```
 
-## Core Commands
+## Commands
 
-These 5 commands cover the entire workflow. You'll use them in almost every session.
+19 commands, but you only need 3 to get started. The rest are there when you need them.
 
-| Command | What It Does |
-|---------|-------------|
-| `/start` | See where you are and what to do next. |
-| `/setup` | Set up the project structure and runtime files. |
-| `/capture-idea` | Describe what you want to build in plain language. |
-| `/run-project` | Do the next piece of work (process events and tasks). |
-| `/save` | Save your progress so the next session picks up where you left off. |
+### Core — Every Session
 
-### Power User Commands
+| Command | What It Does | When to Use |
+|---------|-------------|-------------|
+| `/start` | Orients you: shows current phase, active task, and suggests the next action. | Beginning of every session. |
+| `/run-project` | Executes the next unit of work — processes events, runs skills, advances tasks. | The main loop. Run it repeatedly to make progress. |
+| `/save` | Persists all progress to files so the next session picks up where you left off. | End of every session, or before stepping away. |
 
-These are available when you need them. The system will suggest them at the right time.
+### Periodic — When Needed
 
-| Command | What It Does |
-|---------|-------------|
-| `/status` | Show a project dashboard: phase, mode, progress, active task, queue. |
-| `/set-mode` | Switch between Safe, Semi-Autonomous, and Autonomous execution modes. |
-| `/trigger` | Manually trigger a workflow by adding an event. |
-| `/fix-registry` | Rebuild the Skills Registry so the orchestrator can discover available workflows. |
-| `/doctor` | Run diagnostics to verify the environment is healthy, with optional auto-repair. |
-| `/clone-framework` | Copy or upgrade The AI Orchestrator System into another project directory. |
-| `/capture-lesson` | Save a reusable insight to global memory for cross-project learning. |
-| `/learn` | Analyze the current session and extract reusable lessons automatically. |
-| `/cleanup` | Review knowledge files for staleness and recommend cleanup. |
-| `/retro` | Run an engineering retrospective on recent work. |
-| `/test-framework` | Validate framework structure, dispatch chain, and file consistency. |
-| `/test-hooks` | Smoke-test all hooks — verify they fire and block correctly. |
-| `/log-session` | Log session quality metrics to the global progress tracker. |
-| `/framework-review` | Deep review of framework health, unused components, and improvement opportunities. |
+The system suggests these at the right time. You don't need to memorize them.
+
+| Command | What It Does | When to Use |
+|---------|-------------|-------------|
+| `/setup` | Creates project structure, runtime files, and initial task queue. | Once, at project start. |
+| `/capture-idea` | Walks you through describing what you want to build in plain language. | When you have a new project idea or feature concept. |
+| `/status` | Dashboard view: phase, mode, progress percentage, active task, queue. | When you want a quick snapshot without starting work. |
+| `/set-mode` | Switches execution speed (Safe / Semi-Auto / Autonomous) or planning depth (Full / Quick). | When you want more automation or want to slow down for review. |
+| `/trigger` | Manually fires a workflow event (e.g., `DEPLOY_REQUESTED`, `BUG_REPORTED`). | When you need to kick off a specific workflow outside the normal flow. |
+| `/doctor` | Runs 10+ diagnostics on your environment with optional auto-repair. | After upgrades, when something feels broken, or before sharing the project. |
+| `/clone-framework` | Copies or upgrades the framework into another project directory. | When starting a new project or upgrading an existing one to the latest version. |
+| `/retro` | Engineering retrospective: analyzes commits, work patterns, and code quality metrics. | End of a sprint or week, or when you want to reflect on progress. |
+
+### Maintenance & Diagnostics — Rare
+
+These keep the framework healthy. You may never need them directly.
+
+| Command | What It Does | When to Use |
+|---------|-------------|-------------|
+| `/capture-lesson` | Saves a reusable insight to global memory for cross-project learning. | When you discover something that would help future projects. |
+| `/learn` | Analyzes the current session and extracts reusable lessons automatically. | End of a productive session — let the system find its own lessons. |
+| `/cleanup` | Reviews knowledge files for staleness and recommends cleanup. | When knowledge files feel bloated or outdated. |
+| `/fix-registry` | Rebuilds the Skills Registry so the orchestrator can discover all workflows. | After adding/removing skills, or if `/doctor` flags registry issues. |
+| `/test-framework` | Validates framework structure, dispatch chain, and file consistency. | After modifying framework files or before a release. |
+| `/test-hooks` | Smoke-tests all 11 hooks — verifies they fire and block correctly. | After modifying hooks or upgrading the framework. |
+| `/log-session` | Logs session quality metrics to the global progress tracker. | When you want to track productivity trends over time. |
+| `/framework-review` | Deep review of framework health, unused components, and improvement opportunities. | Periodic framework maintenance (monthly or after major milestones). |
 
 ### Recommended First-Time Flow
 
