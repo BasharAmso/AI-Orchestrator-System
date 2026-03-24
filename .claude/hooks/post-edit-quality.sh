@@ -72,6 +72,23 @@ task_nums = re.findall(r'^\|\s*(\d+)\s*\|', content, re.MULTILINE)
 if len(task_nums) != len(set(task_nums)):
     warnings.append('Duplicate task numbers found in Next Task Queue.')
 
+# Validate Run Type is a known value
+run_type_match = re.search(r'\| Run Type \| (\S+)', content)
+if run_type_match:
+    run_type = run_type_match.group(1).strip()
+    if run_type not in ['Standard', 'Overnight']:
+        warnings.append(f'Invalid Run Type: "{run_type}". Use Standard or Overnight.')
+
+# Validate Consecutive Failures is a number
+cf_match = re.search(r'\| Consecutive Failures \| (\S+)', content)
+if cf_match and not cf_match.group(1).strip().isdigit():
+    warnings.append(f'Consecutive Failures must be a number, got: "{cf_match.group(1)}"')
+
+# Validate Phantom Completions is a number
+pc_match = re.search(r'\| Phantom Completions \| (\S+)', content)
+if pc_match and not pc_match.group(1).strip().isdigit():
+    warnings.append(f'Phantom Completions must be a number, got: "{pc_match.group(1)}"')
+
 for w in warnings:
     print(f'CONVENTION: {w}', file=sys.stderr)
 PYEOF

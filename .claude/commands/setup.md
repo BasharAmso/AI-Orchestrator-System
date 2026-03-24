@@ -422,6 +422,9 @@ Default recommended actions for a fresh project:
 | Current Cycle | 0 |
 | Max Cycles This Run | 1 |
 | Last Run Status | Idle |
+| Consecutive Failures | 0 |
+| Phantom Completions | 0 |
+| Run Type | Standard |
 
 > **Mode mapping:** Safe = 0 cycles, Semi-Autonomous = 1 cycle, Autonomous = cycle limit from RUN_POLICY.md (default 10).
 

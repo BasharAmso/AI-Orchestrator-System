@@ -30,6 +30,9 @@ Initialize the run:
 - Set Current Cycle = 0 in .claude/project/STATE.md Run Cycle section.
 - Set Max Cycles This Run from the Cycle Limits table in RUN_POLICY.md for the current mode.
 - Set Last Run Status = `Running`.
+- Read Circuit Breaker thresholds from `.claude/project/RUN_POLICY.md` (Consecutive Failure Limit, Time Limit, Phantom Completion Limit, Compaction Interval).
+- Set `Consecutive Failures = 0`, `Phantom Completions = 0` in STATE.md Run Cycle section.
+- If `Run Type` is not already set to `Overnight` (by `/overnight`), set `Run Type = Standard`.
 - **Update Session Lock:** Set `Session Started` to current timestamp and `Checkpointed = No` in the Session Lock section of STATE.md (see orchestrator.md § "Initialization").
 
 ### Step 1.5: Check Mode Escalation
@@ -76,6 +79,7 @@ For each cycle:
 2. Select → Route → Execute → Review → Update .claude/project/STATE.md → Increment Current Cycle → Print Execution Summary.
 3. **On failure:** Restore STATE.md from snapshot, set task to Blocked, and stop. Print the rollback message.
 4. Before starting the next cycle, evaluate all stop conditions from `.claude/project/RUN_POLICY.md`.
+5. **Between cycles (Overnight/Autonomous hardening):** Follow the Between Cycles procedure in `.claude/agents/orchestrator.md` — this includes inter-cycle commits, consecutive failure tracking, time limit checks, and auto-compaction.
 
 ### Step 6: Check Stop Conditions
 
@@ -87,8 +91,23 @@ Stop immediately if any condition from `.claude/project/RUN_POLICY.md` is met:
 - A required artifact is missing and cannot be created safely
 - The project goal exit condition is satisfied (if `GOAL.md` exists)
 - Max Cycles This Run is reached
+- Consecutive failure limit reached: if `Consecutive Failures` >= limit from RUN_POLICY.md, stop. Set Last Run Status = `"Stopped: [N] consecutive failures"`.
+- Time limit exceeded (Overnight only): if elapsed time since `Session Started` > `Time Limit Hours`, stop. Set Last Run Status = `"Stopped: time limit ([duration])"`.
+- Phantom completion limit reached (Overnight only): if `Phantom Completions` >= limit from RUN_POLICY.md, stop. Set Last Run Status = `"Stopped: [N] phantom completions"`.
 
 Set Last Run Status in .claude/project/STATE.md accordingly.
+
+### Step 6.5: Auto-Learning (Overnight Mode Only)
+
+When the run ends AND `Run Type = Overnight` in STATE.md:
+
+1. Read STATE.md: `Completed Tasks Log` (tasks completed during this run, filtered by timestamp >= Session Started) and `Failed Approaches` table.
+2. Analyze patterns: which skills succeeded vs failed, common failure reasons, reusable insights.
+3. Write lessons to AI-Memory automatically using the analysis procedure from `/learn` (Steps 1-2) — no user confirmation needed (unattended).
+4. Log: `"Auto-learning: [N] lessons extracted and saved to AI-Memory."`
+
+> Uses STATE.md data, not conversation history (which may be compacted during long runs).
+> If no extractable patterns found: log `"Auto-learning: no notable patterns this run."`
 
 ### Output Policy
 

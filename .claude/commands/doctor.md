@@ -66,6 +66,8 @@ Read `.claude/project/STATE.md` and confirm these sections exist (check for the 
 - `## Completed Tasks Log`
 - `## Run Cycle`
 
+Additionally, verify that `## Run Cycle` includes these fields: `Current Cycle`, `Max Cycles This Run`, `Last Run Status`, `Consecutive Failures`, `Phantom Completions`, `Run Type`. If any field is missing, print a warning naming the missing field(s).
+
 If any section is missing, print a warning naming the missing section.
 
 ### Step 6: Verify EVENTS.md Structure
@@ -94,7 +96,8 @@ Go beyond file presence — verify the dispatch chain and cross-references actua
 2. **Duplicate Task IDs:** Scan the Completed Tasks Log for duplicate IDs. Each ID should appear at most once.
 3. **Mode consistency:** Exactly one row in the Current Mode table should have `**YES**`. If zero or multiple rows have it, flag as inconsistent.
 4. **Phase validity:** Current Phase should be one of: `Not Started`, `Planning`, `Building`, `Ready for Deploy`, `Deploying`, `Live`. Flag unknown values.
-5. Result: `State consistency: OK` or `State consistency: X issues found`
+5. **Run Cycle consistency:** `Run Type` must be `Standard` or `Overnight`. If `Run Type` is `Overnight` but Current Mode is not Autonomous, flag as inconsistent: `"Run Type is Overnight but mode is not Autonomous — these should always be paired."`
+6. Result: `State consistency: OK` or `State consistency: X issues found`
 
 #### 7c. Cross-Reference Test
 

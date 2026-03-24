@@ -16,7 +16,7 @@ Read `.claude/project/STATE.md` and extract:
 - **Next Task Queue** count (number of rows with real task data)
 - **Completed Tasks Log** count (number of rows with real task data, excluding placeholder rows)
 - **Recent Completions** — the last 3–5 rows from the Completed Tasks Log table (ID, Description, and completion date if available)
-- **Run Cycle** fields (Current Cycle, Max Cycles This Run, Last Run Status)
+- **Run Cycle** fields (Current Cycle, Max Cycles This Run, Last Run Status, Consecutive Failures, Phantom Completions, Run Type)
 - **Blockers / Risks** (any content other than `*(none)*`)
 
 ### Step 2: Read Events
@@ -56,6 +56,15 @@ Read `.claude/project/RUN_POLICY.md` and extract the Autonomous cycle limit from
 - [Task ID] — [Description] ([completion date])
 ```
 
-If no tasks completed yet, show: `**Recent completions:** None yet
+If no tasks completed yet, show: `**Recent completions:** None yet`
+
+If `Run Type = Overnight`, also display:
+
+```
+**Run Type:** Overnight
+**Consecutive Failures:** [N] of 3 max
+**Phantom Completions:** [N] of 2 max
+**Time Remaining:** [calculated from Session Started + Time Limit Hours from RUN_POLICY.md]
+```
 
 Keep output compact — this is a glance-and-go dashboard, not a guidance tool. For recommendations, use `/start`.

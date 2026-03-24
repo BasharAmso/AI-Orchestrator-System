@@ -192,6 +192,21 @@ For each cycle (up to Max Cycles This Run):
 
 5. **Run required review gates** (per RUN_POLICY.md Review Gates table).
 
+5.5. **Planning Review Gate (Automatic)**
+
+   After a planning skill completes (SKL-0001 Plan From Idea, SKL-0003 PRD to Tasks, SKL-0004 PRD Writing, or any skill producing `docs/PRD.md`, `docs/ARCHITECTURE.md`, or populating the task queue):
+
+   1. Run a critic pass — adopt a reviewer persona and re-read the output artifact from scratch:
+      - **Completeness:** Are all user stories/requirements addressed?
+      - **Feasibility:** Can each item be built with the stated tech stack?
+      - **Scope:** Is anything out of scope for the stated project goal?
+      - **Gaps:** Are there missing acceptance criteria, unclear requirements, or undefined terms?
+      - Produce a verdict: `APPROVED`, `NEEDS_REVISION`, or `FLAGGED`.
+   2. If `APPROVED`: proceed normally. Log: `"Planning review: approved."`
+   3. If `NEEDS_REVISION`: write revision notes to the artifact, re-run the planning skill ONCE with critic feedback, then accept the second version (no re-review — prevent loops). Log: `"Planning review: revised — [summary]."`
+   4. If `FLAGGED`: in Overnight/Autonomous mode, log and proceed. In Semi-Autonomous/Safe mode, stop and present flags to user. Log: `"Planning review: flagged — [issues]."`
+   5. Record in STATE.md Outputs Produced: `"Planning Review: [APPROVED|REVISED|FLAGGED] — [summary]"`
+
 6. **Update .claude/project/STATE.md:**
    - Active Task status
    - Outputs Produced (use the appropriate Handoff template from § Handoff Protocol)
@@ -199,6 +214,18 @@ For each cycle (up to Max Cycles This Run):
    - Completed Tasks Log
    - Goal Alignment (if applicable)
    - Run Cycle → increment Current Cycle
+
+6.5. **Git Verification (Overnight Mode Only)**
+
+   If `Run Type = Overnight` in STATE.md Run Cycle:
+   1. Read "Files Modified (Last Task)" from STATE.md.
+   2. If it lists file paths (not "none"):
+      a. Run `git status --porcelain`.
+      b. If the task claimed file changes but git shows NO changes to those files:
+         - Log: `"Git Verification: phantom completion — [task ID] claimed [files] but git shows none."`
+         - Increment `Phantom Completions` in Run Cycle.
+         - If Phantom Completions >= limit from RUN_POLICY.md Circuit Breakers: stop with `"Stopped: phantom completions"`.
+   3. If Files Modified is "none": skip (not all tasks produce file changes).
 
 7. **Evaluate and update Current Phase** (see Phase Tracking below). If the phase changed, emit a `PHASE_TRANSITION` event.
 
@@ -210,6 +237,29 @@ Before starting the next cycle, evaluate **all stop conditions** from RUN_POLICY
 
 - If any stop condition is met: set Last Run Status to the reason and **stop immediately**.
 - If Max Cycles This Run is reached: set Last Run Status = `Completed` and **stop cleanly**.
+
+- **Inter-cycle commit (Overnight Mode Only):**
+  After each successful task completion (before starting the next cycle):
+  1. Stage changes: `git add -u` (tracked files) + `git add` any new files from Files Modified.
+  2. Commit: `git commit -m "overnight: [task ID] — [one-line task description]"`
+  3. This creates per-task separation in git history for bisect/revert.
+  4. Failed/blocked tasks are NOT committed (their changes were rolled back).
+
+- **Consecutive failure tracking:**
+  If the task ended Blocked or rollback triggered: increment `Consecutive Failures` in STATE.md Run Cycle.
+  If the task succeeded: reset `Consecutive Failures` to 0.
+  Check against limit from RUN_POLICY.md Circuit Breakers. If exceeded: stop.
+
+- **Time limit check:**
+  If `(now - Session Started) > Time Limit Hours` from RUN_POLICY.md: stop.
+
+- **Compaction check (Autonomous runs with cycle limit > 10):**
+  If `Current Cycle` is a multiple of the Compaction Interval (default 8) from RUN_POLICY.md AND `Current Cycle > 0`:
+  1. Run `/compact` to compress conversation history.
+  2. The pre-compact hook will snapshot STATE.md automatically.
+  3. After compaction, re-run the full context load from run-project.md Step 1: re-read STATE.md, EVENTS.md, RUN_POLICY.md, and REGISTRY.md to restore full working knowledge.
+  4. Log: `"Auto-compacted at cycle [N] to conserve context."`
+  5. Continue with next cycle.
 
 ### Adaptive Escalation (Quick Start Mode Only)
 

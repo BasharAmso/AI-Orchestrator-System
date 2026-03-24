@@ -28,6 +28,15 @@ fi
 
 # Match git followed by commit, push, or tag (with optional flags in between)
 if echo "$COMMAND" | grep -qiE "git\s+([a-z\.\-]+=\S+\s+)*(commit|push|tag)"; then
+  # Allow during overnight mode (set by /overnight command)
+  if [ "${AOS_OVERNIGHT_MODE:-false}" = "true" ]; then
+    # Still block force push even in overnight mode
+    if echo "$COMMAND" | grep -qiE "push\s+(-f|--force)"; then
+      echo "Git force push blocked even in overnight mode." >&2
+      exit 2
+    fi
+    exit 0
+  fi
   # Allow if --dry-run is present
   if echo "$COMMAND" | grep -q "\-\-dry-run"; then
     exit 0

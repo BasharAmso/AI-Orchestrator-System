@@ -52,3 +52,4 @@ Full algorithm: `.claude/agents/orchestrator.md` § "Dispatch Chain (Canonical)"
 | `/test-hooks` | `.claude/commands/test-hooks.md` |
 | `/learn` | `.claude/commands/learn.md` |
 | `/framework-review` | `.claude/commands/framework-review.md` |
+| `/overnight` | `.claude/commands/overnight.md` |

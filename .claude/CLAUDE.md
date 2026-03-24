@@ -63,6 +63,7 @@
 | `/log-session` | `.claude/commands/log-session.md` |
 | `/learn` | `.claude/commands/learn.md` |
 | `/framework-review` | `.claude/commands/framework-review.md` |
+| `/overnight` | `.claude/commands/overnight.md` |
 
 ## Context Loading Policy
 

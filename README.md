@@ -71,6 +71,7 @@ The system suggests these at the right time. You don't need to memorize them.
 | `/doctor` | Runs 10+ diagnostics on your environment with optional auto-repair. | After upgrades, when something feels broken, or before sharing the project. |
 | `/clone-framework` | Copies or upgrades the framework into another project directory. | When starting a new project or upgrading an existing one to the latest version. |
 | `/retro` | Engineering retrospective: analyzes commits, work patterns, and code quality metrics. | End of a sprint or week, or when you want to reflect on progress. |
+| `/overnight` | Runs the project unattended with git verification, circuit breakers, auto-learning, and a morning summary. | Before stepping away for hours — when you have a full task queue and want progress without you. |
 
 ### Maintenance & Diagnostics — Rare
 
@@ -119,6 +120,25 @@ Control how fast work happens within either framework mode.
 | **Autonomous** | Execute up to 10 cycles before stopping (configurable in RUN_POLICY.md). |
 
 Switch modes with `/set-mode safe`, `/set-mode semi`, or `/set-mode auto`. Cycle limits and stop conditions are defined in [.claude/project/RUN_POLICY.md](.claude/project/RUN_POLICY.md). The current mode is shown in [.claude/project/STATE.md](.claude/project/STATE.md).
+
+## Overnight Mode
+
+For unattended runs, `/overnight` activates Autonomous mode with execution hardening:
+
+- **Git verification** — confirms tasks actually changed files (detects phantom completions)
+- **Circuit breakers** — stops after 3 consecutive failures or 4 hours (configurable)
+- **Inter-cycle commits** — one git commit per task for clean history and easy bisect/revert
+- **Auto-compaction** — compresses context every 8 cycles to prevent quality degradation
+- **Planning review gate** — auto-critiques PRDs and architecture before building
+- **Auto-learning** — extracts lessons and saves to AI-Memory when done
+- **Morning summary** — writes `docs/OVERNIGHT_SUMMARY.md` with full results
+
+```
+/overnight              — defaults (50 cycles, 4 hours)
+/overnight --cycles 20  — limit cycles
+/overnight --hours 2    — limit time
+/overnight --pr         — create PR when done
+```
 
 ## Global Memory
 

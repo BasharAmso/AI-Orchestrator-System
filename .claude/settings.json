@@ -124,6 +124,7 @@
     "AI_MEMORY_PATH": "~/Projects/AI-Memory",
     "AI_ORCHESTRATOR_SYSTEM_PATH": "~/Projects/AI-Orchestrator-System",
     "ECC_HOOK_PROFILE": "standard",
-    "FIREWALL_MODE": "blocklist"
+    "FIREWALL_MODE": "blocklist",
+    "AOS_OVERNIGHT_MODE": "false"
   }
 }
