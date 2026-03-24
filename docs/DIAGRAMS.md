@@ -1,6 +1,6 @@
 # Diagrams
 
-> Visual representations of the The AI Orchestrator System architecture. Rendered using Mermaid syntax.
+> Visual representations of The AI Orchestrator System architecture. Rendered using Mermaid syntax.
 
 ---
 
@@ -81,7 +81,7 @@ flowchart TB
     end
 
     subgraph Skill Layer
-        D["Skills (25 reusable workflows)"]
+        D["Skills (26 reusable workflows)"]
     end
 
     subgraph Agent Layer

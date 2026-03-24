@@ -6,7 +6,7 @@
 
 if python3 -c "import sys" 2>/dev/null; then
   PYTHON=python3
-elif python -c "import sys" 2>/dev/null; then
+elif python -c "import sys; assert sys.version_info >= (3, 6)" 2>/dev/null; then
   PYTHON=python
 else
   PYTHON=false

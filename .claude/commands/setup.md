@@ -85,16 +85,17 @@ Write the file using the detected values. If IDENTITY.md already exists, skip �
 1. If `PROJECT_TYPE.md` exists in the repo root, read the `Project Type: <value>` line. Use that value.
 2. If the repo root `README.md` contains "The AI Orchestrator System", this is the framework template itself — set type to `Template` and skip Steps 5–6.
 3. If neither, ask the user to choose:
-   - **Book**
-   - **Web App**
-   - **Mobile App**
+   - **Web App** — React, Next.js, SPA, static sites
+   - **Mobile App** — React Native, Expo, iOS/Android
+   - **API / Backend** — REST, GraphQL, server-side services
+   - **SaaS (Full-Stack)** — Frontend + backend + database + auth
 
 Once determined, create `PROJECT_TYPE.md` **only if it does not already exist** (never overwrite):
 
 ```
 # Project Type
 
-- **Project Type:** [Book | Web App | Mobile App | Template]
+- **Project Type:** [Web App | Mobile App | API / Backend | SaaS (Full-Stack) | Template]
 - **Initialized:** YYYY-MM-DD
 ```
 
@@ -102,13 +103,7 @@ Once determined, create `PROJECT_TYPE.md` **only if it does not already exist** 
 
 Create each directory only if it does not already exist. Never delete or modify existing directories.
 
-**Book:**
-
-- `manuscript/`
-- `diagrams/`
-- `export/`
-
-**Web App:**
+**Web App / SaaS (Full-Stack):**
 
 - `src/`
 - `public/`
@@ -120,6 +115,11 @@ Create each directory only if it does not already exist. Never delete or modify 
 - `test/`
 - `android/`
 - `ios/`
+
+**API / Backend:**
+
+- `src/`
+- `tests/`
 
 ### Step 6: Create Starter Files (Only If Missing)
 
@@ -197,39 +197,6 @@ Create each file **only if it does not already exist**. Never overwrite an exist
   - Initial directory structure created.
   ```
 
-**Book only:**
-
-- `manuscript/preface.md`
-  ```
-  # Preface
-
-  *(Write your preface here.)*
-  ```
-
-- `manuscript/WRITING_PLAYBOOK.md`
-  ```
-  # Writing Playbook
-
-  This playbook guides the writing process for this book project.
-  For product requirements and architecture details, see the docs/ directory.
-  ```
-
-- `diagrams/README.md`
-  ```
-  # Diagrams
-
-  Store visual diagrams here (Mermaid source files, exported images, etc.).
-  These support the manuscript and can be referenced from chapter files.
-  ```
-
-- `export/README.md`
-  ```
-  # Export
-
-  Store exported artifacts here (PDF builds, EPUB files, print-ready output).
-  These are generated from the manuscript/ source files.
-  ```
-
 ### Step 7: Log Decision (Append-Only)
 
 In `.claude/project/knowledge/DECISIONS.md`, check whether a decision entry already exists containing the text `"Project type set to <type>"`.
@@ -245,7 +212,7 @@ In `.claude/project/knowledge/DECISIONS.md`, check whether a decision entry alre
 - **Status:** Accepted
 - **Date:** YYYY-MM-DD
 - **Context:** The project needed a type designation to determine directory structure and starter files.
-- **Decision:** Project type set to [Book | Web App | Mobile App].
+- **Decision:** Project type set to [Web App | Mobile App | API / Backend | SaaS (Full-Stack)].
 - **Consequences:** Type-specific folders and starter files have been created. Future skills and agents can use PROJECT_TYPE.md to adapt behavior.
 ```
 
@@ -264,15 +231,7 @@ A queue is considered **empty/placeholder-only** (and therefore eligible for see
 
 **If the queue is empty or placeholder-only**, replace it with starter tasks based on project type:
 
-**Book:**
-
-| # | Task | Priority | Skill |
-|---|------|----------|-------|
-| 1 | Draft Preface v1 | High | — |
-| 2 | Outline Chapter 1 | High | — |
-| 3 | Draft Chapter 1 | Medium | — |
-
-**Web App / Mobile App:**
+**All project types (Web App / Mobile App / API / Backend / SaaS):**
 
 | # | Task | Priority | Skill |
 |---|------|----------|-------|
@@ -320,7 +279,7 @@ EVT-XXXX | PROJECT_INITIALIZED | Project initialized as <type> | system | YYYY-M
 ```
 ## Setup Complete
 
-- **Project Type:** [Book | Web App | Mobile App | Template]
+- **Project Type:** [Web App | Mobile App | API / Backend | SaaS (Full-Stack) | Template]
 - **Current Mode:** [from STATE.md, e.g., Semi-Autonomous]
 - **Unprocessed Events:** [count from EVENTS.md]
 - **Skills Registered:** [count from REGISTRY.md]
@@ -429,6 +388,14 @@ Default recommended actions for a fresh project:
 ## Blockers / Risks
 
 *(none)*
+
+---
+
+## Failed Approaches
+
+| Approach | Why It Failed | Date |
+|----------|---------------|------|
+| *(none yet)* | — | — |
 
 ---
 

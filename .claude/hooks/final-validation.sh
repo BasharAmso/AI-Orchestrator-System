@@ -61,17 +61,17 @@ for agent in "${PHANTOM_AGENTS[@]}"; do
   fi
 done
 
-if grep -rE "C:\\\\Users\\\\[a-zA-Z]+" "$CLAUDE_DIR" --include="*.md" -l 2>/dev/null | grep -q .; then
+if grep -rE "C:\\\\Users\\\\[a-zA-Z0-9_.-]+" "$CLAUDE_DIR" --include="*.md" -l 2>/dev/null | grep -q .; then
   echo "Hardcoded path found: A personal file path (C:\\Users\\...) is still in framework files. Replace with a relative path or variable." >&2
   ALL_GOOD=false
 fi
 
-if grep -rE "(^|[^a-zA-Z])/Users/[a-zA-Z]+" "$CLAUDE_DIR" --include="*.md" -l 2>/dev/null | grep -q .; then
+if grep -rE "(^|[^a-zA-Z])/Users/[a-zA-Z0-9_.-]+" "$CLAUDE_DIR" --include="*.md" -l 2>/dev/null | grep -q .; then
   echo "Hardcoded path found: A personal file path (/Users/...) is still in framework files. Replace with a relative path or variable." >&2
   ALL_GOOD=false
 fi
 
-if grep -rE "(^|[^a-zA-Z])/home/[a-zA-Z]+" "$CLAUDE_DIR" --include="*.md" -l 2>/dev/null | grep -q .; then
+if grep -rE "(^|[^a-zA-Z])/home/[a-zA-Z0-9_.-]+" "$CLAUDE_DIR" --include="*.md" -l 2>/dev/null | grep -q .; then
   echo "Hardcoded path found: A personal file path (/home/...) is still in framework files. Replace with a relative path or variable." >&2
   ALL_GOOD=false
 fi

@@ -1,6 +1,6 @@
 # Custom Skills Guide
 
-> How to create your own skills for the The AI Orchestrator System. Custom skills extend the framework with project-specific workflows that survive framework upgrades.
+> How to create your own skills for The AI Orchestrator System. Custom skills extend the framework with project-specific workflows that survive framework upgrades.
 
 ---
 

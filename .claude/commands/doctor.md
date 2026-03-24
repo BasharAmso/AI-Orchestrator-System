@@ -147,6 +147,14 @@ Go beyond file presence — verify the dispatch chain and cross-references actua
 3. Count data rows (excluding header). If count > 0 but the last entry's date is older than 14 days, flag as inactive.
 4. Result: `Progress tracking: OK (X entries)` or `Progress tracking: Not initialized` or `Progress tracking: Inactive since [date]`
 
+#### 7j. Hook Registration Validation
+
+1. Check if `.claude/settings.json` exists and is valid JSON.
+2. Extract all hook command paths from settings.json (entries under `hooks` keys like `PreToolUse`, `PostToolUse`, `Stop`, `PreCompact`, `SessionStart`, `SubagentStop`).
+3. For each hook command path, verify the referenced file exists. Report missing files as errors.
+4. List all `.sh` files in `.claude/hooks/` (excluding the `lib/` subdirectory). For each, check if it's registered in settings.json. Report unregistered hooks as warnings.
+5. Result: `Hook registration: OK (X hooks registered, all files present)` or `Hook registration: X issues (list missing/unregistered)`
+
 ### Step 8: Repair (Optional)
 
 If Steps 7b, 7d, or 7e found repairable issues, offer repairs. **Behavior depends on mode:**
@@ -181,7 +189,7 @@ Compile all results into this format:
 - **Framework Version:** [version from FRAMEWORK_VERSION | Not found]
 - **Directories:** [OK | X missing]
 - **Core Files:** [OK | X missing]
-- **Project Type:** [Book | Web App | Mobile App | Framework Template | Not initialized]
+- **Project Type:** [Web App | Mobile App | API / Backend | SaaS (Full-Stack) | Framework Template | Not initialized]
 - **Skills Registry:** [OK | Stale | Missing]
 - **State File:** [OK | X sections missing]
 - **Events Log:** [OK | X sections missing]
@@ -206,7 +214,7 @@ If System Status is `Needs Attention`, also print:
 - [list each fix command with a short reason]
 ```
 
-Common suggested fixes (use plain language — the user may be a non-programmer):
+Common suggested fixes (use plain language — the user may be a technical non-programmer — assume systems literacy, not syntax fluency):
 
 | Problem | User-Facing Message |
 |---------|-------------------|

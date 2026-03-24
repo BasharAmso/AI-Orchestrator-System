@@ -46,7 +46,7 @@ It provides:
 - Global memory for cross-project learning
 - Self-improving skills that capture friction and propose refinements
 
-Together these components create a repeatable pipeline for building structured digital outcomes — whether that outcome is a web app, a book, or a research system.
+Together these components create a repeatable pipeline for building structured digital outcomes — whether that outcome is a web app, a mobile app, an API, or a SaaS product.
 
 ---
 
@@ -107,40 +107,41 @@ The orchestrator coordinates planning, architecture, development, testing, and l
 
 ### Idea Projects
 
-These produce structured intellectual work.
+These produce structured digital products from early-stage concepts.
 
 **Examples:**
 
-- Books
-- Courses
-- Research systems
-- Frameworks and methodologies
-- Knowledge bases
+- Web Apps
+- Mobile Apps
+- APIs / Backend services
+- SaaS platforms
 
-The orchestrator coordinates research, outlining, drafting, editing, and refinement. Skills handle tasks like generating chapter outlines, reviewing for clarity, managing glossaries, and tracking open questions.
+> **Note:** Non-software domains (books, courses, research) are planned as separate framework variants.
+
+The orchestrator coordinates research, planning, prototyping, validation, and iteration. Skills handle tasks like generating PRDs, evaluating technical feasibility, managing glossaries, and tracking open questions.
 
 ---
 
 ## Why the Distinction Matters
 
-Many AI tools focus only on writing code. The AI Orchestration Framework recognizes that **software is just one form of structured output**.
+Many AI tools focus only on writing code. The AI Orchestration Framework recognizes that **building software requires more than code — it requires orchestration**.
 
-The same orchestration principles — planning before building, tracking state, routing work to the right skill, preserving knowledge — apply to many forms of complex work.
+The same orchestration principles — planning before building, tracking state, routing work to the right skill, preserving knowledge — apply across every phase of software development.
 
 This makes the framework useful for:
 
 - **Builders** turning an app idea into a working product
 - **Founders** prototyping a SaaS concept
-- **Researchers** structuring a body of knowledge
-- **Writers** producing a book or course
+- **Solo developers** building a SaaS product end-to-end
+- **Technical founders** shipping an MVP
 - **Product managers** defining and tracking requirements
-- **Creators** bringing any structured idea to life
+- **Small teams** coordinating across frontend, backend, and infrastructure
 
 ---
 
 ## A Universal Idea Engine
 
-At its highest level, the The AI Orchestrator System becomes a **universal idea engine**.
+At its highest level, The AI Orchestrator System becomes a **universal idea engine**.
 
 The user supplies vision and direction. The orchestrated AI system supplies structure, execution, and iteration.
 

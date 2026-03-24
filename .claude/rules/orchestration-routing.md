@@ -32,7 +32,7 @@
 | Architecture / System Design | `architecture-designer` | Orchestrator | Tech stack, components, data model, ADRs |
 | UX / Design | `designer` | Orchestrator | Wireframes, flows, onboarding (SKL-0023) |
 | Documentation | `documenter` | Orchestrator | README, API docs, changelogs, guides (SKL-0024) |
-| Research | `explorer` | Orchestrator | Gathering information, evaluating options |
+| Research | `explorer` | Orchestrator | Gathering information, evaluating options (no formal skill — explorer works free-form) |
 | Checkpoint | `orchestrator` | — | Session compression via `/save` |
 | Multi-Domain (2+ specialists) | `orchestrator` | — | Tasks spanning multiple agent domains |
 | Retrospective | `orchestrator` | — | Engineering retro, velocity metrics (SKL-0026) |

@@ -93,7 +93,7 @@ Ask the user to fill in this template (5-15 lines). Accept freeform answers — 
 
 ```
 NAME:
-WHAT ARE YOU MAKING? (a book, a website, a phone app):
+WHAT ARE YOU MAKING? (a website, a phone app, an API, a SaaS product):
 ONE-LINER:
 WHO IT'S FOR:
 THE PROBLEM:

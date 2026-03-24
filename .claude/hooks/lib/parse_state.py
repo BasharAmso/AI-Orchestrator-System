@@ -39,7 +39,7 @@ def parse_table_section(content, section_heading):
     Returns a list of dicts, one per data row, keyed by column header.
     Handles variable spacing, missing columns, and separator rows.
     """
-    lines = content.split("\n")
+    lines = content.splitlines()
     in_section = False
     header_cols = None
     rows = []
@@ -134,7 +134,7 @@ def parse_state(filepath):
     phase = find_field(content, "Current Phase")
     if not phase:
         # Try section heading approach
-        for line in content.split("\n"):
+        for line in content.splitlines():
             if "current phase" in line.lower() and not line.strip().startswith("#"):
                 phase = line.split("|")[-2].strip() if "|" in line else line.strip()
                 break
@@ -213,7 +213,7 @@ def parse_events(filepath):
 
     count = 0
     in_unprocessed = False
-    for line in content.split("\n"):
+    for line in content.splitlines():
         stripped = line.strip()
         if "## Unprocessed Events" in stripped:
             in_unprocessed = True

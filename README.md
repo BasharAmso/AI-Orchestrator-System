@@ -68,7 +68,7 @@ These are available when you need them. The system will suggest them at the righ
 | `/trigger` | Manually trigger a workflow by adding an event. |
 | `/fix-registry` | Rebuild the Skills Registry so the orchestrator can discover available workflows. |
 | `/doctor` | Run diagnostics to verify the environment is healthy, with optional auto-repair. |
-| `/clone-framework` | Copy or upgrade the The AI Orchestrator System into another project directory. |
+| `/clone-framework` | Copy or upgrade The AI Orchestrator System into another project directory. |
 | `/capture-lesson` | Save a reusable insight to global memory for cross-project learning. |
 | `/learn` | Analyze the current session and extract reusable lessons automatically. |
 | `/cleanup` | Review knowledge files for staleness and recommend cleanup. |

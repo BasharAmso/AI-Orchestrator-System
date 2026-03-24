@@ -105,11 +105,8 @@ else:
     # Validate owner is a known agent name
     owner_match = re.search(r'^owner:\s*(\S+)', fm, re.MULTILINE)
     if owner_match:
-        known_agents = [
-            'orchestrator', 'builder', 'reviewer', 'fixer', 'deployer',
-            'designer', 'documenter', 'explorer', 'coach',
-            'product-manager', 'project-manager', 'architecture-designer'
-        ]
+        agents_dir = os.path.join(framework_root, '.claude', 'agents')
+        known_agents = [f.replace('.md', '') for f in os.listdir(agents_dir) if f.endswith('.md')] if os.path.isdir(agents_dir) else []
         if owner_match.group(1) not in known_agents:
             warnings.append(f'SKILL.md owner "{owner_match.group(1)}" is not a known agent')
 
@@ -228,7 +225,11 @@ if [ -n "$PROJECT_ROOT" ]; then
     case "$EXT" in
       js|jsx|ts|tsx|css|scss|html|py|go|rs|php|rb) ;; # already formatted
       *)
-        sed -i 's/[[:space:]]*$//' "$FILE" 2>/dev/null || true
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+          sed -i '' 's/[[:space:]]*$//' "$FILE" 2>/dev/null || true
+        else
+          sed -i 's/[[:space:]]*$//' "$FILE" 2>/dev/null || true
+        fi
         [ -s "$FILE" ] && [ "$(tail -c1 "$FILE" | wc -l)" -eq 0 ] && echo "" >> "$FILE" 2>/dev/null || true
         ;;
     esac

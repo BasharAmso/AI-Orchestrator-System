@@ -32,7 +32,7 @@ The Orchestrator routes to this agent when:
 | `docs/PROJECT_CHARTER.md` | Vision, goals, constraints (if exists) |
 | `.claude/project/knowledge/DECISIONS.md` | Past architectural decisions |
 | `.claude/project/knowledge/RESEARCH.md` | Tech research and evaluations |
-| `PROJECT_TYPE.md` | Project type (Web App, Mobile App, Book) |
+| `PROJECT_TYPE.md` | Project type (Web App, Mobile App, API / Backend, SaaS) |
 
 ---
 

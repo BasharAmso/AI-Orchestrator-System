@@ -1,6 +1,6 @@
 # Command: /clone-framework
 
-> Copy the The AI Orchestrator System framework files to a target directory. Supports `--upgrade` mode to update existing projects and `--format portable` mode to export tool-agnostic files for use with non-CC tools (Cursor, Copilot, Windsurf, Aider). Does not copy runtime files — those are created by `/setup`.
+> Copy The AI Orchestrator System framework files to a target directory. Supports `--upgrade` mode to update existing projects and `--format portable` mode to export tool-agnostic files for use with non-CC tools (Cursor, Copilot, Windsurf, Aider). Does not copy runtime files — those are created by `/setup`.
 
 ---
 
@@ -262,7 +262,7 @@ Write an `ADAPTATION_GUIDE.md` file at the target root with this structure:
 
 ## What This Is
 
-This is a portable export of the The AI Orchestrator System framework. It contains the
+This is a portable export of The AI Orchestrator System framework. It contains the
 tool-agnostic primitives (agents, skills, rules, state templates) without the
 Claude Code-specific wiring (hooks, settings, commands).
 

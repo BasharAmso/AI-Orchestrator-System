@@ -1,6 +1,6 @@
 # Frequently Asked Questions
 
-> Quick answers to common questions about the The AI Orchestrator System.
+> Quick answers to common questions about The AI Orchestrator System.
 
 ---
 
@@ -12,7 +12,7 @@ You need VS Code with the Claude Code extension installed. That's it. You don't 
 
 ### How do I start a new project?
 
-1. Copy the The AI Orchestrator System folder into a new directory (or use `/clone-framework`).
+1. Copy The AI Orchestrator System folder into a new directory (or use `/clone-framework`).
 2. Open it in VS Code.
 3. Run `/start` — it will tell you exactly what to do next.
 
@@ -88,9 +88,9 @@ The system uses several internal files (STATE.md, EVENTS.md, REGISTRY.md). You d
 
 Your project moves through these phases: **Not Started** → **Planning** → **Building** → **Ready for Deploy** → **Deploying** → **Live**. The system tracks which phase you're in and adjusts its suggestions accordingly.
 
-### Can I use this for non-software projects?
+### What project types does this support?
 
-Yes. The framework supports Books, Web Apps, and Mobile Apps. Book projects get manuscript-oriented folders and writing-focused tasks instead of code-focused ones.
+The framework supports four software project types: **Web App**, **Mobile App**, **API / Backend**, and **SaaS (Full-Stack)**. Each gets appropriate starter folders and tasks during `/setup`. Non-software domains (books, courses) are planned as separate framework variants.
 
 ### What is Global Memory?
 

@@ -44,4 +44,4 @@
 ## Stats
 
 - **Total Skills:** 26
-- **Last Refreshed:** 2026-03-15
+- **Last Refreshed:** 2026-03-23

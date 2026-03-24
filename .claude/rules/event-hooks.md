@@ -11,7 +11,7 @@
 | IDEA_CAPTURED | Orchestrator | Orchestrator | Via REGISTRY: SKL-0001 — Orchestrator runs Plan From Idea, which suggests PRD_CREATION_REQUESTED for product-manager (SKL-0004) |
 | PRD_UPDATED | Orchestrator | Orchestrator | Via REGISTRY: SKL-0003 — Orchestrator breaks PRD into tasks. Subsequent cycles may route to project-manager (SKL-0025) for sprint planning |
 | TASK_COMPLETED | Orchestrator | — | Update STATE, promote next task |
-| QUALITY_REVIEW_REQUESTED | Reviewer | Orchestrator | Run quality/clarity review (SKL-0016) |
+| QUALITY_REVIEW_REQUESTED | Reviewer | Orchestrator | Run quality/clarity review (SKL-0016). User-triggered via `/trigger QUALITY_REVIEW_REQUESTED` |
 | BUG_REPORTED | Fixer | Reviewer | Investigate, create fix task (SKL-0020) |
 | DEPLOY_REQUESTED | Deployer | Orchestrator | Validate readiness, execute deploy (SKL-0021) |
 | ARCHITECTURE_REQUESTED | architecture-designer | Orchestrator | Design system architecture (docs/ARCHITECTURE.md) |
