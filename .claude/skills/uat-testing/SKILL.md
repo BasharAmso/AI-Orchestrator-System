@@ -7,7 +7,7 @@ description: |
   regression (compare against baseline). Produces health score, structured
   reports, and actionable bug lists. Use this skill when UAT is requested
   or a feature is ready for acceptance testing.
-version: 2.0
+version: 2.1
 owner: reviewer
 triggers:
   - UAT_REQUESTED
@@ -29,6 +29,7 @@ tags:
   - uat
   - acceptance
   - qa
+  - mobile-qa
 ---
 
 # Skill: User Acceptance Testing & QA
@@ -38,7 +39,7 @@ tags:
 | Field | Value |
 |-------|-------|
 | **Skill ID** | SKL-0018 |
-| **Version** | 2.0 |
+| **Version** | 2.1 |
 | **Owner** | reviewer |
 | **Inputs** | PRD, STATE.md, TODOS.md, built application, previous baseline |
 | **Outputs** | UAT_REPORT.md, baseline.json, STATE.md updated, bug list |
@@ -147,6 +148,8 @@ Test without inspecting source code:
 | Mobile responsiveness | Resize to mobile width — does layout break? |
 | Loading indicators | Are there spinners/skeletons for async operations? Or does content just pop in? |
 | Empty states | What do lists/tables look like with zero items? Helpful message or blank void? |
+| VoiceOver / TalkBack (mobile) | Enable screen reader, navigate core flow. Every interactive element reachable and labeled? |
+| Dynamic Type / Font Scaling (mobile) | Set to largest text size. Does layout accommodate without truncation or overlap? |
 
 ---
 
@@ -180,6 +183,37 @@ Detect the framework and apply relevant checks:
 - Check response codes, error formats, empty responses
 - Verify authentication/authorization on protected endpoints
 
+**Swift/SwiftUI (iOS):**
+- App launch: does it start without crash on simulator/device?
+- Orientation: rotate device — does layout adapt correctly?
+- App lifecycle: background the app and return — does state persist?
+- Gestures: swipe-back navigation, pull-to-refresh, long press — all working?
+- Permissions: deny camera/location/notifications — graceful handling with guidance to Settings?
+- Push notifications: do they arrive and navigate correctly when tapped?
+- Dynamic Type: increase text size to largest — does layout still work without truncation?
+- Dark mode: switch appearance — are all elements visible and readable?
+- VoiceOver: enable VoiceOver, navigate the core flow — every element labeled and reachable?
+- Memory: monitor for leaks during repeated navigation (Instruments if available)
+
+**Kotlin/Jetpack Compose (Android):**
+- App launch: does it start without crash on emulator/device?
+- Orientation: rotate device — does layout adapt? Is state preserved across configuration change?
+- Process death: background app, kill process, restore — does SavedStateHandle preserve user input?
+- Back button: does system back navigate correctly at every screen?
+- Gestures: swipe, long press, pull-to-refresh — all working?
+- Permissions: deny runtime permissions — graceful handling with rationale and Settings guidance?
+- Push notifications: do they arrive and deep-link correctly?
+- Font scaling: increase to largest font size — layout still usable?
+- Dark theme: switch theme — all elements visible and readable?
+- TalkBack: enable TalkBack, navigate core flow — every element labeled and reachable?
+- Memory: watch for Activity leaks on configuration changes (LeakCanary if available)
+
+**React Native / Expo:**
+- Test on both iOS simulator and Android emulator — rendering differences?
+- Hot reload: does the app survive a hot reload without state corruption?
+- Native module errors: check for red screen / yellow warnings in development
+- Platform-specific behavior: do `Platform.select()` branches work correctly on each OS?
+
 ---
 
 ### Step 5 — Compute Health Score
@@ -196,6 +230,8 @@ Rate each category 0-100, then compute weighted average:
 | Performance | 10% | Start at 100, deduct per finding by severity |
 | Content | 5% | Start at 100, deduct per finding by severity |
 | Links | 10% | 0 broken = 100, each broken link = -15 (minimum 0) |
+
+**Mobile apps:** Replace "Console" (15%) with "Crash/ANR" (15%): 0 crashes = 100, 1 crash = 40, 2+ crashes = 10.
 
 **Final Score:** `score = Σ (category_score × weight)`
 

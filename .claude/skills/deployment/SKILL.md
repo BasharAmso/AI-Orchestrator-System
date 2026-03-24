@@ -4,9 +4,10 @@ name: Deployment
 description: |
   Ship workflow: merge main, run tests, review diff, auto-changelog, bisectable
   commits, push, and create PR. Also handles first-time CI/CD setup, environment
-  configuration, and hosting decisions. Use this skill when deployment is
-  requested, a release is ready to ship, or the user says "ship it."
-version: 2.0
+  configuration, hosting decisions, and native mobile app store submission.
+  Use this skill when deployment is requested, a release is ready to ship,
+  or the user says "ship it."
+version: 3.0
 owner: deployer
 triggers:
   - DEPLOYMENT_REQUESTED
@@ -37,6 +38,9 @@ tags:
   - release
   - infrastructure
   - ship
+  - app-store
+  - play-store
+  - mobile-deployment
 ---
 
 # Skill: Deployment & Ship
@@ -46,7 +50,7 @@ tags:
 | Field | Value |
 |-------|-------|
 | **Skill ID** | SKL-0021 |
-| **Version** | 2.0 |
+| **Version** | 3.0 |
 | **Owner** | deployer |
 | **Inputs** | Task description, STATE.md, DECISIONS.md, checklist.md, TODOS.md, CI/CD configs |
 | **Outputs** | Commits, PR, CHANGELOG, VERSION, TODOS.md, deployment docs, STATE.md |
@@ -56,11 +60,12 @@ tags:
 
 ## Purpose
 
-Two modes in one skill:
+Three modes in one skill:
 1. **Ship Mode** (default) — Take code from a feature branch and land it: merge main, test, review, version bump, changelog, commit, push, PR.
 2. **Setup Mode** — First-time CI/CD pipeline and hosting configuration.
+3. **Mobile Ship Mode** — Build, sign, and submit a native mobile app to TestFlight/App Store or Firebase App Distribution/Google Play.
 
-Detect which mode automatically: if CI/CD is already configured and code exists on a feature branch, use Ship Mode. If no CI/CD exists, use Setup Mode.
+Detect which mode automatically: if the project is a native iOS or Android app (contains `*.xcodeproj`/`Package.swift` or `build.gradle.kts`/`settings.gradle.kts`), use Mobile Ship Mode. If CI/CD is already configured and code exists on a feature branch, use Ship Mode. If no CI/CD exists, use Setup Mode. User can override.
 
 ---
 
@@ -294,7 +299,11 @@ Read DECISIONS.md. If no hosting decision exists, use these defaults and log the
 | Frontend hosting | Vercel | Zero-config, auto-deploys, free tier |
 | Backend hosting | Railway | Simple deploys, free tier, no DevOps needed |
 | Mobile (Android) | EAS Build + Google Play Console | Official Expo pipeline |
-| Mobile (iOS) | EAS Build + App Store Connect | Requires Mac or cloud Mac |
+| Mobile (iOS, Expo) | EAS Build + App Store Connect | Requires Mac or cloud Mac |
+| Mobile (iOS, native) | Xcode Cloud or GitHub Actions + Fastlane | Xcode Cloud is zero-config; Fastlane for advanced needs |
+| Mobile (Android, native) | GitHub Actions + Gradle | Standard pipeline, free tier |
+| iOS code signing | Automatic signing (dev), Fastlane match (CI) | Simplest local; reproducible on CI |
+| Android signing | Gradle keystore config + Play App Signing | Google manages the app signing key |
 | CI/CD | GitHub Actions | Free, widely documented |
 | Secrets management | Host platform env vars + .env.example | Never commit secrets |
 | DB migrations | Run before deploying new code | Prevents schema mismatch |
@@ -341,6 +350,145 @@ Migration first, deploy second — never simultaneously.
 Write to DECISIONS.md and docs/deployment.md.
 
 ### Step 8 — Update STATE.md
+
+---
+
+# Mobile Ship Mode
+
+> Native mobile app deployment to app stores. Triggered when the project is detected as a native iOS or Android app, or user specifies mobile deployment.
+
+**Environment requirement:** iOS builds require macOS + Xcode. Android builds require Android SDK + Gradle. If these tools are unavailable locally, guide the user to configure CI/CD (Xcode Cloud, GitHub Actions) instead of local builds.
+
+---
+
+## Mobile Ship Procedure
+
+### Step 1 — Detect Platform
+
+- `*.xcodeproj` or `*.xcworkspace` present → iOS
+- `build.gradle.kts` or `settings.gradle.kts` present → Android
+- Both present → ask user which to deploy, or deploy both sequentially
+
+---
+
+### Step 2 — Pre-flight
+
+1. Run tests:
+   - **iOS:** `xcodebuild test -scheme <scheme> -destination 'platform=iOS Simulator,name=iPhone 16'`
+   - **Android:** `./gradlew test` (unit) and optionally `./gradlew connectedAndroidTest` (instrumented)
+2. Run pre-landing review (same as Ship Mode Step 4)
+
+**If any test fails:** Show failures and **STOP**.
+
+---
+
+### Step 3 — Version Bump
+
+**iOS:**
+- Update `MARKETING_VERSION` (user-facing, e.g., "2.1.0") and `CURRENT_PROJECT_VERSION` (build number, always increment) in Xcode project or `.xcconfig`
+
+**Android:**
+- Update `versionName` (user-facing, e.g., "2.1.0") and `versionCode` (integer, always increment) in `build.gradle.kts`
+
+Follow semver for the user-facing version. Build number/versionCode must always increase — never reuse.
+
+---
+
+### Step 4 — Build
+
+**iOS:**
+```bash
+xcodebuild archive -scheme <scheme> -archivePath build/<app>.xcarchive -configuration Release
+xcodebuild -exportArchive -archivePath build/<app>.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath build/
+```
+Or with Fastlane: `fastlane beta` (TestFlight) or `fastlane release` (App Store)
+
+**Android:**
+```bash
+./gradlew bundleRelease   # AAB for Play Store (required for new apps)
+# or ./gradlew assembleRelease for APK (Firebase App Distribution, sideloading)
+```
+
+---
+
+### Step 5 — Code Signing
+
+**iOS:**
+- Verify signing certificate and provisioning profile are available
+- Automatic signing recommended for local development
+- For CI: use Fastlane `match` to manage certificates and profiles via a shared repo
+- Flag if certificate expires within 30 days
+
+**Android:**
+- Verify keystore file exists and is referenced in `signingConfigs` block of `build.gradle.kts`
+- Confirm keystore is NOT committed to git (must be in `.gitignore`)
+- Confirm Play App Signing is enabled (Google manages the app signing key; you keep the upload key)
+
+---
+
+### Step 6 — Submit
+
+**iOS → TestFlight (beta):**
+- Upload via `xcrun altool --upload-app` or Fastlane `pilot`
+- TestFlight review takes ~24 hours for first build, subsequent builds usually faster
+- Up to 100 internal testers (instant), 10,000 external testers (after Beta App Review)
+
+**iOS → App Store (production):**
+- Use Fastlane `deliver` or Xcode Organizer
+- Ensure screenshots, description, privacy policy URL, and App Review notes (with demo credentials) are ready
+
+**Android → Firebase App Distribution (beta):**
+```bash
+firebase appdistribution:distribute build/app-release.aab --app <firebase-app-id> --groups testers
+```
+
+**Android → Google Play (production):**
+- Use Fastlane `supply` or upload manually via Play Console
+- Ensure Play Store listing, screenshots, data safety form, and content rating questionnaire are complete
+
+---
+
+### Step 7 — Common Rejection Reasons
+
+**iOS App Store:**
+- Missing privacy usage descriptions (NSCameraUsageDescription, NSLocationWhenInUseUsageDescription, etc.)
+- Crashes during review
+- Incomplete or misleading metadata (screenshots don't match app)
+- Digital goods not using Apple IAP
+- Missing account deletion feature (required for apps with account creation)
+- No demo credentials provided in App Review Notes
+
+**Google Play:**
+- Target SDK too low (must be `targetSdk 35` for new apps)
+- Missing or inadequate data safety declarations
+- Excessive permissions without justification
+- Missing content rating questionnaire
+- Crashes on common devices / ANR rate too high
+- 16 KB page size incompatibility (required for new devices)
+
+**Prevention:** Before submission, do a "reviewer run" — install on a clean device/simulator, complete the main flow, test purchases, find the privacy policy, test account deletion (if applicable), verify all permissions show rationale dialogs.
+
+---
+
+### Step 8 — Mobile Pre-Deployment Checklist
+
+- [ ] All tests pass
+- [ ] Version and build number incremented
+- [ ] Code signing configured and valid
+- [ ] App builds without errors or warnings
+- [ ] No debug flags, console logging, or test endpoints in release build
+- [ ] Privacy policy URL set (both stores require it)
+- [ ] Screenshots current for all required device sizes
+- [ ] App Store / Play Store listing metadata complete
+- [ ] Release notes written
+- [ ] Crash reporting SDK integrated (Crashlytics, Sentry, or equivalent)
+- [ ] Demo credentials documented (for App Review / Play Console testing)
+
+---
+
+### Step 9 — Update STATE.md
+
+Record: platform, version submitted, distribution channel (TestFlight/App Store/Firebase/Play Store), submission status, any reviewer notes.
 
 ---
 
@@ -398,3 +546,14 @@ deployer
 - [ ] docs/deployment.md created or updated
 - [ ] Post-deployment health check passed
 - [ ] STATE.md updated
+
+### Mobile Ship Mode
+- [ ] Platform detected (iOS, Android, or both)
+- [ ] Tests pass
+- [ ] Pre-landing review completed
+- [ ] Version and build number incremented
+- [ ] App builds and signs successfully
+- [ ] Submitted to distribution channel (TestFlight/App Store/Firebase/Play Store)
+- [ ] Common rejection reasons checked (reviewer run completed)
+- [ ] Mobile pre-deployment checklist completed
+- [ ] STATE.md updated with submission details

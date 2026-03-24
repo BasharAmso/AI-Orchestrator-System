@@ -86,7 +86,7 @@ Write the file using the detected values. If IDENTITY.md already exists, skip �
 2. If the repo root `README.md` contains "The AI Orchestrator System", this is the framework template itself — set type to `Template` and skip Steps 5–6.
 3. If neither, ask the user to choose:
    - **Web App** — React, Next.js, SPA, static sites
-   - **Mobile App** — React Native, Expo, iOS/Android
+   - **Mobile App** — React Native/Expo (cross-platform), Swift/SwiftUI (iOS), Kotlin/Compose (Android)
    - **API / Backend** — REST, GraphQL, server-side services
    - **SaaS (Full-Stack)** — Frontend + backend + database + auth
 

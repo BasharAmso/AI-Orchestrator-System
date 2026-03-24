@@ -34,6 +34,13 @@ These are production-breaking risks that tests typically don't catch.
 - [ ] User-generated content rendered without escaping
 - [ ] Assuming upstream services always return valid data
 
+### Mobile Safety (apply when reviewing iOS/Android code)
+- [ ] Memory leaks — retain cycles from missing `[weak self]` in closures (iOS), Activity/Context references held by singletons or companion objects (Android)
+- [ ] Sensitive data stored insecurely — UserDefaults (iOS) or SharedPreferences (Android) used for tokens/secrets instead of Keychain / EncryptedSharedPreferences
+- [ ] API keys or secrets embedded in client binary (extractable via reverse engineering)
+- [ ] Permissions requested at app launch instead of just-in-time when the feature is used
+- [ ] Missing SSL pinning on sensitive API endpoints (banking, health, auth)
+
 ---
 
 ## Pass 2 — INFORMATIONAL (Should Fix / Consider)
@@ -73,6 +80,14 @@ These improve quality but aren't production-breaking.
 - [ ] Missing database indexes for new queries
 - [ ] Synchronous blocking calls that should be async
 - [ ] Missing caching for expensive repeated operations
+
+### Mobile Quality (apply when reviewing iOS/Android code)
+- [ ] Missing accessibility labels on interactive elements (`.accessibilityLabel` on iOS, `contentDescription` on Android)
+- [ ] Deprecated API usage — ObservableObject/@Published, NavigationView, GCD (iOS); XML layouts, LiveData, kapt, GlobalScope (Android)
+- [ ] Hardcoded dimensions instead of responsive/adaptive layout (fixed font sizes, pixel values)
+- [ ] Missing lifecycle cleanup — Tasks not cancelled on view disappear (iOS), Flows collected without lifecycle (`collectAsStateWithLifecycle` required on Android)
+- [ ] Missing state preservation for process death — Android ViewModel without SavedStateHandle for user input
+- [ ] Expensive work in UI thread — heavy computation in SwiftUI `body` or Compose `@Composable` functions
 
 ---
 

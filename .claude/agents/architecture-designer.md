@@ -69,6 +69,18 @@ Produce `docs/ARCHITECTURE.md` with these sections:
 - Hosting/infrastructure approach
 - Key libraries and dependencies
 
+**Mobile App projects:** When PROJECT_TYPE.md is "Mobile App", address these decisions explicitly. Consult `.claude/skills/mobile-dev/SKILL.md` for stack defaults and anti-patterns.
+
+| Decision | Options | How to decide |
+|----------|---------|---------------|
+| Platform | React Native/Expo (cross-platform), Swift/SwiftUI (iOS only), Kotlin/Compose (Android only) | Cross-platform for both stores with one codebase; native for platform-specific performance, hardware access, or App Store polish |
+| Architecture pattern | MVVM (default), MVI (complex state), Clean Architecture (enterprise) | MVVM for most apps; MVI for screens with many state transitions (chat, multi-step forms); Clean Architecture for large teams or strict layering requirements |
+| Data persistence | iOS: SwiftData (default) / Core Data (complex relational). Android: Room (default) / DataStore (preferences only) | SwiftData/Room for structured data; Core Data only if heavy migrations or complex queries are needed; DataStore only for simple key-value settings |
+| Navigation | NavigationStack (iOS), Navigation Compose 2.8+ (Android), React Navigation (RN) | Always use the modern default unless a specific constraint requires otherwise |
+| Project structure | Single-module (small apps, <10 screens), multi-module (medium+) | Single-module for solo dev or small scope; multi-module when build times exceed 30s or multiple developers work simultaneously |
+
+Log each choice as an ADR in section 2h and in DECISIONS.md.
+
 #### 2c. Component Diagram
 - ASCII or Mermaid diagram showing major components and their relationships
 - Data flow direction indicated with arrows
