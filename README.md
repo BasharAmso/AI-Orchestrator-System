@@ -1,6 +1,6 @@
 # The AI Orchestrator System
 
-The AI Orchestrator System is a reusable project template that turns Claude Code into a structured software development team. Copy this folder into any new project (a web app, mobile app, API, or SaaS product), open it in VS Code with Claude Code, and start building by describing what you want in plain language.
+The AI Orchestrator System is a reusable project template that turns Claude Code into a structured software development team. Copy this folder into any new project (a web app, native mobile app, API, or SaaS product), open it in VS Code with Claude Code, and start building by describing what you want in plain language.
 
 Instead of a blank AI chat, you get 12 specialized agents, 26 skill procedures, 11 safety hooks, and a dispatch chain that routes every task to the right agent with the right process. You stay in control: every action is reviewed before the next one starts.
 
@@ -120,6 +120,18 @@ Control how fast work happens within either framework mode.
 | **Autonomous** | Execute up to 10 cycles before stopping (configurable in RUN_POLICY.md). |
 
 Switch modes with `/set-mode safe`, `/set-mode semi`, or `/set-mode auto`. Cycle limits and stop conditions are defined in [.claude/project/RUN_POLICY.md](.claude/project/RUN_POLICY.md). The current mode is shown in [.claude/project/STATE.md](.claude/project/STATE.md).
+
+## Mobile Development
+
+Build native mobile apps with the same structured workflow. The framework supports three platforms out of the box:
+
+| Platform | Stack | Best For |
+|----------|-------|----------|
+| **React Native + Expo** | Cross-platform JavaScript | Ship to both stores with one codebase |
+| **Swift/SwiftUI** | Native iOS (MVVM + @Observable) | iOS-only apps needing platform-specific polish |
+| **Kotlin/Jetpack Compose** | Native Android (MVVM + StateFlow + Hilt) | Android-only apps needing native performance |
+
+The architecture-designer agent prompts you to choose your platform, architecture pattern, and data layer. The builder follows modern best practices (and blocks deprecated APIs like ObservableObject, XML layouts, and LiveData). Testing, code review, QA, and app store deployment all have mobile-specific procedures.
 
 ## Overnight Mode
 
