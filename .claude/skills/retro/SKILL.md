@@ -14,11 +14,11 @@ triggers:
 inputs:
   - Git commit history (origin/main)
   - TODOS.md (if exists)
-  - .context/retros/*.json (previous retro snapshots)
+  - .claude/project/retros/*.json (previous retro snapshots)
   - .claude/project/knowledge/DECISIONS.md
 outputs:
   - Retro narrative (output to conversation)
-  - .context/retros/<date>.json (snapshot for trend tracking)
+  - .claude/project/retros/<date>.json (snapshot for trend tracking)
   - .claude/project/STATE.md (updated)
 tags:
   - retrospective
@@ -252,7 +252,7 @@ Split into weekly buckets and show trends:
 
 Check for prior retros:
 ```bash
-ls -t .context/retros/*.json 2>/dev/null
+ls -t .claude/project/retros/*.json 2>/dev/null
 ```
 
 **If prior retros exist:** Load the most recent. Calculate deltas:
@@ -273,7 +273,7 @@ Commits:            32     →    47          ↑47%
 mkdir -p .context/retros
 ```
 
-Write JSON snapshot with metrics, per-author data, and streak info. Filename: `.context/retros/<YYYY-MM-DD>-<N>.json` (N = sequence number for today).
+Write JSON snapshot with metrics, per-author data, and streak info. Filename: `.claude/project/retros/<YYYY-MM-DD>-<N>.json` (N = sequence number for today).
 
 ---
 
@@ -337,7 +337,7 @@ When the user runs `/retro compare`:
 - Round LOC/hour to nearest 50
 - Do not read CLAUDE.md or other framework docs — this skill is self-contained
 - All narrative output goes to the conversation, NOT to files (except the JSON snapshot)
-- Never modify source code or project files (except `.context/retros/`)
+- Never modify source code or project files (except `.claude/project/retros/`)
 
 ---
 
@@ -358,6 +358,6 @@ orchestrator
 - [ ] Per-contributor analysis completed (if team)
 - [ ] Streak tracked
 - [ ] Prior retro loaded and compared (if exists)
-- [ ] JSON snapshot saved to `.context/retros/`
+- [ ] JSON snapshot saved to `.claude/project/retros/`
 - [ ] Narrative written to conversation
 - [ ] STATE.md updated

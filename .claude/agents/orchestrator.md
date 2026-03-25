@@ -15,6 +15,16 @@ Run an autonomous loop that processes events and tasks safely while keeping STAT
 
 ---
 
+## Owned Skills
+
+| Skill ID | Name | Trigger |
+|----------|------|---------|
+| SKL-0001 | Plan From Idea | `IDEA_CAPTURED` |
+| SKL-0003 | PRD to Tasks | `PRD_UPDATED` |
+| SKL-0026 | Team Retro | `RETRO_REQUESTED` |
+
+---
+
 ## Dispatch Chain (Canonical)
 
 Every cycle follows this exact order. No step is skipped.
@@ -22,7 +32,7 @@ Every cycle follows this exact order. No step is skipped.
 ```
 A) Event Processing
    Read .claude/project/EVENTS.md.
-   If Unprocessed has >= 1 event --> process the OLDEST one (FIFO).
+   If Unprocessed has >= 1 event --> process by PRIORITY first (high → normal → low), then FIFO within each level. Events without a priority field default to normal.
    After processing --> move it from Unprocessed to Processed.
    Update .claude/project/STATE.md (Active Task, Completed Tasks Log).
 
@@ -33,7 +43,7 @@ B) Skills Lookup (task-assigned first, then registry)
    2. If the task has no Skill ID (or Skill = "—"):
       --> Attempt auto-classification: match task keywords against REGISTRY skill descriptions.
       --> If high-confidence match: assign skill ID, write back to STATE.md.
-      --> If no match: fall back to trigger matching in REGISTRY.md as before.
+      --> If no match: skip to C) Direct Agent Routing (fallback). Do not re-enter trigger matching.
    3. If REGISTRY.md is missing or stale --> instruct user to run /fix-registry
       (do not fail; proceed with fallback routing).
 
@@ -51,29 +61,34 @@ C) Direct Agent Routing (fallback)
 
 ## Inputs
 
-Read these files at the start of every run:
+Read these **core files** at the start of every run:
 
 | File | Purpose |
 |------|---------|
 | `.claude/project/STATE.md` | Current mode, active task, queue, history |
 | `.claude/project/EVENTS.md` | Unprocessed and processed events |
-| `.claude/skills/REGISTRY.md` | Skill index and trigger lookup |
-| `.claude/rules/event-hooks.md` | Event type routing fallback |
-| `.claude/rules/orchestration-routing.md` | Task type routing fallback |
-| `.claude/rules/knowledge-policy.md` | When to consult/update knowledge |
-| `.claude/agents/builder.md` | Consolidated code agent — frontend, backend, mobile, database, AI, integrations, monetization, analytics, growth, support |
-| `.claude/agents/reviewer.md` | Consolidated quality agent — code review, security audit, test writing, UAT |
-| `.claude/agents/fixer.md` | Consolidated maintenance agent — bug investigation, refactoring |
-| `.claude/agents/deployer.md` | Consolidated infrastructure agent — deployment, CI/CD, MCP configuration |
-| `.claude/agents/documenter.md` | Documentation agent — README, API docs, changelogs, setup guides |
-| `.claude/agents/architecture-designer.md` | Architecture agent — tech stack, components, data model, ADRs |
-| `.claude/agents/designer.md` | UX design agent — user flows, screen layouts, onboarding |
-| `.claude/agents/explorer.md` | Research agent — investigates unknowns, evaluates options |
-| `.claude/agents/product-manager.md` | Product agent — vision, PRD, scope decisions, user needs |
-| `.claude/agents/project-manager.md` | Planning agent — sprints, status, risks, stakeholder updates |
-| `.claude/agents/coach.md` | User guidance agent — command navigation, framework Q&A |
 | `.claude/project/RUN_POLICY.md` | Cycle limits, stop conditions, review gates |
-| `.claude/project/knowledge/*` | Decisions, research, glossary, open questions |
+| `.claude/skills/REGISTRY.md` | Skill index and trigger lookup |
+
+Load these **on demand** — only when the dispatch chain routes to them:
+
+| File | Load When |
+|------|-----------|
+| `.claude/rules/event-hooks.md` | Fallback routing for an event with no skill match |
+| `.claude/rules/orchestration-routing.md` | Fallback routing for a task with no skill match |
+| `.claude/rules/knowledge-policy.md` | Before conceptual/design work or knowledge writes |
+| `.claude/agents/builder.md` | Task routed to builder (frontend, backend, mobile, database, AI, integrations, monetization, analytics, growth, support) |
+| `.claude/agents/reviewer.md` | Task routed to reviewer (code review, security audit, test writing, UAT) |
+| `.claude/agents/fixer.md` | Task routed to fixer (bug investigation, refactoring) |
+| `.claude/agents/deployer.md` | Task routed to deployer (deployment, CI/CD, MCP configuration) |
+| `.claude/agents/documenter.md` | Task routed to documenter (README, API docs, changelogs, setup guides) |
+| `.claude/agents/architecture-designer.md` | Task routed to architecture-designer (tech stack, components, data model, ADRs) |
+| `.claude/agents/designer.md` | Task routed to designer (user flows, screen layouts, onboarding) |
+| `.claude/agents/explorer.md` | Task routed to explorer (investigates unknowns, evaluates options) |
+| `.claude/agents/product-manager.md` | Task routed to product-manager (vision, PRD, scope decisions) |
+| `.claude/agents/project-manager.md` | Task routed to project-manager (sprints, status, risks) |
+| `.claude/agents/coach.md` | User guidance request detected |
+| `.claude/project/knowledge/*` | Per knowledge-policy.md rules (decisions, research, glossary, open questions) |
 
 ---
 
@@ -112,7 +127,7 @@ If no unprocessed events exist:
        1. Read the task description and REGISTRY.md skill list.
        2. Match the task's domain keywords against skill names and descriptions (e.g., "API endpoint" → SKL-0006 Backend Development, "login screen" → SKL-0005 Frontend Development, "Stripe webhook" → SKL-0011 Monetization).
        3. If a single skill matches with high confidence: assign it, write the Skill ID back to the task row in STATE.md, and log: `"Auto-classified: [task] → [SKL-XXXX] ([skill name])"`.
-       4. If multiple skills match or no clear match: skip classification and proceed to trigger matching in REGISTRY.md as before.
+       4. If multiple skills match or no clear match: skip classification and proceed directly to **C) Direct Agent Routing** (fallback). Do not re-enter trigger matching — the same ambiguity would recur.
        5. Reference `.claude/project/knowledge/TASK-FORMAT.md` § Common Mappings for the keyword-to-skill lookup table.
      - If `REGISTRY.md` is missing or stale: warn the user to run `/fix-registry` and proceed to fallback.
    - **C) Fallback:** If no match from B, use `orchestration-routing.md` fallback.
@@ -186,6 +201,8 @@ For each cycle (up to Max Cycles This Run):
    - Architecture completion → emit `ARCHITECTURE_COMPLETE`. Also print: "Architecture is ready. Consider designing key screens before breaking into tasks. Run `/trigger UX_DESIGN_REQUESTED` to start design, or `/run-project` to skip and go straight to task breakdown."
    - Task queue proposed → emit `TASK_QUEUE_PROPOSED`
    - All build tasks complete → emit `BUILD_COMPLETE`
+   - Build task touching auth/secrets/credentials → emit `SECURITY_REVIEW_REQUESTED`
+   - Feature shipped (deployment task complete) → emit `QUALITY_REVIEW_REQUESTED`
    - Deployment verified → emit `DEPLOYMENT_VERIFIED`
 
    If a follow-up event is identified: write it to `.claude/project/EVENTS.md` as a new unprocessed event using the standard format (next EVT-XXXX ID, current timestamp). Log in the execution summary: `"Auto-emitted: [EVENT_TYPE]"`. Do **not** auto-emit if the same event type is already unprocessed in EVENTS.md (prevent duplicates).

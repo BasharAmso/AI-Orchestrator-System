@@ -94,10 +94,16 @@ for w in warnings:
 PYEOF
     fi
 
+    # --- Compute framework root (used by SKILL.md and REGISTRY.md validation) ---
+    HOOKS_DIR="$(dirname "${BASH_SOURCE[0]}")"
+    FRAMEWORK_ROOT="$(cd "$HOOKS_DIR/../.." && pwd)"
+
     # --- Semantic validation for SKILL.md files ---
     if echo "$FILE" | grep -q "skills/.*SKILL\.md$" 2>/dev/null; then
-      $PYTHON - "$FILE" <<'PYEOF' 2>/dev/null || true
-import sys, re
+      $PYTHON - "$FILE" "$FRAMEWORK_ROOT" <<'PYEOF' 2>/dev/null || true
+import sys, re, os
+
+framework_root = sys.argv[2]
 
 with open(sys.argv[1], 'r', encoding='utf-8') as f:
     content = f.read()
@@ -138,8 +144,6 @@ PYEOF
 
     # --- Semantic validation for REGISTRY.md ---
     if echo "$FILE" | grep -q "REGISTRY\.md$" 2>/dev/null; then
-      HOOKS_DIR="$(dirname "${BASH_SOURCE[0]}")"
-      FRAMEWORK_ROOT="$(cd "$HOOKS_DIR/../.." && pwd)"
       $PYTHON - "$FILE" "$FRAMEWORK_ROOT" <<'PYEOF' 2>/dev/null || true
 import sys, re, os
 

@@ -20,7 +20,7 @@ inputs:
   - Previous QA baseline (if exists, for regression mode)
 outputs:
   - .claude/project/knowledge/UAT_REPORT.md
-  - .gstack/qa-reports/baseline.json (for regression tracking)
+  - .claude/project/qa-reports/baseline.json (for regression tracking)
   - .claude/project/STATE.md (updated with verdict)
   - Bug list for fixer agent (if issues found)
 tags:
@@ -305,7 +305,7 @@ Write a JSON baseline for future comparison:
 }
 ```
 
-Save to `.gstack/qa-reports/baseline.json` (create directory if needed).
+Save to `.claude/project/qa-reports/baseline.json` (create directory if needed).
 
 **Regression mode:** After writing the report, load the previous baseline. Compare:
 - Health score delta (↑ or ↓)

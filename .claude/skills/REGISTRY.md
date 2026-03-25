@@ -12,9 +12,9 @@
 
 | Skill ID | Name | Version | Owner | Folder | Triggers |
 |----------|------|---------|-------|--------|----------|
-| SKL-0001 | Plan From Idea | 1.0 | Orchestrator | `.claude/skills/plan-from-idea/` | IDEA_CAPTURED |
+| SKL-0001 | Plan From Idea | 1.0 | orchestrator | `.claude/skills/plan-from-idea/` | IDEA_CAPTURED |
 | SKL-0002 | Quality Review | 1.0 | reviewer | `.claude/skills/quality-review/` | QUALITY_REVIEW_REQUESTED |
-| SKL-0003 | PRD to Tasks | 1.0 | Orchestrator | `.claude/skills/prd-to-tasks/` | PRD_UPDATED |
+| SKL-0003 | PRD to Tasks | 1.0 | orchestrator | `.claude/skills/prd-to-tasks/` | PRD_UPDATED |
 | SKL-0004 | PRD Writing | 2.0 | product-manager | `.claude/skills/prd-writing/` | PRD_CREATION_REQUESTED |
 | SKL-0005 | Frontend Development | 1.0 | builder | `.claude/skills/frontend-dev/` | FRONTEND_TASK_READY |
 | SKL-0006 | Backend Development | 1.0 | builder | `.claude/skills/backend-dev/` | BACKEND_TASK_READY |
