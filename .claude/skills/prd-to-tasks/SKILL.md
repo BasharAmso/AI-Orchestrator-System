@@ -9,8 +9,9 @@ version: 1.0
 owner: Orchestrator
 triggers:
   - PRD_UPDATED
+  - GDD_UPDATED
 inputs:
-  - docs/PRD.md
+  - docs/PRD.md (or docs/GDD.md for game projects)
   - .claude/project/STATE.md
   - .claude/project/knowledge/OPEN_QUESTIONS.md (optional)
 outputs:
@@ -45,9 +46,23 @@ Convert a completed or updated PRD into a concrete, ordered, beginner-friendly t
 
 ## Procedure
 
-### A) Extract PRD Content
+### A) Extract Design Document Content
 
-Read `docs/PRD.md` and extract:
+Read `docs/PRD.md` and extract the fields below. **If `docs/PRD.md` does not exist**, check for `docs/GDD.md` (Game Design Document) as an alternative input. When reading a GDD, map its sections to the extraction fields:
+
+| GDD Section | Maps To |
+|-------------|---------|
+| Game Identity + Core Fantasy | Core goal |
+| Game Identity (audience) | Target user |
+| MVP Scope | MVP scope (features) |
+| NOT in Scope | Non-goals |
+| Risks & Assumptions | Risks and assumptions |
+| Gameplay Loops + Core Mechanics | Additional feature tasks (implementation) |
+| Progression & Economy | Additional feature tasks (implementation) |
+| Player Experience | Validation tasks (playtesting) |
+| Art Direction + Audio Direction | Asset tasks |
+
+From `docs/PRD.md` (or `docs/GDD.md`) extract:
 
 1. **Core goal** — from the Overview or Goals section.
 2. **Target user** — from the Target Users section.

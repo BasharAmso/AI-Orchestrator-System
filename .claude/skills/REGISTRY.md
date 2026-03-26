@@ -14,7 +14,7 @@
 |----------|------|---------|-------|--------|----------|
 | SKL-0001 | Plan From Idea | 1.0 | orchestrator | `.claude/skills/plan-from-idea/` | IDEA_CAPTURED |
 | SKL-0002 | Quality Review | 1.0 | reviewer | `.claude/skills/quality-review/` | QUALITY_REVIEW_REQUESTED |
-| SKL-0003 | PRD to Tasks | 1.0 | orchestrator | `.claude/skills/prd-to-tasks/` | PRD_UPDATED |
+| SKL-0003 | PRD to Tasks | 1.0 | orchestrator | `.claude/skills/prd-to-tasks/` | PRD_UPDATED, GDD_UPDATED |
 | SKL-0004 | PRD Writing | 2.0 | product-manager | `.claude/skills/prd-writing/` | PRD_CREATION_REQUESTED |
 | SKL-0005 | Frontend Development | 1.0 | builder | `.claude/skills/frontend-dev/` | FRONTEND_TASK_READY |
 | SKL-0006 | Backend Development | 1.0 | builder | `.claude/skills/backend-dev/` | BACKEND_TASK_READY |
@@ -39,10 +39,26 @@
 | SKL-0025 | Project Planning | 1.0 | project-manager | `.claude/skills/project-planning/` | PROJECT_PLANNING_REQUESTED, STATUS_UPDATE_NEEDED, SPRINT_REVIEW_REQUESTED |
 | SKL-0026 | Team Retro | 1.0 | orchestrator | `.claude/skills/retro/` | RETRO_REQUESTED |
 | SKL-0027 | Problem Stress Test | 1.0 | product-manager | `.claude/skills/problem-stress-test/` | PROBLEM_VALIDATION_REQUESTED |
+| SKL-0028 | GDD Writing | 1.0 | product-manager | `.claude/skills/gdd-writing/` | GDD_CREATION_REQUESTED |
+
+### Custom Skills
+
+| Skill ID | Name | Version | Owner | Folder | Triggers |
+|----------|------|---------|-------|--------|----------|
+| SKL-0029 | Insecure Defaults Detection | 1.0 | reviewer | `custom-skills/insecure-defaults/` | INSECURE_DEFAULTS_CHECK_REQUESTED |
+| SKL-0030 | Differential Security Review | 1.0 | reviewer | `custom-skills/differential-security-review/` | DIFF_SECURITY_REVIEW_REQUESTED |
+| SKL-0031 | Supply Chain Audit | 1.0 | reviewer | `custom-skills/supply-chain-audit/` | SUPPLY_CHAIN_AUDIT_REQUESTED |
+| SKL-0032 | SEO Audit | 1.0 | builder | `custom-skills/seo-audit/` | SEO_AUDIT_REQUESTED |
+| SKL-0033 | Copywriting | 1.0 | builder | `custom-skills/copywriting/` | COPYWRITING_REQUESTED |
+| SKL-0034 | Launch Checklist | 1.0 | builder | `custom-skills/launch-checklist/` | LAUNCH_CHECK_REQUESTED |
+| SKL-0035 | Competitor Analysis | 1.0 | product-manager | `custom-skills/competitor-analysis/` | COMPETITOR_ANALYSIS_REQUESTED |
+| SKL-0036 | Pitch Deck | 1.0 | product-manager | `custom-skills/pitch-deck/` | PITCH_DECK_REQUESTED |
 
 ---
 
 ## Stats
 
-- **Total Skills:** 27
+- **Built-in Skills:** 28
+- **Custom Skills:** 8
+- **Total Skills:** 36
 - **Last Refreshed:** 2026-03-25

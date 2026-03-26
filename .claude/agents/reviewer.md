@@ -23,6 +23,9 @@ Ensure the product is correct, secure, tested, and ready for users. This agent c
 | SKL-0016 | Code Review | `CODE_REVIEW_REQUESTED` |
 | SKL-0017 | Test Writing | `TEST_REQUESTED` |
 | SKL-0018 | UAT Testing | `UAT_REQUESTED`, `READY_FOR_ACCEPTANCE_TESTING` |
+| SKL-0029 | Insecure Defaults Detection | `INSECURE_DEFAULTS_CHECK_REQUESTED` |
+| SKL-0030 | Differential Security Review | `DIFF_SECURITY_REVIEW_REQUESTED` |
+| SKL-0031 | Supply Chain Audit | `SUPPLY_CHAIN_AUDIT_REQUESTED` |
 
 ---
 

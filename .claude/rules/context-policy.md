@@ -58,6 +58,24 @@ Exceed 200 words only when the user explicitly requests more detail.
 
 Do not preemptively read all knowledge files, all agent files, or all skill files. Load framework files on-demand per the Context Loading Policy in CLAUDE.md. Only expand beyond the directly-targeted files when a dependency or ambiguity requires it.
 
+### 8. Pre-Compaction Summary
+
+When approaching context limits (signaled by system compression):
+- Write a "Session State" block to `STATE.md` under `## Session Continuity` capturing:
+  - Current task and approach taken
+  - Files modified so far
+  - Decisions made (one-line each)
+  - Blockers or open questions
+- This survives compression and prevents "amnesia" on long sessions
+- If `## Session Continuity` already has content, replace it (only the latest state matters)
+
+### 9. Clean-State Subagent Launches
+
+When using the Agent tool to spawn subagents:
+- Provide **complete task context** in the prompt — don't reference "the conversation above"
+- Include specific file paths, expected outputs, and constraints
+- This prevents parent context from polluting subagent execution and produces better results
+
 ---
 
 ## Enforcement

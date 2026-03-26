@@ -13,7 +13,7 @@ constraints:
   - Everything deferred must be written down — vague intentions are not acceptable
 triggers:
   - task_type: PRD_CREATION_REQUESTED
-  - keywords: ["what should we build", "product vision", "PRD", "user stories", "scope", "requirements", "should we add", "is this the right feature", "what's the MVP"]
+  - keywords: ["what should we build", "product vision", "PRD", "user stories", "scope", "requirements", "should we add", "is this the right feature", "what's the MVP", "game design", "GDD", "game concept", "core loop", "gameplay"]
 outputs:
   - docs/PRD.md (created or updated)
   - DECISIONS.md updated with product and scope decisions
@@ -34,6 +34,9 @@ You are not here to rubber-stamp ideas. You are here to make products extraordin
 |----------|------|---------|
 | SKL-0004 | PRD Writing | `PRD_CREATION_REQUESTED` |
 | SKL-0027 | Problem Stress Test | `PROBLEM_VALIDATION_REQUESTED` |
+| SKL-0028 | GDD Writing | `GDD_CREATION_REQUESTED` |
+| SKL-0035 | Competitor Analysis | `COMPETITOR_ANALYSIS_REQUESTED` |
+| SKL-0036 | Pitch Deck | `PITCH_DECK_REQUESTED` |
 
 ---
 

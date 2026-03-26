@@ -10,6 +10,7 @@
 | Task Type | Primary Agent | Review Agent(s) | Notes |
 |-----------|--------------|-----------------|-------|
 | Problem Validation | `product-manager` | Orchestrator | Problem stress test, advisory gate (SKL-0027) |
+| Game Design | `product-manager` | Orchestrator | GDD creation, game vision, design pillars (SKL-0028) |
 | Product Vision / Scope | `product-manager` | Orchestrator | Vision challenge, PRD creation, scope decisions (SKL-0001, SKL-0004) |
 | Planning / Sprint Management | `project-manager` | Orchestrator | Task breakdown, roadmap, status updates, estimation (SKL-0025) |
 | UI / Frontend | `builder` | Reviewer | Web UI components, pages, styling (SKL-0005) |
@@ -38,6 +39,25 @@
 | Multi-Domain (2+ specialists) | `orchestrator` | — | Tasks spanning multiple agent domains |
 | Retrospective | `orchestrator` | — | Engineering retro, velocity metrics (SKL-0026) |
 | User Guidance & Coaching | `coach` | Orchestrator | Command navigation, framework Q&A |
+| Insecure Defaults Check | `reviewer` | Orchestrator | Config-level security scan (SKL-0029) |
+| Differential Security Review | `reviewer` | Orchestrator | Security review of code diffs (SKL-0030) |
+| Supply Chain Audit | `reviewer` | Orchestrator | Dependency health and trust audit (SKL-0031) |
+| SEO Audit | `builder` | Orchestrator | Search engine optimization validation (SKL-0032) |
+| Copywriting | `builder` | Orchestrator | Conversion-focused copy (SKL-0033) |
+| Launch Readiness | `builder` | Orchestrator | Pre-launch checklist validation (SKL-0034) |
+| Competitor Analysis | `product-manager` | Orchestrator | Market research and differentiation (SKL-0035) |
+| Pitch Deck | `product-manager` | Orchestrator | Investor/stakeholder pitch outline (SKL-0036) |
+
+---
+
+## Builder Spec Gate
+
+For tasks expected to modify 3+ files, the builder agent should write a brief implementation spec to STATE.md (`## Current Task Spec`) before writing code:
+- Target files and expected changes
+- Approach in 2-3 sentences
+- Edge cases to handle
+
+This prevents wasted context on false starts and helps reviewers understand intent.
 
 ---
 
