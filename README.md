@@ -38,10 +38,11 @@ The framework works on all platforms. All commands and hooks are cross-platform 
 
 **2. Claude Code**
 
-Claude Code is an AI coding assistant from Anthropic. There are two ways to use it:
+Claude Code is an AI coding assistant from Anthropic. You can use it in:
 
-- **VS Code extension (recommended):** Download VS Code from https://code.visualstudio.com, then install the Claude Code extension from the Extensions sidebar. This gives you a nicer interface for reviewing files and approving changes.
-- **Terminal:** Install Claude Code as a CLI tool and run it directly from your terminal. Works the same way, just less visual.
+- **VS Code** (recommended): Install the Claude Code extension from the Extensions sidebar. Download VS Code from https://code.visualstudio.com if you don't have it.
+- **JetBrains IDEs** (IntelliJ, WebStorm, PyCharm, etc.): Claude Code has a JetBrains plugin.
+- **Terminal**: Install Claude Code as a CLI tool and run it directly. Works the same way, just less visual.
 
 **3. A Claude subscription**
 
