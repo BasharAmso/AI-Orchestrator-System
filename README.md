@@ -36,14 +36,12 @@ You need three things before using this framework:
 
 The framework works on all platforms. All commands and hooks are cross-platform compatible.
 
-**2. VS Code with the Claude Code extension**
+**2. Claude Code**
 
-VS Code is a free code editor from Microsoft. Claude Code is an AI assistant that runs inside it.
+Claude Code is an AI coding assistant from Anthropic. There are two ways to use it:
 
-- Download VS Code: https://code.visualstudio.com
-- Install Claude Code: Open VS Code, go to Extensions (the square icon on the left sidebar), search for "Claude Code", and click Install.
-
-You can also use Claude Code from the terminal without VS Code, but VS Code gives you a nicer interface for reviewing files and approving changes.
+- **VS Code extension (recommended):** Download VS Code from https://code.visualstudio.com, then install the Claude Code extension from the Extensions sidebar. This gives you a nicer interface for reviewing files and approving changes.
+- **Terminal:** Install Claude Code as a CLI tool and run it directly from your terminal. Works the same way, just less visual.
 
 **3. A Claude subscription**
 
