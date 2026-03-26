@@ -16,6 +16,10 @@ Instead of a blank AI chat, you get 12 specialized agents, 36 skill procedures, 
 
 If you can think in systems but hit a wall when it's time to code, this was built for you. Copy this folder into any new project (a web app, native mobile app, API, SaaS product, or game), open it in VS Code with Claude Code, and start building by describing what you want in plain language.
 
+## Token Efficient by Design
+
+The framework loads ~700 tokens at startup (0.07% of the context window). Skills, agents, and knowledge files load only when needed. State persists across sessions so you never re-explain your project. Chat output stays concise while artifacts go to files. The result: fewer tokens per session and fewer sessions per project.
+
 ## The Naming Stack
 
 | Layer | Name | What It Means |
