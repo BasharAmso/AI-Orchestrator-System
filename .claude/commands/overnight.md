@@ -35,6 +35,30 @@ If any hard check fails, stop and do not proceed.
 
 If there are unprocessed events in EVENTS.md: warn but proceed (events will be processed first, which is correct).
 
+### Step 1.5: Verify CC Permissions
+
+Overnight mode requires broad tool access to run unattended. Check whether permissions are configured:
+
+1. Read `~/.claude/settings.json` (user settings).
+2. Check if the `permissions.allow` array includes broad entries for: `Bash`, `Read`, `Edit`, `Write`.
+3. **If any are missing or restricted by patterns** (e.g., `Bash(git *)` instead of `Bash`):
+   - Print warning:
+     ```
+     Your Claude Code permissions use granular patterns that will prompt during overnight execution.
+     Overnight mode needs broad tool access to run unattended.
+
+     Current: [list restricted tools]
+     Recommended: Broad "Bash", "Read", "Edit", "Write" allows with deny/ask guardrails
+
+     Note: This changes your global permissions for all sessions, not just overnight.
+     Your deny and ask lists are preserved as safety guardrails.
+
+     Want me to update your permissions for unattended mode?
+     ```
+   - If user agrees: update `~/.claude/settings.json` to use broad allows while preserving existing deny/ask lists.
+   - If user declines: print "Proceeding, but expect permission prompts during execution." Continue (don't block). Do not modify settings.
+4. **If already configured:** skip silently.
+
 ### Step 2: Configure Overnight Mode
 
 1. Set Current Mode to **Autonomous** in STATE.md (same as `/set-mode auto`).
@@ -59,6 +83,7 @@ Record the task count from Next Task Queue for later reporting.
 - **Circuit breakers:** Consecutive failures (3), time limit, phantom completions (2)
 - **Auto-compaction:** Every 8 cycles
 - **Auto-learning:** Will run at completion
+- **CC Permissions:** Verified (broad access) | Warning (granular patterns, expect prompts)
 
 Important: This run depends on your Claude Code session staying active.
 - Disable sleep/hibernation, or use a keep-awake tool
