@@ -42,8 +42,6 @@ tags:
 
 Go beyond `npm audit` and `pip audit` to assess the *health and trustworthiness* of your dependency supply chain. Known vulnerabilities are only part of the picture — abandoned packages, single-maintainer risks, typosquatting, and deep transitive dependencies are where real supply chain attacks happen.
 
-Inspired by [Trail of Bits' supply-chain-risk-auditor skill](https://github.com/trailofbits/skills).
-
 > **See also:** For code-level vulnerabilities and OWASP checks, see SKL-0015 (Security Audit).
 
 ---
