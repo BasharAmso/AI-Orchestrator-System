@@ -499,6 +499,34 @@ Just ask. Type something like "What should I do next?" in the chat. The built-in
 
 ---
 
+## Frequently Asked Questions
+
+### "Do I need the VS Code extension?"
+
+You don't really need it, but it is helpful. Claude Code works in the terminal without any IDE extension. The VS Code extension adds a nicer interface for chat, file diffs, and tool approvals. The framework works the same either way.
+
+### "Do I need to know how to code?"
+
+No. The system is designed for people who can think in systems but don't write code. You describe what you want in plain language and the framework coordinates the AI to build it. That said, understanding basic concepts like files, folders, and git will help you navigate the project.
+
+### "Can I build a game with this?"
+
+Yes. When you run `/capture-idea` and describe a game, the system automatically detects it and routes you through game-specific planning. You'll get a Game Design Document instead of a PRD, with gameplay loops, design pillars, and player experience frameworks built in.
+
+### "What if the AI makes a mistake?"
+
+The default mode (Semi-Autonomous) runs one task at a time and stops for your review. You see what it did before it moves on. If something is wrong, you can tell it to fix the issue or try a different approach. The system also has 11 safety hooks that block dangerous operations automatically.
+
+### "Can I use this for an existing project?"
+
+Yes. Run `/clone-framework` to copy the framework into an existing project directory. It won't overwrite your code. Then run `/setup` and `/capture-idea` to describe what you're working on.
+
+### "How is this different from just using Claude Code directly?"
+
+Without the framework, Claude Code is a powerful but unstructured assistant. It can lose context between sessions, forget decisions, and go in circles on complex projects. The framework adds structure: a task queue that tracks progress, agents that specialize in different work, skills that follow proven procedures, and state files that persist across sessions.
+
+---
+
 ## Quick Reference
 
 ### Typical Session Flow
