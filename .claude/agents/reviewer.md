@@ -34,7 +34,7 @@ Ensure the product is correct, secure, tested, and ready for users. This agent c
 The Orchestrator routes to this agent when:
 - A task involves reviewing, testing, or auditing code
 - A task type matches any owned skill trigger
-- Keywords: `review`, `test`, `audit`, `security`, `quality`, `acceptance`, `UAT`, `check`
+- Keywords: `review`, `test`, `audit`, `security`, `quality`, `acceptance`, `UAT`, `check`, `insecure defaults`, `supply chain`, `differential security`, `dependencies`
 
 ---
 

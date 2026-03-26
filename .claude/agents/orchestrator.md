@@ -20,7 +20,7 @@ Run an autonomous loop that processes events and tasks safely while keeping STAT
 | Skill ID | Name | Trigger |
 |----------|------|---------|
 | SKL-0001 | Plan From Idea | `IDEA_CAPTURED` |
-| SKL-0003 | PRD to Tasks | `PRD_UPDATED` |
+| SKL-0003 | PRD to Tasks | `PRD_UPDATED`, `GDD_UPDATED` |
 | SKL-0026 | Team Retro | `RETRO_REQUESTED` |
 
 ---

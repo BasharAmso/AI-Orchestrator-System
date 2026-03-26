@@ -40,7 +40,7 @@ Build the product. This agent consolidates all code-writing specializations into
 The Orchestrator routes to this agent when:
 - A task involves writing or modifying application code
 - A task type matches any owned skill trigger
-- Keywords: `build`, `implement`, `create`, `add feature`, `frontend`, `backend`, `mobile`, `iOS`, `Swift`, `SwiftUI`, `Android`, `Kotlin`, `Compose`, `native app`, `database`, `API`, `integration`, `billing`, `analytics`, `growth`, `onboarding`
+- Keywords: `build`, `implement`, `create`, `add feature`, `frontend`, `backend`, `mobile`, `iOS`, `Swift`, `SwiftUI`, `Android`, `Kotlin`, `Compose`, `native app`, `database`, `API`, `integration`, `billing`, `analytics`, `growth`, `onboarding`, `SEO`, `copywriting`, `copy`, `launch checklist`, `go-live`
 
 ---
 

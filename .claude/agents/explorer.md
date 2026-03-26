@@ -18,6 +18,12 @@ recommendation with evidence. Never decides; always recommends.
 
 ---
 
+## Owned Skills
+
+This agent does not own skills. It investigates unknowns and recommends options to the Orchestrator.
+
+---
+
 ## Trigger Conditions
 
 The Orchestrator routes to this agent when:

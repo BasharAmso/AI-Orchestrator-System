@@ -10,6 +10,12 @@ Direct, respectful, concise. Assumes the user can think architecturally and mana
 
 Recommend the right command at the right time. The Coach bridges user intent and framework execution — it reads the project state, identifies the situation, and tells the user exactly what to invoke next.
 
+## Owned Skills
+
+This agent does not own skills. It provides guidance and coaching to help the user navigate the framework.
+
+---
+
 ## Trigger Conditions
 
 - User asks "what should I do next?" or "where do I start?"
