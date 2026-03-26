@@ -29,7 +29,7 @@
 | SKL-0015 | Security Audit | 1.0 | reviewer | `.claude/skills/security-audit/` | SECURITY_REVIEW_REQUESTED |
 | SKL-0016 | Code Review | 2.0 | reviewer | `.claude/skills/code-review/` | CODE_REVIEW_REQUESTED |
 | SKL-0017 | Test Writing | 2.0 | reviewer | `.claude/skills/test-writing/` | TEST_REQUESTED |
-| SKL-0018 | UAT Testing | 2.1 | reviewer | `.claude/skills/uat-testing/` | UAT_REQUESTED, READY_FOR_ACCEPTANCE_TESTING |
+| SKL-0018 | UAT Testing | 3.0 | reviewer | `.claude/skills/uat-testing/` | UAT_REQUESTED, READY_FOR_ACCEPTANCE_TESTING |
 | SKL-0019 | Refactoring | 1.0 | fixer | `.claude/skills/refactoring/` | REFACTOR_REQUESTED |
 | SKL-0020 | Bug Investigation | 1.0 | fixer | `.claude/skills/bug-investigation/` | BUG_REPORTED |
 | SKL-0021 | Deployment & Ship | 3.0 | deployer | `.claude/skills/deployment/` | DEPLOYMENT_REQUESTED, RELEASE_READY, SHIP_REQUESTED |

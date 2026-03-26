@@ -7,7 +7,7 @@ description: |
   regression (compare against baseline). Produces health score, structured
   reports, and actionable bug lists. Use this skill when UAT is requested
   or a feature is ready for acceptance testing.
-version: 2.1
+version: 3.0
 owner: reviewer
 triggers:
   - UAT_REQUESTED
@@ -39,7 +39,7 @@ tags:
 | Field | Value |
 |-------|-------|
 | **Skill ID** | SKL-0018 |
-| **Version** | 2.1 |
+| **Version** | 3.0 |
 | **Owner** | reviewer |
 | **Inputs** | PRD, STATE.md, TODOS.md, built application, previous baseline |
 | **Outputs** | UAT_REPORT.md, baseline.json, STATE.md updated, bug list |
@@ -49,7 +49,7 @@ tags:
 
 ## Purpose
 
-Walk through the product as a real user would. Verify features match the PRD, edge cases don't crash the app, and error messages make sense. Produce a structured report with a health score and actionable findings. Issue a GO / GO WITH CONDITIONS / NO-GO verdict.
+Walk through the product as a real user would — using a real browser when Playwright MCP is available. Verify features match the PRD, edge cases don't crash the app, and error messages make sense. Produce a structured report with a health score and actionable findings. Issue a GO / GO WITH CONDITIONS / NO-GO verdict.
 
 ---
 
@@ -90,6 +90,36 @@ Detect the appropriate mode automatically, or let the user specify:
    - Model/service files → which pages use those models
    - API endpoint files → test endpoints directly
    - Style files → check pages that include them
+
+---
+
+### Step 0.5 — Browser Testing Setup (Playwright MCP)
+
+**If Playwright MCP is connected**, use it for all browser-based testing in this skill. This enables real browser interaction instead of code-only inspection.
+
+**Check availability:** Look for Playwright MCP tools (`browser_navigate`, `browser_click`, `browser_screenshot`, `browser_snapshot`, `browser_type`). If available, use them. If not, fall back to code inspection and manual verification notes.
+
+**When Playwright MCP is available:**
+
+1. **Get the app URL** — from deployment config, STATE.md, or ask the user (e.g., `http://localhost:3000` or a staging URL like `https://my-app.vercel.app`).
+2. **Navigate to the app** using `browser_navigate` with the URL.
+3. **For each test in Steps 1-4**, use real browser interaction:
+   - `browser_navigate` — open pages and follow links
+   - `browser_click` — click buttons, links, form elements
+   - `browser_type` — fill in forms, search fields
+   - `browser_screenshot` — capture visual state for evidence
+   - `browser_snapshot` — read the DOM/accessibility tree to verify content and structure
+4. **Screenshot evidence:** Take a screenshot for each critical flow tested and each issue found. Reference screenshots in the UAT report.
+
+**When Playwright MCP is NOT available:**
+
+Fall back to the previous approach:
+- Inspect source code for potential issues
+- Check route definitions, component logic, and error handling
+- Note items that require manual browser verification
+- Add a section to the UAT report: "Manual verification needed for: [list]"
+
+> **Tip:** Always say "use Playwright MCP" in your prompt when invoking this skill. Claude may default to Bash-based testing otherwise.
 
 ---
 
@@ -360,12 +390,14 @@ reviewer
 ## Definition of Done
 
 - [ ] QA mode determined and applied
+- [ ] Playwright MCP used for browser testing (if available; fallback documented if not)
 - [ ] PRD features mapped to test checklist (if PRD exists)
 - [ ] TODOS.md cross-referenced for known bugs
-- [ ] All critical flows tested
+- [ ] All critical flows tested via real browser interaction (or manually verified)
 - [ ] Edge cases tested (empty, invalid, error, navigation)
 - [ ] Accessibility basics checked
 - [ ] Framework-specific checks applied
+- [ ] Screenshots captured for critical flows and issues (if Playwright available)
 - [ ] Health score computed
 - [ ] UAT_REPORT.md written with verdict and all findings
 - [ ] Baseline saved for regression
