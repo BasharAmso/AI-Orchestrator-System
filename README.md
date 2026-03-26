@@ -2,7 +2,7 @@
 
 The AI Orchestrator System is a reusable project template that turns Claude Code into a structured software development team. Copy this folder into any new project (a web app, native mobile app, API, or SaaS product), open it in VS Code with Claude Code, and start building by describing what you want in plain language.
 
-Instead of a blank AI chat, you get 12 specialized agents, 26 skill procedures, 11 safety hooks, and a dispatch chain that routes every task to the right agent with the right process. You stay in control: every action is reviewed before the next one starts.
+Instead of a blank AI chat, you get 12 specialized agents, 36 skill procedures (28 built-in + 8 custom), 11 safety hooks, and a dispatch chain that routes every task to the right agent with the right process. You stay in control: every action is reviewed before the next one starts.
 
 ## The Naming Stack
 
@@ -36,7 +36,8 @@ That's it. The system will guide you from there.
   agents/              — 12 specialized AI agents (builder, reviewer, coach, etc.)
   commands/            — 20 entry-point commands
   rules/               — 4 routing and governance policies
-  skills/              — 26 reusable task procedures + registry
+  skills/              — 28 built-in task procedures + registry
+custom-skills/           — 8 user-created skills (security, marketing, growth)
   hooks/               — 11 automatic guards (security, quality, session mgmt)
   project/
     STATE.md           — Current project status (single source of truth)

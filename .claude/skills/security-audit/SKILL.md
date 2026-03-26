@@ -43,6 +43,8 @@ tags:
 
 Find security vulnerabilities before they reach production. OWASP Top 10 scan, secrets detection, dependency audit, and auth review. Read-only analysis — never modifies source files.
 
+> **See also:** For config-level defaults and hardcoded credentials, see SKL-0029 (Insecure Defaults). For security review of code diffs, see SKL-0030 (Differential Security Review). For dependency health and trust signals, see SKL-0031 (Supply Chain Audit).
+
 ---
 
 ## Procedure

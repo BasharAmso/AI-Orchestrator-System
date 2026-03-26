@@ -44,6 +44,8 @@ Go beyond `npm audit` and `pip audit` to assess the *health and trustworthiness*
 
 Inspired by [Trail of Bits' supply-chain-risk-auditor skill](https://github.com/trailofbits/skills).
 
+> **See also:** For code-level vulnerabilities and OWASP checks, see SKL-0015 (Security Audit).
+
 ---
 
 ## Procedure

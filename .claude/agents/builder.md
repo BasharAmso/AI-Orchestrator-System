@@ -29,6 +29,9 @@ Build the product. This agent consolidates all code-writing specializations into
 | SKL-0012 | Analytics & Tracking | `ANALYTICS_REQUESTED` |
 | SKL-0013 | Growth & Distribution | `GROWTH_FEATURE_REQUESTED` |
 | SKL-0014 | Customer Support Infrastructure | `SUPPORT_FEATURE_REQUESTED` |
+| SKL-0032 | SEO Audit | `SEO_AUDIT_REQUESTED` |
+| SKL-0033 | Copywriting | `COPYWRITING_REQUESTED` |
+| SKL-0034 | Launch Checklist | `LAUNCH_CHECK_REQUESTED` |
 
 ---
 

@@ -28,6 +28,10 @@ Desktop.ini
 # See /capture-lesson command and knowledge-policy.md for setup.
 AI-Memory/
 
+# ----- Claude Code local settings -----
+# Local overrides should not be committed to the repo.
+.claude/settings.local.json
+
 # ----- Claude Code session artifacts -----
 # These are generated per-session and should not be committed.
 .claude/project/STATE.md

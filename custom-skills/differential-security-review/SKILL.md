@@ -45,6 +45,8 @@ Review code *changes* (not the full codebase) through a security lens. Every dif
 
 Inspired by [Trail of Bits' differential-review skill](https://github.com/trailofbits/skills).
 
+> **See also:** For full codebase security audit, see SKL-0015 (Security Audit).
+
 ---
 
 ## Procedure

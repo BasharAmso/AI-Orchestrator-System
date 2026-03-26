@@ -7,7 +7,7 @@ description: |
   comparison mode. Per-contributor analysis with praise and growth suggestions.
   Streak tracking, focus scores, and trend comparison. Use this skill when a
   retrospective is requested or at the end of a sprint/week.
-version: 1.0
+version: 2.0
 owner: orchestrator
 triggers:
   - RETRO_REQUESTED
@@ -34,7 +34,7 @@ tags:
 | Field | Value |
 |-------|-------|
 | **Skill ID** | SKL-0026 |
-| **Version** | 1.0 |
+| **Version** | 2.0 |
 | **Owner** | orchestrator |
 | **Inputs** | Git history, TODOS.md, previous retros, DECISIONS.md |
 | **Outputs** | Retro narrative, JSON snapshot, STATE.md updated |

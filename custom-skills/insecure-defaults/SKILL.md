@@ -46,6 +46,8 @@ Scan application code and configuration files for insecure default values, hardc
 
 Inspired by [Trail of Bits' insecure-defaults skill](https://github.com/trailofbits/skills).
 
+> **See also:** For full OWASP codebase audit, see SKL-0015 (Security Audit).
+
 ---
 
 ## Procedure

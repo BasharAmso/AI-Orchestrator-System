@@ -15,6 +15,12 @@ Design the system architecture that bridges the gap between "what we're building
 
 ---
 
+## Owned Skills
+
+No registered skills. Architecture design is routed directly via the `ARCHITECTURE_REQUESTED` event type. A dedicated architecture skill (SKL-XXXX) may be added in a future version.
+
+---
+
 ## Trigger Conditions
 
 The Orchestrator routes to this agent when:

@@ -13,7 +13,7 @@
 | Skill ID | Name | Version | Owner | Folder | Triggers |
 |----------|------|---------|-------|--------|----------|
 | SKL-0001 | Plan From Idea | 1.0 | orchestrator | `.claude/skills/plan-from-idea/` | IDEA_CAPTURED |
-| SKL-0002 | Quality Review | 1.0 | reviewer | `.claude/skills/quality-review/` | QUALITY_REVIEW_REQUESTED |
+| SKL-0002 | Quality Review | 2.0 | reviewer | `.claude/skills/quality-review/` | QUALITY_REVIEW_REQUESTED |
 | SKL-0003 | PRD to Tasks | 1.0 | orchestrator | `.claude/skills/prd-to-tasks/` | PRD_UPDATED, GDD_UPDATED |
 | SKL-0004 | PRD Writing | 2.0 | product-manager | `.claude/skills/prd-writing/` | PRD_CREATION_REQUESTED |
 | SKL-0005 | Frontend Development | 1.0 | builder | `.claude/skills/frontend-dev/` | FRONTEND_TASK_READY |
@@ -37,7 +37,7 @@
 | SKL-0023 | UX Design | 1.0 | designer | `.claude/skills/ux-design/` | UX_DESIGN_REQUESTED |
 | SKL-0024 | Documentation | 1.0 | documenter | `.claude/skills/documentation/` | DOCS_REQUESTED, FEATURE_SHIPPED |
 | SKL-0025 | Project Planning | 1.0 | project-manager | `.claude/skills/project-planning/` | PROJECT_PLANNING_REQUESTED, STATUS_UPDATE_NEEDED, SPRINT_REVIEW_REQUESTED |
-| SKL-0026 | Team Retro | 1.0 | orchestrator | `.claude/skills/retro/` | RETRO_REQUESTED |
+| SKL-0026 | Team Retro | 2.0 | orchestrator | `.claude/skills/retro/` | RETRO_REQUESTED |
 | SKL-0027 | Problem Stress Test | 1.0 | product-manager | `.claude/skills/problem-stress-test/` | PROBLEM_VALIDATION_REQUESTED |
 | SKL-0028 | GDD Writing | 1.0 | product-manager | `.claude/skills/gdd-writing/` | GDD_CREATION_REQUESTED |
 
