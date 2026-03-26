@@ -11,7 +11,7 @@
 | `.claude/skills/` | Framework (built-in) | No — overwritten by `/clone-framework --upgrade` |
 | `custom-skills/` | You | Yes — never touched by upgrades |
 
-Always put your own skills in `custom-skills/`. The system scans both directories when you run `/fix-registry`.
+Always put your own skills in `custom-skills/`. The system scans both directories when you run `/fix-registry`. If a custom skill defines the same trigger as a built in skill, the custom skill takes priority (see [Overriding Built-in Skills](#overriding-built-in-skills) below).
 
 ---
 

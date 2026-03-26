@@ -68,10 +68,11 @@ You might say something like:
 
 The system takes your idea and creates:
 
-- A **PRD** (Product Requirements Document) in `docs/PRD.md`
+- A **PRD** (Product Requirements Document) in `docs/PRD.md` (or a **GDD** at `docs/GDD.md` if you're building a game)
 - An **architecture stub** in `docs/ARCHITECTURE.md`
 - **Tasks** seeded into the task queue in STATE.md
 - An **event** (`IDEA_CAPTURED`) in EVENTS.md that triggers the planning workflow
+- A **Problem Stress Test** event that validates your idea against proven problem-validation frameworks before you commit resources
 
 ```
 ## Idea Captured
@@ -205,7 +206,24 @@ For more detail than the dashboard provides, open `.claude/project/STATE.md`. It
 
 ---
 
-## 4. Run Modes — Controlling Speed
+## 4. Framework Mode and Run Mode
+
+The AI Orchestrator System has two separate control systems. Framework Mode controls how much planning happens. Run Mode controls how fast work executes.
+
+### Framework Mode — Planning Depth
+
+Choose how much planning happens before building. Set during `/start` or change with `/set-mode`.
+
+| Mode | What Happens |
+|------|-------------|
+| **Quick Start** | Scaffold first, plan as you go. Describe your idea in 3 questions, get a working app immediately, add features one at a time. |
+| **Full Planning** *(Default)* | Plan before you build. Write a detailed PRD, design the architecture, break it into tasks, then build systematically. |
+
+Switch with `/set-mode quick-start` or `/set-mode full-planning`.
+
+**Game Detection:** When you run `/capture-idea` and describe a game (platformer, RPG, puzzle game, etc.), the system automatically detects this and routes you through game-specific planning. Instead of a PRD, you'll get a Game Design Document (GDD) with gameplay loops, design pillars, and player experience frameworks.
+
+### Run Mode — Controlling Speed
 
 The AI Orchestrator System has three speed settings. You control which one is active.
 
@@ -279,20 +297,20 @@ The system will suggest these when the situation calls for them. You don't need 
 | Command | What It Does |
 |---------|-------------|
 | `/status` | Show a compact project dashboard with phase, mode, progress, and blockers. Read-only. |
-| `/set-mode <mode>` | Switch execution speed. Options: `safe` (preview only), `semi` (one task at a time), `auto` (up to 10 tasks per run). |
+| `/set-mode <mode>` | Switch execution speed or planning depth. Speed: `safe`, `semi`, `auto`. Planning: `quick-start`, `full-planning`. |
 | `/trigger` | Manually trigger a workflow by creating an event. For things like requesting a code review or reporting a bug. |
 | `/doctor` | Diagnose the health of your project. Checks directories, files, registry, and state consistency. Offers repairs for common issues. |
 | `/fix-registry` | Rebuild the skills registry by scanning all skill files. Run this after adding new skills or if skills aren't being found. |
-| `/cleanup` | Review the knowledge base for stale or superseded entries. Read-only — suggests cleanup but never deletes. |
+| `/cleanup` | Review the knowledge base for stale or superseded entries. Read-only, suggests cleanup but never deletes. |
 | `/clone-framework <path>` | Copy The AI Orchestrator System to a new project directory. Add `--upgrade` to update an existing project's framework files. |
 | `/capture-lesson` | Save an insight, failure, decision, or pattern to global memory so future projects can benefit from it. |
-
-### Deprecated Commands
-
-These commands still work but have been replaced by `/setup`:
-
-- `/bootstrap` — Use `/setup` instead.
-- `/init-project` — Use `/setup` instead.
+| `/retro` | Engineering retrospective: analyzes commits, work patterns, and code quality metrics over a configurable time window. |
+| `/overnight` | Run the project unattended with git verification, circuit breakers, auto learning, and a morning summary. |
+| `/learn` | Analyzes the current session and extracts reusable lessons automatically. |
+| `/log-session` | Logs session quality metrics to the global progress tracker. |
+| `/framework-review` | Deep review of framework health, unused components, and improvement opportunities. |
+| `/test-framework` | Validates framework structure, dispatch chain, and file consistency. |
+| `/test-hooks` | Smoke tests all 11 hooks. Verifies they fire and block correctly. |
 
 ---
 
@@ -342,19 +360,21 @@ You can read and edit these files yourself at any time. They're plain Markdown.
 
 This section is optional. If you just want to use the system, the previous sections are all you need. This section is for anyone curious about what's happening behind the scenes.
 
-### The Eight Primitives
+### The Ten Primitives
 
-The AI Orchestrator System is built from eight building blocks:
+The AI Orchestrator System is built from ten building blocks:
 
 | Primitive | Location | Role |
 |-----------|----------|------|
-| **Commands** | `.claude/commands/` | Entry points you type (like `/run-project`) |
+| **Commands** | `.claude/commands/` | Entry points you type (like `/run-project`). 20 commands available. |
 | **State** | `.claude/project/STATE.md` | Single source of truth: current task, mode, phase, history |
 | **Events** | `.claude/project/EVENTS.md` | Queue of things that happened or need to happen |
-| **Skills** | `.claude/skills/` | Reusable procedures for specific tasks (writing a PRD, designing a database, etc.) |
-| **Registry** | `.claude/skills/REGISTRY.md` | Index that maps event types to skills |
+| **Skills** | `.claude/skills/` | 28 built in reusable procedures for specific tasks (writing a PRD, designing a database, etc.) |
+| **Custom Skills** | `custom-skills/` | 8 user created skills (security, marketing, growth). Survive framework upgrades. |
+| **Registry** | `.claude/skills/REGISTRY.md` | Index that maps event types to skills (36 total) |
 | **Rules** | `.claude/rules/` | Governance: how tasks are routed, when security checks run, how context is managed |
-| **Agents** | `.claude/agents/` | Specialized roles that execute skills (Builder, Reviewer, Deployer, etc.) |
+| **Agents** | `.claude/agents/` | 12 specialized roles that execute skills (Builder, Reviewer, Deployer, Product Manager, etc.) |
+| **Hooks** | `.claude/hooks/` | 11 automatic safety guards that fire on every file write, git operation, and session event |
 | **Knowledge** | `.claude/project/knowledge/` | Persistent memory: decisions, research, glossary, open questions |
 
 ### The Dispatch Chain
@@ -395,7 +415,23 @@ The technical architecture is documented in [.claude/CLAUDE.md](../.claude/CLAUD
 
 ---
 
-## 8. Sharing Your Framework
+## 8. Browser Testing with Playwright
+
+If you have the Playwright MCP server installed globally, the UAT testing skill (SKL-0018) can test your deployed websites using a real browser. Instead of just inspecting code, the system opens your site in Chromium, clicks through flows, fills in forms, takes screenshots, and reports what's broken.
+
+**Setup (one time):**
+```
+claude mcp add --scope user playwright -- npx @playwright/mcp@latest
+npx playwright install chromium
+```
+
+**Usage:** When running UAT, say "use Playwright MCP to test [your URL]." The system navigates, interacts, and produces a structured report with screenshots.
+
+This is optional. If Playwright MCP is not installed, the UAT skill falls back to code inspection with manual verification notes.
+
+---
+
+## 9. Sharing Your Framework
 
 The AI Orchestrator System is designed to be reused across projects. You can copy it to new projects or upgrade existing ones.
 
@@ -433,7 +469,7 @@ Your event history, completed tasks, decisions, and research are never lost duri
 
 ---
 
-## 9. Troubleshooting
+## 10. Troubleshooting
 
 ### "Nothing is happening when I run /run-project"
 

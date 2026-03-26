@@ -8,7 +8,9 @@ This barrier became known as the **Syntax Wall**.
 
 AI-assisted development tools have begun lowering this barrier, but most tools still treat the user like a programmer. They assume you know how to structure a project, debug errors, and navigate a codebase.
 
-The AI Orchestration Framework approaches the problem differently.
+As Uri Levine wrote in "Fall in Love with the Problem, Not the Solution," the key is obsessing over the problem before reaching for a solution. The problem here isn't "how do I use AI to write code?" It's "how do I ship software when writing code isn't my strength?"
+
+The AI Orchestration Framework approaches that problem differently.
 
 Instead of writing code directly, the user **orchestrates a structured system of agents, skills, and workflows**. The user's role becomes **Architect and Orchestrator**, not programmer.
 
@@ -88,37 +90,29 @@ The user does not interact with every layer directly. Instead, the orchestrator 
 
 ---
 
-## Two Classes of Projects
+## What You Can Build
 
-The framework supports two broad categories of work.
+The framework supports any software project that starts as an idea and ends as a shipped product.
 
-### Product Projects
-
-These produce software products that people use.
-
-**Examples:**
+**Project types:**
 
 - Web applications
-- Mobile applications
+- Mobile applications (React Native, Swift/SwiftUI, Kotlin/Compose)
 - SaaS products
+- APIs and backend services
+- Games (with dedicated Game Design Document support)
 - Internal business tools
 
-The orchestrator coordinates planning, architecture, development, testing, and launch. Skills handle tasks like generating a PRD, scaffolding code, running reviews, and preparing for deployment.
+**Two planning modes** adapt to your project's maturity:
 
-### Idea Projects
+| Mode | Best For |
+|------|----------|
+| **Quick Start** | You have a clear idea and want a working scaffold immediately. Planning docs grow as you build. |
+| **Full Planning** | You need to think through requirements, architecture, and scope before writing any code. |
 
-These produce structured digital products from early-stage concepts.
-
-**Examples:**
-
-- Web Apps
-- Mobile Apps
-- APIs / Backend services
-- SaaS platforms
+The orchestrator coordinates the entire lifecycle: idea capture, problem validation, planning, architecture, development, testing, review, and deployment. Skills handle the specific work at each stage.
 
 > **Note:** Non-software domains (books, courses, research) are planned as separate framework variants.
-
-The orchestrator coordinates research, planning, prototyping, validation, and iteration. Skills handle tasks like generating PRDs, evaluating technical feasibility, managing glossaries, and tracking open questions.
 
 ---
 
@@ -130,12 +124,14 @@ The same orchestration principles — planning before building, tracking state, 
 
 This makes the framework useful for:
 
+- **Systems thinkers** who can architect and direct but hit a wall writing code
 - **Builders** turning an app idea into a working product
-- **Founders** prototyping a SaaS concept
+- **Founders** prototyping and shipping an MVP
+- **Parents** building educational tools with their kids
 - **Solo developers** building a SaaS product end-to-end
-- **Technical founders** shipping an MVP
 - **Product managers** defining and tracking requirements
 - **Small teams** coordinating across frontend, backend, and infrastructure
+- **Anyone** who has ever had an idea for an app but didn't know how to start building it
 
 ---
 
