@@ -28,6 +28,29 @@ The framework loads ~700 tokens at startup (0.07% of the context window). Skills
 | **Method** | AI Orchestration Framework | A structured method for coordinating AI agents, skills, and events so the AI builds while you direct. |
 | **Tool** | The AI Orchestrator System | This template, the ready to use implementation of the framework for software development. |
 
+## Prerequisites
+
+You need three things before using this framework:
+
+**1. A computer (Windows, Mac, or Linux)**
+
+The framework works on all platforms. All commands and hooks are cross-platform compatible.
+
+**2. VS Code with the Claude Code extension**
+
+VS Code is a free code editor from Microsoft. Claude Code is an AI assistant that runs inside it.
+
+- Download VS Code: https://code.visualstudio.com
+- Install Claude Code: Open VS Code, go to Extensions (the square icon on the left sidebar), search for "Claude Code", and click Install.
+
+You can also use Claude Code from the terminal without VS Code, but VS Code gives you a nicer interface for reviewing files and approving changes.
+
+**3. A Claude subscription**
+
+Claude Code requires an active Anthropic subscription (Pro or Max plan). You sign in through the Claude Code extension the first time you use it. It will walk you through the authentication.
+
+That's everything. No programming languages to install, no build tools, no package managers. The framework is pure markdown and shell scripts.
+
 ## Quick Start
 
 1. **Clone or download** this repository to your machine.
