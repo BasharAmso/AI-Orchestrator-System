@@ -14,7 +14,7 @@ Instead of a blank AI chat, you get 12 specialized agents, 36 skill procedures, 
 
 ## Who It's For
 
-If you can think in systems but hit a wall when it's time to code, this was built for you. Copy this folder into any new project (a web app, native mobile app, API, SaaS product, or game), open it in VS Code with Claude Code, and start building by describing what you want in plain language.
+If you can think in systems but hit a wall when it's time to code, this was built for you. Clone this repo, open it in VS Code with Claude Code, and tell it to push the framework to your new project. Then start building by describing what you want in plain language.
 
 ## Token Efficient by Design
 
@@ -30,10 +30,15 @@ The framework loads ~700 tokens at startup (0.07% of the context window). Skills
 
 ## Quick Start
 
-1. **Copy** this entire folder into a new directory (or use `/clone-framework`).
-2. **Rename** it to match your project (e.g., `my-cool-app`).
-3. **Open** the folder in VS Code with Claude Code installed.
-4. **Run these commands** in order:
+1. **Clone or download** this repository to your machine.
+2. **Open** the AI Orchestrator System folder in VS Code with Claude Code installed.
+3. **Tell Claude Code** to push the framework to your new project:
+   ```
+   push my framework to C:\Users\me\Projects\my-cool-app
+   ```
+   Claude Code will run `/clone-framework` and copy all agents, skills, hooks, and commands to your project.
+4. **Open** your new project folder in VS Code.
+5. **Run these commands** in order:
 
 ```
 /start             See where you are and what to do next
