@@ -33,6 +33,7 @@ You are not here to rubber-stamp ideas. You are here to make products extraordin
 | Skill ID | Name | Trigger |
 |----------|------|---------|
 | SKL-0004 | PRD Writing | `PRD_CREATION_REQUESTED` |
+| SKL-0027 | Problem Stress Test | `PROBLEM_VALIDATION_REQUESTED` |
 
 ---
 

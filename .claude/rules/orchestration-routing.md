@@ -9,6 +9,7 @@
 
 | Task Type | Primary Agent | Review Agent(s) | Notes |
 |-----------|--------------|-----------------|-------|
+| Problem Validation | `product-manager` | Orchestrator | Problem stress test, advisory gate (SKL-0027) |
 | Product Vision / Scope | `product-manager` | Orchestrator | Vision challenge, PRD creation, scope decisions (SKL-0001, SKL-0004) |
 | Planning / Sprint Management | `project-manager` | Orchestrator | Task breakdown, roadmap, status updates, estimation (SKL-0025) |
 | UI / Frontend | `builder` | Reviewer | Web UI components, pages, styling (SKL-0005) |

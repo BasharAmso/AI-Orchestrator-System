@@ -16,6 +16,7 @@
 | DEPLOY_REQUESTED | Deployer | Orchestrator | Validate readiness, execute deploy (SKL-0021) |
 | ARCHITECTURE_REQUESTED | architecture-designer | Orchestrator | Design system architecture (docs/ARCHITECTURE.md) |
 | SECURITY_REVIEW_REQUESTED | Reviewer | Orchestrator | Run security checks (SKL-0015) |
+| PROBLEM_VALIDATION_REQUESTED | product-manager | Orchestrator | Run problem stress test (SKL-0027). Advisory — user decides outcome. |
 
 ---
 

@@ -38,10 +38,11 @@
 | SKL-0024 | Documentation | 1.0 | documenter | `.claude/skills/documentation/` | DOCS_REQUESTED, FEATURE_SHIPPED |
 | SKL-0025 | Project Planning | 1.0 | project-manager | `.claude/skills/project-planning/` | PROJECT_PLANNING_REQUESTED, STATUS_UPDATE_NEEDED, SPRINT_REVIEW_REQUESTED |
 | SKL-0026 | Team Retro | 1.0 | orchestrator | `.claude/skills/retro/` | RETRO_REQUESTED |
+| SKL-0027 | Problem Stress Test | 1.0 | product-manager | `.claude/skills/problem-stress-test/` | PROBLEM_VALIDATION_REQUESTED |
 
 ---
 
 ## Stats
 
-- **Total Skills:** 26
-- **Last Refreshed:** 2026-03-24
+- **Total Skills:** 27
+- **Last Refreshed:** 2026-03-25

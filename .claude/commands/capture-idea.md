@@ -63,9 +63,17 @@ Write to STATE.md Next Task Queue (if empty/placeholder):
 
 The Skill column uses `—` for scaffold tasks because the specific skill depends on the project type (web, mobile, etc.) — the orchestrator's auto-classification will handle it.
 
-### B4: Emit Event
+### B4: Emit Events
 
 Emit `IDEA_CAPTURED` event (same as Full Planning path Step 5).
+
+Then emit a second event for the problem stress test:
+
+```
+EVT-XXXX | PROBLEM_VALIDATION_REQUESTED | Problem stress test for <project name> | system | YYYY-MM-DD HH:MM
+```
+
+Auto-increment the EVT ID from the event emitted above. This triggers SKL-0027 (Problem Stress Test) during the next `/run-project` cycle.
 
 ### B5: Print Summary
 
@@ -257,7 +265,9 @@ A queue is considered **empty/placeholder-only** if it matches ANY of these patt
 | 4 | Break PRD into tasks | Medium | SKL-0003 |
 | 5 | Run first build scaffold | Medium | — |
 
-### Step 5: Emit IDEA_CAPTURED Event
+### Step 5: Emit Events
+
+#### 5A: Emit IDEA_CAPTURED
 
 Check `.claude/project/EVENTS.md` under `## Unprocessed Events`.
 
@@ -271,6 +281,18 @@ EVT-XXXX | IDEA_CAPTURED | <project name> idea captured | user | YYYY-MM-DD HH:M
 - **Otherwise:** append the canonical event line under `## Unprocessed Events`.
 - Auto-increment the EVT ID from the highest existing ID across **both** Unprocessed and Processed sections.
 - If the section currently shows `*(none)*`, replace the placeholder with the new event.
+
+#### 5B: Emit PROBLEM_VALIDATION_REQUESTED
+
+Immediately after the IDEA_CAPTURED event, emit a second event:
+
+```
+EVT-XXXX | PROBLEM_VALIDATION_REQUESTED | Problem stress test for <project name> | system | YYYY-MM-DD HH:MM
+```
+
+- Auto-increment the EVT ID from the event emitted in Step 5A.
+- This triggers SKL-0027 (Problem Stress Test) during the next `/run-project` cycle.
+- The stress test is **advisory** — it produces a challenge report but never blocks progression.
 
 ### Step 6: Print Summary
 
