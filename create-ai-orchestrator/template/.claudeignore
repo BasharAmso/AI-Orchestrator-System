@@ -1,0 +1,64 @@
+# Dependencies
+node_modules/
+vendor/
+.venv/
+__pycache__/
+*.pyc
+
+# Build outputs
+dist/
+build/
+out/
+.next/
+.nuxt/
+
+# Coverage and test artifacts
+coverage/
+.nyc_output/
+*.lcov
+
+# Minified and compiled assets
+*.min.js
+*.min.css
+*.bundle.js
+*.chunk.js
+
+# Environment and secrets
+.env
+.env.local
+.env.*
+.env.*.local
+*.pem
+*.key
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE artifacts
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Claude Code auto-generated (not framework files)
+.claude/debug/
+.claude/shell-snapshots/
+.claude/file-history/
+.claude/paste-cache/
+.claude/telemetry/
+.claude/statsig/
+
+# Logs
+*.log
+*.csv
+logs/
+npm-debug.log*
+
+# Lock files (large, rarely useful for Claude to read)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+Cargo.lock
