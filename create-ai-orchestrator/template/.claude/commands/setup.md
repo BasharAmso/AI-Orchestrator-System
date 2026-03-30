@@ -283,12 +283,25 @@ Write the file using the detected values. If IDENTITY.md already exists, skip �
 
 1. If `PROJECT_TYPE.md` exists in the repo root, read the `Project Type: <value>` line. Use that value.
 2. If the repo root `README.md` contains "The AI Orchestrator System", this is the framework template itself — set type to `Template` and skip Steps 5–6.
-3. **MCP auto-detection (if Cortex MCP is available):** List files in the project root (package.json, tsconfig.json, requirements.txt, Cargo.toml, etc.) and call the `detect_project` MCP tool with the file list. Use the returned stack detection to pre-fill the project type suggestion. Still ask the user to confirm — don't auto-select without consent.
-4. If MCP is not available or `detect_project` returns no results, ask the user to choose:
-   - **Web App** — React, Next.js, SPA, static sites
+3. **Ask what they're building.** Start with a natural question:
+
+   > "What brings you here today? Describe what you're trying to build in a sentence or two."
+
+   Wait for their answer. Use their description to recommend a project type in the next step.
+
+4. **Recommend and confirm project type.** Based on their description, suggest the best-fit type and ask them to confirm:
+
+   > "Based on what you described, I'd recommend **[type]**. Does that sound right, or would you prefer one of these?"
+
+   Present all options so they can override:
+   - **Web App** — React, Next.js, SPA, browser-based games, static sites
    - **Mobile App** — React Native/Expo (cross-platform), Swift/SwiftUI (iOS), Kotlin/Compose (Android)
    - **API / Backend** — REST, GraphQL, server-side services
    - **SaaS (Full-Stack)** — Frontend + backend + database + auth
+
+   **MCP enhancement (if Cortex MCP is available):** Also call `detect_project` with the project's root files to refine the recommendation. Combine MCP detection with the user's description for the best suggestion.
+
+   Wait for the user's confirmation before proceeding. Never skip this step.
 
 Once determined, create `PROJECT_TYPE.md` **only if it does not already exist** (never overwrite):
 
