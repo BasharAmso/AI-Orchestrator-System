@@ -158,6 +158,16 @@ Go beyond file presence — verify the dispatch chain and cross-references actua
 4. List all `.sh` files in `.claude/hooks/` (excluding the `lib/` subdirectory). For each, check if it's registered in settings.json. Report unregistered hooks as warnings.
 5. Result: `Hook registration: OK (X hooks registered, all files present)` or `Hook registration: X issues (list missing/unregistered)`
 
+#### 7k. Knowledge Source Test
+
+1. Read RUN_POLICY.md Knowledge Loading settings (use defaults if section missing).
+2. If Preferred Source = Files: report `"Knowledge Source: Files (configured)"`.
+3. If Preferred Source = Auto:
+   a. Attempt to call `list_categories` on the MCP server named in `MCP Server Name`.
+   b. If available: report `"Cortex MCP: Connected ([X] fragments across [N] categories)"`.
+   c. If not available: report `"Cortex MCP: Not connected (using file-based loading)"`.
+4. This is **informational, not an error** — both modes are valid.
+
 ### Step 8: Repair (Optional)
 
 If Steps 7b, 7d, or 7e found repairable issues, offer repairs. **Behavior depends on mode:**

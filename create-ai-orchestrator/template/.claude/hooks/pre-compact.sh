@@ -75,6 +75,11 @@ else
   echo "No EVENTS.md found"
 fi
 
+# Knowledge Source
+if [ -f "$STATE_FILE" ]; then
+  KS=$(grep "Knowledge Source" "$STATE_FILE" | head -1 | sed 's/.*| *\([^|]*\) *|.*/\1/' | xargs)
+  [ -n "$KS" ] && echo "Knowledge Source: $KS" || echo "Knowledge Source: Files (default)"
+fi
 echo "--- End State Snapshot ---"
 
 exit 0

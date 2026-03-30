@@ -34,11 +34,13 @@
 
 | Field | Value |
 |-------|-------|
-| ID | T22 |
-| Description | Update doctor, CLAUDE.md, RUN_POLICY, session-start, pre-compact, start, setup for MCP mode |
-| Owner Agent | orchestrator |
-| Started | 2026-03-30 02:00 |
-| Status | In Progress |
+| Field | Value |
+|-------|-------|
+| ID | — |
+| Description | — |
+| Owner Agent | — |
+| Started | — |
+| Status | — |
 
 ### Status Lifecycle
 
@@ -132,6 +134,7 @@
 | T19 | Two-mode knowledge loading plan (100 reviews, approved) | 2026-03-30 | — |
 | T20 | Cortex MCP pre-requisites: re-number IDs, add owner field, sync content, rebuild indexes | 2026-03-30 | — |
 | T21 | Implement two-mode knowledge loading in orchestrator.md | 2026-03-30 | — |
+| T22 | Update doctor, CLAUDE.md, RUN_POLICY, session-start, pre-compact, start, setup for MCP mode | 2026-03-30 | — |
 
 ---
 
@@ -139,7 +142,7 @@
 
 | Field | Value |
 |-------|-------|
-| Current Cycle | 2 |
+| Current Cycle | 3 |
 | Max Cycles This Run | 50 |
 | Last Run Status | Running |
 | Knowledge Source | Files |

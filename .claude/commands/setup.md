@@ -283,7 +283,8 @@ Write the file using the detected values. If IDENTITY.md already exists, skip �
 
 1. If `PROJECT_TYPE.md` exists in the repo root, read the `Project Type: <value>` line. Use that value.
 2. If the repo root `README.md` contains "The AI Orchestrator System", this is the framework template itself — set type to `Template` and skip Steps 5–6.
-3. If neither, ask the user to choose:
+3. **MCP auto-detection (if Cortex MCP is available):** List files in the project root (package.json, tsconfig.json, requirements.txt, Cargo.toml, etc.) and call the `detect_project` MCP tool with the file list. Use the returned stack detection to pre-fill the project type suggestion. Still ask the user to confirm — don't auto-select without consent.
+4. If MCP is not available or `detect_project` returns no results, ask the user to choose:
    - **Web App** — React, Next.js, SPA, static sites
    - **Mobile App** — React Native/Expo (cross-platform), Swift/SwiftUI (iOS), Kotlin/Compose (Android)
    - **API / Backend** — REST, GraphQL, server-side services

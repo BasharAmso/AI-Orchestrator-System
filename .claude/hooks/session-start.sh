@@ -189,5 +189,39 @@ elif command -v osascript &>/dev/null; then
   osascript -e "display notification \"Claude Code session started.\" with title \"${PROJECT_NAME} — ready\"" 2>/dev/null || true
 fi
 
+# --- Cortex MCP status ---
+SETTINGS_FILE="${FRAMEWORK_ROOT}/.claude/settings.json"
+if [ -f "$SETTINGS_FILE" ] && command -v python3 &>/dev/null; then
+  MCP_STATUS=$(python3 -c "
+import json, sys
+try:
+    with open('${SETTINGS_FILE}', 'r') as f:
+        d = json.load(f)
+    servers = d.get('mcpServers', {})
+    if 'cortex' in servers:
+        print('configured')
+    else:
+        print('not configured (optional)')
+except:
+    print('unknown')
+" 2>/dev/null || echo "unknown")
+elif [ -f "$SETTINGS_FILE" ] && command -v python &>/dev/null; then
+  MCP_STATUS=$(python -c "
+import json, sys
+try:
+    with open('${SETTINGS_FILE}', 'r') as f:
+        d = json.load(f)
+    servers = d.get('mcpServers', {})
+    if 'cortex' in servers:
+        print('configured')
+    else:
+        print('not configured (optional)')
+except:
+    print('unknown')
+" 2>/dev/null || echo "unknown")
+else
+  MCP_STATUS="not checked"
+fi
+echo "Cortex MCP: ${MCP_STATUS}"
 echo "--- End Session Context ---"
 exit 0

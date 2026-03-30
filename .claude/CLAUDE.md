@@ -78,6 +78,7 @@ To stay token-efficient, load context incrementally:
 | **Running the system** | + `STATE.md` + `EVENTS.md` + `REGISTRY.md` |
 | **Session start** | Scan `AI-Memory/lessons/` for entries relevant to the current task |
 | **Session start** | Load `~/.ai-orchestrator/user-profile.md` if it exists (adapts output style, experience level, role) |
+| **MCP available** | Query Cortex MCP instead of reading `.claude/agents/` and `.claude/skills/` (see orchestrator.md § Knowledge Source Detection) |
 
 > Do NOT load all files at once. Read only what the current task requires.
 

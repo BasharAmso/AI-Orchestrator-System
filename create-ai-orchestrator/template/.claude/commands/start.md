@@ -79,6 +79,7 @@ Print this format (keep under 150 words):
 ## Welcome to The AI Orchestrator System
 
 **Project Status:** [Not bootstrapped | Not initialized | Ready to capture idea | Events pending | Tasks in progress | All tasks complete]
+**Knowledge Source:** [MCP (X fragments) | Files (default)]
 
 **Recommended next step:**
 Run `/<command>` — [one-sentence plain-language explanation of what it does and what happens automatically after].
