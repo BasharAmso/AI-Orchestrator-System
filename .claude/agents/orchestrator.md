@@ -35,15 +35,21 @@ A) Event Processing
    If Unprocessed has >= 1 event --> process by PRIORITY first (high → normal → low), then FIFO within each level. Events without a priority field default to normal.
    After processing --> move it from Unprocessed to Processed.
    Update .claude/project/STATE.md (Active Task, Completed Tasks Log).
+   NOTE: Event trigger-to-skill mapping ALWAYS uses REGISTRY.md (even in MCP mode).
 
-B) Skills Lookup (task-assigned first, then registry)
+B) Skills Lookup (task-assigned first, then registry/MCP)
    1. If the task has a Skill column with a valid SKL-XXXX ID:
-      --> Look up that skill directly in REGISTRY.md by ID.
+      --> Load the skill procedure (see § Skill Loading below).
       --> Execute the skill's procedure. Skip trigger matching entirely.
    2. If the task has no Skill ID (or Skill = "—"):
-      --> Attempt auto-classification: match task keywords against REGISTRY skill descriptions.
+      --> Auto-classify using the active knowledge source:
+          - Files mode: match task keywords against REGISTRY skill descriptions.
+          - MCP mode: call search_knowledge with task description, mode="catalog",
+            category="skills", budget=1000. Pick the highest-scoring result. Verify
+            returned fragment category = "skills". If no results or wrong category:
+            fall back to REGISTRY.md lookup.
       --> If high-confidence match: assign skill ID, write back to STATE.md.
-      --> If no match: skip to C) Direct Agent Routing (fallback). Do not re-enter trigger matching.
+      --> If no match: skip to C) Direct Agent Routing (fallback).
    3. If REGISTRY.md is missing or stale --> instruct user to run /fix-registry
       (do not fail; proceed with fallback routing).
 
@@ -54,6 +60,101 @@ C) Direct Agent Routing (fallback)
    3. Check .claude/rules/orchestration-routing.md  (for tasks, final fallback)
    4. If still no match --> Orchestrator handles directly with best-effort.
 ```
+
+### Skill Loading
+
+How skills are loaded depends on Knowledge Source (set during Initialization step 0.5):
+
+**Files mode (default):**
+- Look up skill by ID in REGISTRY.md → read `.claude/skills/<folder>/SKILL.md`.
+
+**MCP mode:**
+1. Call `get_fragment` with the skill ID (e.g., `SKL-0004`).
+2. If response starts with `"Fragment not found:"` → fall back to file-based loading.
+3. If response contains valid markdown → use as the skill procedure.
+4. After loading primary skill, run **Smart Context Enhancement** (see below).
+5. Log in execution summary: `"Skill: [SKL-XXXX] ([name]) loaded from: [MCP | files]"`.
+
+**Fallback chain:**
+```
+1. Try Cortex MCP (if Knowledge Source = MCP)
+   ↓ fails
+2. Try REGISTRY.md + .claude/skills/ files
+   ↓ fails
+3. Try orchestration-routing.md (task type → agent)
+   ↓ fails
+4. Orchestrator handles directly (best effort)
+```
+
+### Agent Loading (MCP Mode)
+
+When Knowledge Source = MCP and a task is routed to a specialist agent:
+
+1. Look up the agent in the Agent ID Mapping table below.
+2. Call `get_fragment` with the agent ID (e.g., `AGT-0001`).
+3. If MCP returns content → use as the agent definition.
+4. If MCP returns nothing → fall back to reading `.claude/agents/<name>.md`.
+5. **Exception:** Coach and Orchestrator agents ALWAYS load from files (framework-specific).
+
+#### Agent ID Mapping
+
+| Agent Name | Cortex ID | Notes |
+|-----------|-----------|-------|
+| builder | AGT-0001 | |
+| reviewer | AGT-0002 | |
+| architecture-designer | AGT-0003 | |
+| product-manager | AGT-0004 | |
+| project-manager | AGT-0005 | |
+| designer | AGT-0006 | |
+| fixer | AGT-0007 | |
+| deployer | AGT-0008 | |
+| documenter | AGT-0009 | |
+| explorer | AGT-0010 | |
+| coach | — | Always loads from files |
+| orchestrator | — | Always loads from files |
+
+> Update this table if Cortex agent IDs change.
+
+### Smart Context Enhancement (MCP Mode Only)
+
+After loading the primary skill via MCP, auto-load supplementary context:
+
+**A. Related Patterns (up to 2):**
+1. Read the skill's `relatedFragments` from the catalog response.
+2. Filter to category = "patterns" only.
+3. Load top 1-2 matching patterns via `get_fragment`.
+4. Include as supplementary reference (not primary procedure).
+5. Log: `"Smart context: [PAT-XXXX] ([name])"`.
+
+**B. Related Examples (up to 1):**
+1. From the same `relatedFragments`, filter to category = "examples".
+2. Load the top 1 matching example via `get_fragment`.
+3. Include as reference code the agent can adapt.
+4. Log: `"Smart context: [EX-XXXX] ([name])"`.
+
+**C. Difficulty-Based Skill Preference (auto-classification only):**
+1. Read user experience level from `~/.ai-orchestrator/user-profile.md`.
+2. When auto-classifying (no Skill ID), filter `search_knowledge` results:
+   - Beginner user → prefer skills with `difficulty: beginner`.
+   - Senior user → prefer skills with `difficulty: advanced`.
+   - Intermediate → no preference filter.
+3. If preferred-difficulty skill exists: use it. If not: use best match regardless.
+4. This only affects auto-classification, not explicit SKL-XXXX lookups.
+
+**Token budget for smart loading:**
+- Primary skill: loaded in full (no cap).
+- Patterns: up to 800 tokens each (max 2 = 1600 tokens).
+- Examples: up to 800 tokens (max 1).
+- Max supplementary context: 2400 tokens.
+- If supplementary exceeds 2400 tokens: skip examples first, then reduce to 1 pattern.
+- **Parallel dispatch:** Reduce to 1 pattern + 0 examples per agent (save tokens for work).
+
+### Cortex-Only Skills
+
+When auto-classification via MCP returns a skill ID that doesn't exist in REGISTRY.md (e.g., SKL-0037+), this is a Cortex-only skill:
+- Execute directly from MCP content (no file fallback available).
+- Use the `owner` field from the MCP catalog response for agent routing.
+- If `owner` is missing: fall back to `orchestration-routing.md` keyword matching.
 
 **Mode constraint:** Cycle limits are governed by `.claude/project/RUN_POLICY.md`. Semi-Autonomous (default) = 1 cycle, Autonomous = cycle limit from RUN_POLICY.md (default 10), Safe = 0 (propose only).
 
@@ -122,13 +223,12 @@ If no unprocessed events exist:
 2. Set Status = `In Progress` and Started = current timestamp.
 3. **Route the task** using the Dispatch Chain:
    - **B) Skills Lookup (task-assigned first):**
-     - If the task row has a `Skill` column with a valid `SKL-XXXX` ID: look up that skill directly in `REGISTRY.md` and execute its procedure.
+     - If the task row has a `Skill` column with a valid `SKL-XXXX` ID: load the skill via § Skill Loading and execute its procedure.
      - If the task has no Skill ID (or `—`): attempt **auto-classification** before falling back:
-       1. Read the task description and REGISTRY.md skill list.
-       2. Match the task's domain keywords against skill names and descriptions (e.g., "API endpoint" → SKL-0006 Backend Development, "login screen" → SKL-0005 Frontend Development, "Stripe webhook" → SKL-0011 Monetization).
+       1. **Files mode:** Read the task description and REGISTRY.md skill list. Match domain keywords against skill names and descriptions (e.g., "API endpoint" → SKL-0006 Backend Development). Reference `.claude/project/knowledge/TASK-FORMAT.md` § Common Mappings.
+       2. **MCP mode:** Call `search_knowledge` with task description, `mode="catalog"`, `category="skills"`, `budget=1000`. Pick highest-scoring result with category = "skills". Apply difficulty-based preference if user profile exists (see § Smart Context Enhancement).
        3. If a single skill matches with high confidence: assign it, write the Skill ID back to the task row in STATE.md, and log: `"Auto-classified: [task] → [SKL-XXXX] ([skill name])"`.
-       4. If multiple skills match or no clear match: skip classification and proceed directly to **C) Direct Agent Routing** (fallback). Do not re-enter trigger matching — the same ambiguity would recur.
-       5. Reference `.claude/project/knowledge/TASK-FORMAT.md` § Common Mappings for the keyword-to-skill lookup table.
+       4. If multiple skills match or no clear match: skip classification and proceed directly to **C) Direct Agent Routing** (fallback). Do not re-enter trigger matching.
      - If `REGISTRY.md` is missing or stale: warn the user to run `/fix-registry` and proceed to fallback.
    - **C) Fallback:** If no match from B, use `orchestration-routing.md` fallback.
 4. **Execute** the routed skill/action.
@@ -168,6 +268,20 @@ This section governs runtime execution across all modes.
    - **concise:** Execution summaries are bullet points only (standard 200-word budget).
    - **just-the-code:** Skip all explanatory text. Print only: task completed, files changed, next task. No reasoning.
    - **Role: non-technical:** Use plain language throughout. Avoid jargon. Explain technical terms on first use.
+
+0.5. **Knowledge Source Detection**
+
+   Determine whether to load agent/skill knowledge from files or Cortex MCP:
+
+   1. Read `.claude/project/RUN_POLICY.md` → Knowledge Loading section (defaults if missing: `Preferred Source = Auto`, `MCP Server Name = cortex`, `Fallback to Files = Yes`).
+   2. If Preferred Source = **Files** → set `Knowledge Source = Files` in STATE.md Run Cycle. Skip MCP detection entirely.
+   3. If Preferred Source = **Auto** (default):
+      - Attempt to call the `list_categories` MCP tool on the configured MCP server.
+      - If it responds with category counts → set `Knowledge Source = MCP`. Log: `"Knowledge source: MCP ([X] fragments)"`.
+      - If it fails or is not configured → set `Knowledge Source = Files`. Log: `"Knowledge source: Files (.claude/agents + .claude/skills)"`.
+   4. If Knowledge Source = MCP and `list_categories` response has fewer fragments than expected, log a warning but proceed (some fragments may be missing).
+   5. **Mid-session failure recovery:** If a `get_fragment` call fails during execution, switch to `Knowledge Source = Files` for the rest of the session. Log: `"Cortex MCP became unavailable — switched to file-based loading."`.
+
 1. Read `.claude/project/RUN_POLICY.md` and `.claude/project/STATE.md`.
 2. Determine **Current Mode** from .claude/project/STATE.md.
 3. Set **Max Cycles This Run** according to mode (from .claude/project/RUN_POLICY.md).
@@ -395,7 +509,9 @@ When the Next Task Queue contains 2+ independent tasks at the same priority leve
    - Status: `Dispatched`
    - Started: current timestamp
 
-3. For each slot, build a complete agent prompt:
+3. For each slot, build a complete agent prompt.
+
+   **MCP pre-fetch (required for MCP mode):** Worktree agents run in isolated processes and cannot call MCP tools. If Knowledge Source = MCP, the orchestrator must call `get_fragment` for each skill BEFORE launching the agents. Embed the returned markdown directly in the agent prompt. Use reduced smart context (1 pattern, 0 examples) to save tokens.
 
 ```
 You are the [agent-name] agent for The AI Orchestrator System.
@@ -404,7 +520,7 @@ You are the [agent-name] agent for The AI Orchestrator System.
 [Task ID]: [Task description]
 
 ## Skill Procedure
-[Full content of the relevant SKILL.md file]
+[Full content of the relevant SKILL.md file — or MCP fragment content if Knowledge Source = MCP]
 
 ## Project Context
 [Contents of .claude/project/IDENTITY.md if it exists]
@@ -631,6 +747,8 @@ After each run, print a summary in this format:
 - **Progress:** [Completed count] of [Completed + Remaining] tasks ([percentage]%) — Phase: [Current Phase]
 - **Mode:** [Current mode]
 - **Warnings:** [Any warnings or notes]
+- **Knowledge Source:** [MCP | Files]
+- **Smart Context:** [none | PAT-XXXX, EX-XXXX loaded]
 - **Skill Friction:** [none | <describe what caused rework> → run /capture-lesson]
 ```
 

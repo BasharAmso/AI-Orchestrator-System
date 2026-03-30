@@ -34,10 +34,10 @@
 
 | Field | Value |
 |-------|-------|
-| ID | T21 |
-| Description | Implement two-mode knowledge loading in orchestrator.md |
+| ID | T22 |
+| Description | Update doctor, CLAUDE.md, RUN_POLICY, session-start, pre-compact, start, setup for MCP mode |
 | Owner Agent | orchestrator |
-| Started | 2026-03-30 01:45 |
+| Started | 2026-03-30 02:00 |
 | Status | In Progress |
 
 ### Status Lifecycle
@@ -101,10 +101,9 @@
 
 | # | Task | Priority | Skill |
 |---|------|----------|-------|
-| 1 | Update doctor, CLAUDE.md, RUN_POLICY, session-start, pre-compact, start, setup for MCP mode | High | — |
-| 2 | README rewrite for discovery and conversion | Medium | — |
-| 3 | Submit to awesome-claude-code lists (3 PRs) | Medium | — |
-| 4 | Game-dev skill (SKL-0038) — adventure, sandbox, action, educational modes | Low | — |
+| 1 | README rewrite for discovery and conversion | Medium | — |
+| 2 | Submit to awesome-claude-code lists (3 PRs) | Medium | — |
+| 3 | Game-dev skill (SKL-0038) — adventure, sandbox, action, educational modes | Low | — |
 
 ---
 
@@ -132,6 +131,7 @@
 | T18 | Framework synced to Frame_Brain, Dolce Stella Events, Dario Mathias, Ritas, Grace's Unicorn Game | 2026-03-29 | — |
 | T19 | Two-mode knowledge loading plan (100 reviews, approved) | 2026-03-30 | — |
 | T20 | Cortex MCP pre-requisites: re-number IDs, add owner field, sync content, rebuild indexes | 2026-03-30 | — |
+| T21 | Implement two-mode knowledge loading in orchestrator.md | 2026-03-30 | — |
 
 ---
 
@@ -139,7 +139,7 @@
 
 | Field | Value |
 |-------|-------|
-| Current Cycle | 1 |
+| Current Cycle | 2 |
 | Max Cycles This Run | 50 |
 | Last Run Status | Running |
 | Knowledge Source | Files |
