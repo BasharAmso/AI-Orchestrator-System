@@ -1,68 +1,43 @@
 # The AI Orchestrator System
 
-I always wanted to build apps, but I never had the passion to write code. I've worked with amazing and talented people over the years who could, and I have admired them and still do. My expertise came in the form of providing structure to projects and keeping things moving. I could architect, think through systems, and direct. But actually shipping? That's where I kept getting stuck.
+**You can architect, design, and direct. Writing code line-by-line blocks you from shipping.** This framework turns Claude Code into a structured development team that builds while you direct.
 
-When Claude Code came along, I knew I had to get started. I quickly realized that setting up a framework was the most important step. Without structure, the AI does great work for a few turns and then loses context, contradicts itself, or goes in circles. With structure, it becomes a reliable development team.
+```
+npx create-ai-orchestrator my-app
+```
 
-There's a book by Uri Levine called "Fall in Love with the Problem, Not the Solution." The problem I fell in love with is simple: how do you ship software when writing code isn't your strength? I built scriptureguide.org because I wanted to connect how I feel in the moment with scripture. I built an educational game because my daughter needed a fun way to learn. The framework came from needing a reliable way to ship all of it.
+12 agents. 36 skills (124 via Cortex MCP). 20 commands. 11 safety hooks. Zero dependencies.
+
+---
 
 ## What It Does
 
-The AI Orchestrator System turns Claude Code into a structured software development team. You describe what you want to build. The system figures out what to do next.
+Describe what you want to build. The system figures out what to do next.
 
-Instead of a blank AI chat, you get 12 specialized agents, 36 skill procedures, 11 safety hooks, and a dispatch chain that routes every task to the right agent with the right process. Independent tasks can run in parallel across isolated git worktrees, then merge back automatically. You stay in control. Every action is reviewed before the next one starts.
-
-## Install
+Instead of a blank AI chat, you get a dispatch chain that routes every task to the right agent with the right process. Independent tasks run in parallel across isolated git worktrees, then merge back automatically. You stay in control. Every action is reviewed before the next one starts.
 
 ```
-npx create-ai-orchestrator
+/start             See where you are and what to do next
+/capture-idea      Describe what you want to build
+/run-project       Start building (generates PRD, breaks into tasks, executes)
 ```
-
-Run this in any project directory. It copies the full framework (12 agents, 36 skills, 20 commands, 11 hooks) into your project. Then open in VS Code with Claude Code and run `/start`.
-
-```
-npx create-ai-orchestrator my-new-app    # or create a new project
-```
-
-No dependencies. No build step. Just markdown and shell scripts.
 
 ## Who It's For
 
-If you can think in systems but hit a wall when it's time to code, this was built for you. Run the install command above, open in VS Code with Claude Code, and start building by describing what you want in plain language.
-
-## Token Efficient by Design
-
-The framework loads ~700 tokens at startup (0.07% of the context window). Skills, agents, and knowledge files load only when needed. State persists across sessions so you never re-explain your project. Chat output stays concise while artifacts go to files. The result: fewer tokens per session and fewer sessions per project.
-
-## The Naming Stack
-
-| Layer | Name | What It Means |
-|-------|------|---------------|
-| **Problem** | The Syntax Wall | You can design systems, think architecturally, and manage projects but writing code line by line blocks you from shipping. |
-| **Method** | AI Orchestration Framework | A structured method for coordinating AI agents, skills, and events so the AI builds while you direct. |
-| **Tool** | The AI Orchestrator System | This template, the ready to use implementation of the framework for software development. |
+If you can think in systems but hit a wall when it's time to code, this was built for you. Run the install command, open in VS Code with Claude Code, and start building by describing what you want in plain language.
 
 ## Prerequisites
 
-You need three things before using this framework:
+**1. A computer** (Windows, Mac, or Linux)
 
-**1. A computer (Windows, Mac, or Linux)**
+**2. Claude Code** -- install via:
+- **VS Code** (recommended): Claude Code extension from the Extensions sidebar
+- **JetBrains IDEs**: Claude Code plugin
+- **Terminal**: Claude Code CLI
 
-The framework works on all platforms. All commands and hooks are cross-platform compatible.
+**3. A Claude subscription** (Pro or Max plan)
 
-**2. Claude Code**
-
-Claude Code is an AI coding assistant from Anthropic. You can use it in:
-
-- **VS Code** (recommended): Install the Claude Code extension from the Extensions sidebar. Download VS Code from https://code.visualstudio.com if you don't have it.
-- **JetBrains IDEs** (IntelliJ, WebStorm, PyCharm, etc.): Claude Code has a JetBrains plugin.
-- **Terminal**: Install Claude Code as a CLI tool and run it directly. Works the same way, just less visual.
-
-**3. A Claude subscription**
-
-Claude Code requires an active Anthropic subscription (Pro or Max plan). You sign in through the Claude Code extension the first time you use it. It will walk you through the authentication.
-
-That's everything. No programming languages to install, no build tools, no package managers. The framework is pure markdown and shell scripts.
+No programming languages to install, no build tools, no package managers. The framework is pure markdown and shell scripts.
 
 ## Quick Start
 
@@ -89,7 +64,9 @@ Open `my-app` in VS Code with Claude Code, then:
 3. Tell Claude Code: `push my framework to C:\Users\me\Projects\my-cool-app`
 4. Open the new project and run `/start`.
 
-Either way, the system guides you from there.
+## Token Efficient by Design
+
+The framework loads ~700 tokens at startup (0.07% of the context window). Skills, agents, and knowledge files load only when needed. State persists across sessions so you never re-explain your project. Chat output stays concise while artifacts go to files.
 
 ## What's Inside
 
@@ -99,15 +76,26 @@ Either way, the system guides you from there.
   agents/              12 specialized AI agents (builder, reviewer, coach, etc.)
   commands/            20 entry point commands
   rules/               4 routing and governance policies
-  skills/              28 built in task procedures + registry
-custom-skills/           8 user created skills (security, marketing, growth)
+  skills/              28 built-in task procedures + registry
   hooks/               11 automatic guards (security, quality, session mgmt)
   project/
     STATE.md           Current project status (single source of truth)
     EVENTS.md          Event queue (things to process)
     IDENTITY.md        Project identity lock (survives upgrades)
     knowledge/         Decisions, research, glossary, open questions
+custom-skills/           8 additional skills (security, marketing, growth)
 ```
+
+## Two-Mode Knowledge Loading (v2.0.0)
+
+The framework supports two knowledge sources:
+
+| Mode | How It Works |
+|------|-------------|
+| **Standalone (default)** | Loads agents and skills from `.claude/` files. Works everywhere, no setup needed. |
+| **MCP-connected** | Queries [Cortex MCP](https://github.com/BasharAmso/cortex-mcp) for on-demand knowledge with smart context (related patterns and examples). Falls back to files if MCP is unavailable. |
+
+In MCP mode, the orchestrator auto-loads related patterns (up to 2) and examples (up to 1) alongside the primary skill, giving agents richer context. Difficulty-based skill selection adapts to your experience level.
 
 ## Commands
 
@@ -139,8 +127,6 @@ The system suggests these at the right time. You don't need to memorize them.
 
 ### Maintenance and Diagnostics: Rare
 
-These keep the framework healthy. You may never need them directly.
-
 | Command | What It Does | When to Use |
 |---------|-------------|-------------|
 | `/capture-lesson` | Saves a reusable insight to global memory for cross project learning. | When you discover something that would help future projects. |
@@ -152,26 +138,14 @@ These keep the framework healthy. You may never need them directly.
 | `/log-session` | Logs session quality metrics to the global progress tracker. | When you want to track productivity trends over time. |
 | `/framework-review` | Deep review of framework health, unused components, and improvement opportunities. | Periodic framework maintenance (monthly or after major milestones). |
 
-### Recommended First Time Flow
-
-```
-1. /start            See where you are and what to do next
-2. /setup            Create project structure and runtime files
-3. /capture-idea     Describe what you want to build
-4. /run-project      Process the idea (generates PRD, seeds tasks)
-5. /run-project      Execute the first task from the queue
-```
-
 ## Framework Mode
 
 Choose how much planning happens before building. Set during `/start` or change anytime with `/set-mode`.
 
 | Mode | What Happens |
 |------|-------------|
-| **Quick Start** | Scaffold first, plan as you go. Describe your idea in 3 questions, get a working app immediately, add features one at a time. Planning docs grow with the code. |
-| **Full Planning** *(Default)* | Plan before you build. Write a detailed PRD, design the architecture, break it into tasks, then build systematically. Best for complex projects. |
-
-Switch with `/set-mode quick-start` or `/set-mode full-planning`. The system adapts: in Quick Start mode, if your project grows complex (10+ tasks, multiple integrations), the framework will suggest switching to Full Planning.
+| **Quick Start** | Scaffold first, plan as you go. Describe your idea in 3 questions, get a working app immediately, add features one at a time. |
+| **Full Planning** *(Default)* | Plan before you build. Write a detailed PRD, design the architecture, break it into tasks, then build systematically. |
 
 ## Run Modes
 
@@ -183,30 +157,25 @@ Control how fast work happens within either framework mode.
 | **Semi-Autonomous** | Execute one safe cycle and pause for review. *(Default)* |
 | **Autonomous** | Execute up to 10 cycles before stopping (configurable in RUN_POLICY.md). |
 
-Switch modes with `/set-mode safe`, `/set-mode semi`, or `/set-mode auto`. Cycle limits and stop conditions are defined in .claude/project/RUN_POLICY.md. The current mode is shown in .claude/project/STATE.md.
+## Parallel Execution
 
-## Mobile Development
+When the task queue has 2+ independent tasks at the same priority, the orchestrator dispatches them simultaneously in separate git worktrees. Each agent works in isolation, then results merge back one at a time.
 
-Build native mobile apps with the same structured workflow. The framework supports three platforms out of the box:
-
-| Platform | Stack | Best For |
-|----------|-------|----------|
-| **React Native + Expo** | Cross platform JavaScript | Ship to both stores with one codebase |
-| **Swift/SwiftUI** | Native iOS (MVVM + @Observable) | iOS only apps needing platform specific polish |
-| **Kotlin/Jetpack Compose** | Native Android (MVVM + StateFlow + Hilt) | Android only apps needing native performance |
-
-The architecture designer agent prompts you to choose your platform, architecture pattern, and data layer. The builder follows modern best practices (and blocks deprecated APIs like ObservableObject, XML layouts, and LiveData). Testing, code review, QA, and app store deployment all have mobile specific procedures.
+- **Auto-detection** identifies independent tasks by skill type
+- **Up to 3 parallel agents** per cycle (configurable)
+- **Sequential merge** eliminates race conditions
+- **Conflict resolution** re-queues conflicted tasks automatically
+- **Circuit breaker** stops if 2+ merge conflicts occur
 
 ## Overnight Mode
 
 For unattended runs, `/overnight` activates Autonomous mode with execution hardening:
 
 - **Git verification** confirms tasks actually changed files (detects phantom completions)
-- **Circuit breakers** stop after 3 consecutive failures or 4 hours (configurable)
-- **Inter-cycle commits** one git commit per task for clean history and easy bisect/revert
-- **Auto-compaction** compresses context every 8 cycles to prevent quality degradation
-- **Planning review gate** auto critiques PRDs and architecture before building
-- **Auto-learning** extracts lessons and saves to AI Memory when done
+- **Circuit breakers** stop after 3 consecutive failures or 4 hours
+- **Inter-cycle commits** one git commit per task for clean history
+- **Auto-compaction** compresses context every 8 cycles
+- **Auto-learning** extracts lessons when done
 - **Morning summary** writes `docs/OVERNIGHT_SUMMARY.md` with full results
 
 ```
@@ -216,35 +185,21 @@ For unattended runs, `/overnight` activates Autonomous mode with execution harde
 /overnight --pr         create PR when done
 ```
 
-## Parallel Execution
+## Mobile Development
 
-When the task queue has 2+ independent tasks at the same priority, the orchestrator dispatches them simultaneously in separate git worktrees. Each agent works in isolation, then results merge back one at a time.
+Build native mobile apps with the same structured workflow:
 
-- **Auto-detection** identifies independent tasks by skill type (frontend vs backend vs docs)
-- **Up to 3 parallel agents** per cycle (configurable in RUN_POLICY.md)
-- **Sequential merge** eliminates race conditions. The orchestrator is the single writer.
-- **Conflict resolution** re-queues conflicted tasks automatically
-- **Circuit breaker** stops if 2+ merge conflicts occur (tasks weren't truly independent)
+| Platform | Stack | Best For |
+|----------|-------|----------|
+| **React Native + Expo** | Cross platform JavaScript | Ship to both stores with one codebase |
+| **Swift/SwiftUI** | Native iOS (MVVM + @Observable) | iOS only apps needing platform specific polish |
+| **Kotlin/Jetpack Compose** | Native Android (MVVM + StateFlow + Hilt) | Android only apps needing native performance |
 
-Parallel execution is automatic. If only one task is eligible, the system falls back to sequential mode with no changes.
+## Self-Improving Agents
 
-## Global Memory
-
-The AI Orchestrator System supports cross project learning. All reusable knowledge (decisions, patterns, failures, and lessons) is stored in a separate **AI Memory** directory that lives outside any single project.
-
-> **Setup:** Create an `AI-Memory` folder on your machine (e.g., alongside your projects) and set the `AI_MEMORY_PATH` environment variable to point to it. See the `/capture-lesson` command for details.
-
-This allows future projects to benefit from past discoveries. The orchestrator checks global memory before major architectural work and writes new insights back when they emerge.
-
-## Self-Improving Skills
-
-The AI Orchestrator System can capture proposed improvements to reusable skills. When the orchestrator notices a skill causing repeated friction or rework, it logs a proposal in `SKILL_IMPROVEMENTS.md` inside your AI Memory folder.
-
-Skills do not rewrite themselves automatically. Instead, the system logs proposed improvements for later review and approval. This keeps the improvement loop safe and human controlled.
+Agents evaluate their own work after each task. Cross-agent feedback captures review failures with pattern tags. When the same pattern appears 3+ times, the system proposes a skill improvement. All proposals are logged for human review -- nothing auto-modifies.
 
 ## Architecture
-
-How commands, events, skills, and agents connect:
 
 ```mermaid
 flowchart TD
@@ -275,11 +230,16 @@ flowchart TD
     style REG fill:#9cf,stroke:#333
 ```
 
-**Dispatch chain:** Events > Skills (via REGISTRY) > Agents (via routing rules) > State updates
+## Origin Story
+
+I always wanted to build apps, but I never had the passion to write code. My expertise came in the form of providing structure to projects and keeping things moving. I could architect, think through systems, and direct. But actually shipping? That's where I kept getting stuck.
+
+When Claude Code came along, I quickly realized that setting up a framework was the most important step. Without structure, the AI does great work for a few turns and then loses context, contradicts itself, or goes in circles. With structure, it becomes a reliable development team.
+
+There's a book by Uri Levine called "Fall in Love with the Problem, Not the Solution." The problem I fell in love with is simple: how do you ship software when writing code isn't your strength? I built [scriptureguide.org](https://scriptureguide.org) because I wanted to connect how I feel in the moment with scripture. I built an educational game because my daughter needed a fun way to learn. The framework came from needing a reliable way to ship all of it.
 
 ## Learn More
 
-- **[User Guide](docs/USER_GUIDE.md)** Step by step walkthrough for first time users.
-- **[Custom Skills Guide](docs/CUSTOM_SKILLS_GUIDE.md)** How to create your own skills.
-- **[Framework Scope](docs/FRAMEWORK_SCOPE.md)** The conceptual "why" behind the framework.
-- **[CLAUDE.md](.claude/CLAUDE.md)** Architecture index and context loading rules (loaded by Claude Code automatically).
+- **[CLAUDE.md](.claude/CLAUDE.md)** Architecture index and context loading rules
+- **[Custom Skills Guide](docs/CUSTOM_SKILLS_GUIDE.md)** How to create your own skills
+- **[Framework Scope](docs/FRAMEWORK_SCOPE.md)** The conceptual "why" behind the framework

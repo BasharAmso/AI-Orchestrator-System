@@ -36,6 +36,8 @@
 |-------|-------|
 | Field | Value |
 |-------|-------|
+| Field | Value |
+|-------|-------|
 | ID | — |
 | Description | — |
 | Owner Agent | — |
@@ -103,8 +105,7 @@
 
 | # | Task | Priority | Skill |
 |---|------|----------|-------|
-| 1 | README rewrite for discovery and conversion | Medium | — |
-| 2 | Submit to awesome-claude-code lists (3 PRs) | Medium | — |
+| 1 | Submit to awesome-claude-code lists (3 PRs) | Medium | — |
 | 3 | Game-dev skill (SKL-0038) — adventure, sandbox, action, educational modes | Low | — |
 
 ---
@@ -135,6 +136,7 @@
 | T20 | Cortex MCP pre-requisites: re-number IDs, add owner field, sync content, rebuild indexes | 2026-03-30 | — |
 | T21 | Implement two-mode knowledge loading in orchestrator.md | 2026-03-30 | — |
 | T22 | Update doctor, CLAUDE.md, RUN_POLICY, session-start, pre-compact, start, setup for MCP mode | 2026-03-30 | — |
+| T23 | README rewrite for discovery and conversion | 2026-03-30 | SKL-0024 |
 
 ---
 
@@ -142,7 +144,7 @@
 
 | Field | Value |
 |-------|-------|
-| Current Cycle | 3 |
+| Current Cycle | 4 |
 | Max Cycles This Run | 50 |
 | Last Run Status | Running |
 | Knowledge Source | Files |
