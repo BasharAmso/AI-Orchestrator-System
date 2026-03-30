@@ -1,5 +1,10 @@
 # The AI Orchestrator System
 
+[![npm version](https://img.shields.io/npm/v/create-ai-orchestrator)](https://www.npmjs.com/package/create-ai-orchestrator)
+[![GitHub release](https://img.shields.io/github/v/release/BasharAmso/AI-Orchestrator-System)](https://github.com/BasharAmso/AI-Orchestrator-System/releases)
+[![GitHub stars](https://img.shields.io/github/stars/BasharAmso/AI-Orchestrator-System)](https://github.com/BasharAmso/AI-Orchestrator-System/stargazers)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 **You can architect, design, and direct. Writing code line-by-line blocks you from shipping.** This framework turns Claude Code into a structured development team that builds while you direct.
 
 ```
