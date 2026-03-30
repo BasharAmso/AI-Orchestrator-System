@@ -28,6 +28,7 @@
 | `.claude/rules/event-hooks.md` | Event type to agent routing |
 | `.claude/rules/knowledge-policy.md` | When to read/write knowledge files |
 | `.claude/rules/context-policy.md` | Chat context conservation and artifact persistence |
+| `.claude/rules/user-consent.md` | Never auto-select when a procedure says to ask the user |
 
 ## Knowledge Base (`.claude/project/knowledge/`)
 
