@@ -1,8 +1,8 @@
-# The AI Orchestrator System
+# Bashi
 
-[![npm version](https://img.shields.io/npm/v/create-ai-orchestrator)](https://www.npmjs.com/package/create-ai-orchestrator)
-[![GitHub release](https://img.shields.io/github/v/release/BasharAmso/AI-Orchestrator-System)](https://github.com/BasharAmso/AI-Orchestrator-System/releases)
-[![GitHub stars](https://img.shields.io/github/stars/BasharAmso/AI-Orchestrator-System)](https://github.com/BasharAmso/AI-Orchestrator-System/stargazers)
+[![npm version](https://img.shields.io/npm/v/create-bashi)](https://www.npmjs.com/package/create-bashi)
+[![GitHub release](https://img.shields.io/github/v/release/BasharAmso/bashi)](https://github.com/BasharAmso/bashi/releases)
+[![GitHub stars](https://img.shields.io/github/stars/BasharAmso/bashi)](https://github.com/BasharAmso/bashi/stargazers)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 > **Never used Claude Code before?** [Start here -- Beginner's Guide](docs/BEGINNERS_GUIDE.md)
@@ -11,13 +11,13 @@
 
 ```
 # New project:
-npx create-ai-orchestrator my-app
+npx create-bashi my-app
 
 # Existing project (run from inside it):
-npx create-ai-orchestrator
+npx create-bashi
 
 # MCP-connected (skills from Cortex, lighter footprint):
-npx create-ai-orchestrator --light
+npx create-bashi --light
 ```
 
 12 agents. 37 skills (124 via Cortex MCP). 20 commands. 11 safety hooks. Zero dependencies.
@@ -58,7 +58,7 @@ No programming languages to install, no build tools, no package managers. The fr
 ### Option A: New Project
 
 ```
-npx create-ai-orchestrator my-app
+npx create-bashi my-app
 cd my-app
 ```
 
@@ -66,7 +66,7 @@ cd my-app
 
 ```
 cd my-existing-project
-npx create-ai-orchestrator
+npx create-bashi
 ```
 
 Both install the full framework. Add `--light` to either for [MCP-connected mode](#two-mode-knowledge-loading-v200) (skills from Cortex, ~40% fewer files).
@@ -260,6 +260,8 @@ I always wanted to build apps, but I never had the passion to write code. My exp
 When Claude Code came along, I quickly realized that setting up a framework was the most important step. Without structure, the AI does great work for a few turns and then loses context, contradicts itself, or goes in circles. With structure, it becomes a reliable development team.
 
 There's a book by Uri Levine called "Fall in Love with the Problem, Not the Solution." The problem I fell in love with is simple: how do you ship software when writing code isn't your strength? I built [scriptureguide.org](https://scriptureguide.org) because I wanted to connect how I feel in the moment with scripture. I built an educational game because my daughter needed a fun way to learn. The framework came from needing a reliable way to ship all of it.
+
+Bashi was originally called The AI Orchestrator System.
 
 ## Learn More
 

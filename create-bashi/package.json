@@ -1,0 +1,35 @@
+{
+  "name": "create-bashi",
+  "version": "1.0.0",
+  "description": "Set up Bashi in any project. Full mode: 12 agents, 37 skills, 20 commands, 11 hooks. Light mode (--light): MCP-connected, skills load on-demand from Cortex.",
+  "bin": {
+    "create-bashi": "./bin/create-bashi.js"
+  },
+  "keywords": [
+    "claude-code",
+    "bashi",
+    "ai-agents",
+    "claude",
+    "anthropic",
+    "skills",
+    "orchestration",
+    "ai-development",
+    "developer-tools",
+    "mcp",
+    "low-code"
+  ],
+  "author": "Bashar Amso",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BasharAmso/bashi"
+  },
+  "homepage": "https://github.com/BasharAmso/bashi#readme",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "files": [
+    "bin/",
+    "template/"
+  ]
+}

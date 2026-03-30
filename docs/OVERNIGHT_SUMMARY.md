@@ -38,7 +38,7 @@
 
 ## Files Modified
 
-### Framework (AI-Orchestrator-System)
+### Framework (bashi)
 - `.claude/agents/orchestrator.md` - Two-mode knowledge loading (Knowledge Source Detection, MCP skill/agent loading, agent ID mapping, smart context, parallel pre-fetch)
 - `.claude/project/RUN_POLICY.md` - Knowledge Loading section
 - `.claude/commands/doctor.md` - Knowledge Source Test (7k)
@@ -61,7 +61,7 @@
 - `owner` + `difficulty` added to catalog/full output modes
 - Search indexes rebuilt (202 fragments, 1851 keywords)
 
-### Template (create-ai-orchestrator)
+### Template (create-bashi)
 - All framework changes synced to template
 - FRAMEWORK_VERSION updated to 2.0.0
 
@@ -81,5 +81,5 @@ One debugging note: the renumbering script initially had a cascading replacement
 
 1. Run `/run-project` to continue with T24 (awesome-claude-code submissions) -- needs your input on which lists to target.
 2. Push cortex-mcp changes to GitHub: `cd cortex-mcp && git push`
-3. Consider publishing `create-ai-orchestrator@2.0.0` to npm after testing the MCP integration end-to-end.
+3. Consider publishing `create-bashi@2.0.0` to npm after testing the MCP integration end-to-end.
 4. Restart the Cortex MCP server to pick up the renumbered fragments.
