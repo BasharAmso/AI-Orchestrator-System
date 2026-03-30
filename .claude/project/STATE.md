@@ -148,13 +148,13 @@
 |-------|-------|
 | Current Cycle | 5 |
 | Max Cycles This Run | 50 |
-| Last Run Status | Running |
+| Last Run Status | Completed |
 | Knowledge Source | Files |
 | Time Limit Hours | 4 |
 
 | Consecutive Failures | 0 |
 | Phantom Completions | 0 |
-| Run Type | Overnight |
+| Run Type | Standard |
 | Max Parallel Slots | 3 |
 | Parallel Merges Completed | 0 |
 | Parallel Merge Conflicts | 0 |
