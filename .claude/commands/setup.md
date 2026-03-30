@@ -282,7 +282,7 @@ Write the file using the detected values. If IDENTITY.md already exists, skip �
 **Precedence order:**
 
 1. If `PROJECT_TYPE.md` exists in the repo root, read the `Project Type: <value>` line. Use that value.
-2. If the `create-bashi/` directory exists in the repo root, this is the framework source repo — set type to `Template` and skip Steps 5–6.
+2. If the `create-bashi-app/` directory exists in the repo root, this is the framework source repo — set type to `Template` and skip Steps 5–6.
 3. **Ask what they're building.** Start with a natural question:
 
    > "What brings you here today? Describe what you're trying to build in a sentence or two."

@@ -137,14 +137,14 @@ function main() {
 
   if (args.includes("--help") || args.includes("-h")) {
     log(`
-${BOLD}create-bashi${RESET} v${VERSION}
+${BOLD}create-bashi-app${RESET} v${VERSION}
 
 Set up Bashi in any project.
 
 ${BOLD}Usage:${RESET}
-  npx create-bashi              Install in current directory
-  npx create-bashi my-app       Create new directory and install
-  npx create-bashi --light      MCP-connected mode (lighter install)
+  npx create-bashi-app              Install in current directory
+  npx create-bashi-app my-app       Create new directory and install
+  npx create-bashi-app --light      MCP-connected mode (lighter install)
 
   Tip: Use a directory name for new projects, omit it for existing ones.
 

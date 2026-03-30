@@ -52,7 +52,7 @@ This takes about 2 minutes.
 3. Type this and press Enter:
 
 ```
-npx create-bashi my-first-app
+npx create-bashi-app my-first-app
 ```
 
 You'll see something like:

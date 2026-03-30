@@ -1,6 +1,6 @@
 # Bashi
 
-[![npm version](https://img.shields.io/npm/v/create-bashi)](https://www.npmjs.com/package/create-bashi)
+[![npm version](https://img.shields.io/npm/v/create-bashi-app)](https://www.npmjs.com/package/create-bashi-app)
 [![GitHub release](https://img.shields.io/github/v/release/BasharAmso/bashi)](https://github.com/BasharAmso/bashi/releases)
 [![GitHub stars](https://img.shields.io/github/stars/BasharAmso/bashi)](https://github.com/BasharAmso/bashi/stargazers)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -11,13 +11,13 @@
 
 ```
 # New project:
-npx create-bashi my-app
+npx create-bashi-app my-app
 
 # Existing project (run from inside it):
-npx create-bashi
+npx create-bashi-app
 
 # MCP-connected (skills from Cortex, lighter footprint):
-npx create-bashi --light
+npx create-bashi-app --light
 ```
 
 12 agents. 37 skills (124 via Cortex MCP). 20 commands. 11 safety hooks. Zero dependencies.
@@ -58,7 +58,7 @@ No programming languages to install, no build tools, no package managers. The fr
 ### Option A: New Project
 
 ```
-npx create-bashi my-app
+npx create-bashi-app my-app
 cd my-app
 ```
 
@@ -66,7 +66,7 @@ cd my-app
 
 ```
 cd my-existing-project
-npx create-bashi
+npx create-bashi-app
 ```
 
 Both install the full framework. Add `--light` to either for [MCP-connected mode](#two-mode-knowledge-loading-v200) (skills from Cortex, ~40% fewer files).

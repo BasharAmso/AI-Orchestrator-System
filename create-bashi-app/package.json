@@ -1,9 +1,9 @@
 {
-  "name": "create-bashi",
+  "name": "create-bashi-app",
   "version": "1.0.0",
   "description": "Set up Bashi in any project. Full mode: 12 agents, 37 skills, 20 commands, 11 hooks. Light mode (--light): MCP-connected, skills load on-demand from Cortex.",
   "bin": {
-    "create-bashi": "./bin/create-bashi.js"
+    "create-bashi-app": "./bin/create-bashi-app.js"
   },
   "keywords": [
     "claude-code",

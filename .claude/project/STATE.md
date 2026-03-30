@@ -119,7 +119,7 @@
 | T2 | Implement parallel execution in orchestrator.md dispatch chain | 2026-03-27 | — |
 | T3 | Add parallel task tracking to STATE.md (concurrent task slots, merge status) | 2026-03-27 | — |
 | T4 | Build merge conflict resolution for parallel worktree results | 2026-03-27 | — |
-| T5 | Create one-command install experience (npx create-bashi) | 2026-03-27 | — |
+| T5 | Create one-command install experience (npx create-bashi-app) | 2026-03-27 | — |
 | T6 | Update README with install command, parallel execution, and demo instructions | 2026-03-27 | SKL-0024 |
 | T7 | Design agent self-improvement system (self-review, cross-agent feedback, pattern detection) | 2026-03-28 | — |
 | T8 | Implement agent self-review step in orchestrator (step 5.6) | 2026-03-28 | — |
@@ -127,7 +127,7 @@
 | T10 | Add pattern detection with improvement proposals (step 5.8) | 2026-03-28 | — |
 | T11 | Add global user profile to framework (setup.md, start.md, orchestrator, coach) | 2026-03-28 | — |
 | T12 | Implement friction reduction as cross-cutting concern (SKL-0037 + 8 file updates) | 2026-03-28 | — |
-| T13 | npm publish create-bashi@1.9.0 to npm registry | 2026-03-29 | — |
+| T13 | npm publish create-bashi-app@1.9.0 to npm registry | 2026-03-29 | — |
 | T14 | Git commit + push v1.9.0 to GitHub | 2026-03-29 | — |
 | T15 | Growth skill Premium Visual Tier (glassmorphism, gradients, animations) | 2026-03-29 | SKL-0013 |
 | T16 | AI-Memory creation in /setup (Step 2.7 + 3 seed files + session-start hook update) | 2026-03-29 | — |
