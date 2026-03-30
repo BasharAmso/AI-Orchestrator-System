@@ -1,6 +1,6 @@
 {
   "name": "create-ai-orchestrator",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Set up The AI Orchestrator System in any project. Full mode: 12 agents, 37 skills, 20 commands, 11 hooks. Light mode (--light): MCP-connected, skills load on-demand from Cortex.",
   "bin": {
     "create-ai-orchestrator": "./bin/create-ai-orchestrator.js"

@@ -3,10 +3,11 @@
 **You can architect, design, and direct. Writing code line-by-line blocks you from shipping.** This framework turns Claude Code into a structured development team that builds while you direct.
 
 ```
-npx create-ai-orchestrator my-app
+npx create-ai-orchestrator my-app          # full install (everything on disk)
+npx create-ai-orchestrator my-app --light  # MCP-connected (skills from Cortex)
 ```
 
-12 agents. 36 skills (124 via Cortex MCP). 20 commands. 11 safety hooks. Zero dependencies.
+12 agents. 37 skills (124 via Cortex MCP). 20 commands. 11 safety hooks. Zero dependencies.
 
 ---
 
@@ -41,14 +42,14 @@ No programming languages to install, no build tools, no package managers. The fr
 
 ## Quick Start
 
-### Option A: One Command (Recommended)
+### Option A: Full Install (Recommended)
 
 ```
 npx create-ai-orchestrator my-app
 cd my-app
 ```
 
-Open `my-app` in VS Code with Claude Code, then:
+Everything on disk. Works without any MCP server. Open in VS Code with Claude Code, then:
 
 ```
 /start             See where you are and what to do next
@@ -57,7 +58,16 @@ Open `my-app` in VS Code with Claude Code, then:
 /run-project       Start processing (generates PRD, seeds tasks)
 ```
 
-### Option B: Clone and Push
+### Option B: Light Install (MCP-Connected)
+
+```
+npx create-ai-orchestrator my-app --light
+cd my-app
+```
+
+Only orchestrator and coach agents on disk. All other agents and skills load on-demand from [Cortex MCP](https://github.com/BasharAmso/cortex-mcp). Smaller footprint (~40% fewer files), requires Cortex MCP server configured.
+
+### Option C: Clone and Push
 
 1. Clone this repository.
 2. Open it in VS Code with Claude Code.
