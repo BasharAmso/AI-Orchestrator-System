@@ -54,11 +54,13 @@
 | SKL-0035 | Competitor Analysis | 1.0 | product-manager | `custom-skills/competitor-analysis/` | COMPETITOR_ANALYSIS_REQUESTED |
 | SKL-0036 | Pitch Deck | 1.0 | product-manager | `custom-skills/pitch-deck/` | PITCH_DECK_REQUESTED |
 
+| SKL-0038 | Game Development | 1.0 | builder | `.claude/skills/game-dev/` | GAME_DEV_REQUESTED, GAME_FEATURE_REQUESTED |
+
 ---
 
 ## Stats
 
-- **Built-in Skills:** 28
+- **Built-in Skills:** 29
 - **Custom Skills:** 8
-- **Total Skills:** 36
-- **Last Refreshed:** 2026-03-25
+- **Total Skills:** 37
+- **Last Refreshed:** 2026-03-30

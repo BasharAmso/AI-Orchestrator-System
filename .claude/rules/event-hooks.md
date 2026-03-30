@@ -26,6 +26,7 @@
 | LAUNCH_CHECK_REQUESTED | builder | Orchestrator | Pre-launch readiness checklist (SKL-0034) |
 | COMPETITOR_ANALYSIS_REQUESTED | product-manager | Orchestrator | Market research and competitive landscape (SKL-0035) |
 | PITCH_DECK_REQUESTED | product-manager | Orchestrator | Investor/stakeholder pitch outline (SKL-0036) |
+| GAME_DEV_REQUESTED | builder | Orchestrator | Build game feature: adventure, sandbox, action, or educational mode (SKL-0038) |
 | REWORK_REQUESTED | (original agent) | Reviewer | Re-execute task with review feedback attached. Original agent and skill ID are in the event description. Max 2 rework attempts per task (see RUN_POLICY.md). |
 
 ---

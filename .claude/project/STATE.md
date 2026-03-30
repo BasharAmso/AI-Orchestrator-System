@@ -38,6 +38,8 @@
 |-------|-------|
 | Field | Value |
 |-------|-------|
+| Field | Value |
+|-------|-------|
 | ID | — |
 | Description | — |
 | Owner Agent | — |
@@ -106,7 +108,6 @@
 | # | Task | Priority | Skill |
 |---|------|----------|-------|
 | 1 | Submit to awesome-claude-code lists (3 PRs) | Medium | — |
-| 3 | Game-dev skill (SKL-0038) — adventure, sandbox, action, educational modes | Low | — |
 
 ---
 
@@ -137,6 +138,7 @@
 | T21 | Implement two-mode knowledge loading in orchestrator.md | 2026-03-30 | — |
 | T22 | Update doctor, CLAUDE.md, RUN_POLICY, session-start, pre-compact, start, setup for MCP mode | 2026-03-30 | — |
 | T23 | README rewrite for discovery and conversion | 2026-03-30 | SKL-0024 |
+| T25 | Game-dev skill (SKL-0038) -- adventure, sandbox, action, educational modes | 2026-03-30 | — |
 
 ---
 
@@ -144,7 +146,7 @@
 
 | Field | Value |
 |-------|-------|
-| Current Cycle | 4 |
+| Current Cycle | 5 |
 | Max Cycles This Run | 50 |
 | Last Run Status | Running |
 | Knowledge Source | Files |
