@@ -29,7 +29,48 @@ function error(msg) {
   console.error(`${RED}${msg}${RESET}`);
 }
 
-function copyDirRecursive(src, dest, stats) {
+/**
+ * In light mode, skip agent/skill files that load from Cortex MCP.
+ * Keep orchestrator.md, coach.md, REGISTRY.md, and all non-skill/agent files.
+ */
+function shouldSkipInLightMode(relPath) {
+  const normalized = relPath.replace(/\\/g, "/");
+
+  // Skip agent files EXCEPT orchestrator.md and coach.md
+  if (normalized.startsWith(".claude/agents/")) {
+    const filename = path.basename(normalized);
+    if (filename !== "orchestrator.md" && filename !== "coach.md") {
+      return true;
+    }
+  }
+
+  // Skip skill subfolders (everything inside .claude/skills/*/)
+  // Keep REGISTRY.md at .claude/skills/REGISTRY.md
+  if (normalized.startsWith(".claude/skills/")) {
+    const rest = normalized.slice(".claude/skills/".length);
+    // REGISTRY.md is at the skills root, not in a subfolder
+    if (rest === "REGISTRY.md") {
+      return false;
+    }
+    // Anything in a subfolder (contains /) gets skipped
+    if (rest.length > 0) {
+      return true;
+    }
+  }
+
+  // Skip custom-skills subfolder contents
+  if (normalized.startsWith("custom-skills/")) {
+    const rest = normalized.slice("custom-skills/".length);
+    // Keep the custom-skills directory itself, skip contents
+    if (rest.length > 0) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function copyDirRecursive(src, dest, stats, lightMode, templateRoot) {
   if (!fs.existsSync(src)) return;
 
   const entries = fs.readdirSync(src, { withFileTypes: true });
@@ -37,11 +78,19 @@ function copyDirRecursive(src, dest, stats) {
     const srcPath = path.join(src, entry.name);
     const destPath = path.join(dest, entry.name);
 
+    if (lightMode) {
+      const relPath = path.relative(templateRoot, srcPath);
+      if (shouldSkipInLightMode(relPath)) {
+        stats.lightSkipped++;
+        continue;
+      }
+    }
+
     if (entry.isDirectory()) {
       if (!fs.existsSync(destPath)) {
         fs.mkdirSync(destPath, { recursive: true });
       }
-      copyDirRecursive(srcPath, destPath, stats);
+      copyDirRecursive(srcPath, destPath, stats, lightMode, templateRoot);
     } else {
       if (fs.existsSync(destPath)) {
         stats.skipped++;
@@ -54,6 +103,35 @@ function copyDirRecursive(src, dest, stats) {
   }
 }
 
+function copyDirForce(src, dest, stats, lightMode, templateRoot) {
+  if (!fs.existsSync(src)) return;
+
+  const entries = fs.readdirSync(src, { withFileTypes: true });
+  for (const entry of entries) {
+    const srcPath = path.join(src, entry.name);
+    const destPath = path.join(dest, entry.name);
+
+    if (lightMode) {
+      const relPath = path.relative(templateRoot, srcPath);
+      if (shouldSkipInLightMode(relPath)) {
+        stats.lightSkipped++;
+        continue;
+      }
+    }
+
+    if (entry.isDirectory()) {
+      if (!fs.existsSync(destPath)) {
+        fs.mkdirSync(destPath, { recursive: true });
+      }
+      copyDirForce(srcPath, destPath, stats, lightMode, templateRoot);
+    } else {
+      fs.mkdirSync(path.dirname(destPath), { recursive: true });
+      fs.copyFileSync(srcPath, destPath);
+      stats.copied++;
+    }
+  }
+}
+
 function main() {
   const args = process.argv.slice(2);
 
@@ -62,22 +140,31 @@ function main() {
 ${BOLD}create-ai-orchestrator${RESET} v${VERSION}
 
 Set up The AI Orchestrator System in any project.
-Adds 12 agents, 36 skills, 20 commands, and 11 safety hooks
-for structured AI-assisted development with Claude Code.
 
 ${BOLD}Usage:${RESET}
-  npx create-ai-orchestrator          Install in current directory
-  npx create-ai-orchestrator my-app   Create new directory and install
+  npx create-ai-orchestrator              Install full framework
+  npx create-ai-orchestrator my-app       Create new directory and install
+  npx create-ai-orchestrator --light      MCP-connected mode (lighter install)
 
 ${BOLD}Options:${RESET}
   --help, -h     Show this help message
   --version, -v  Show version number
   --force        Overwrite existing files (default: skip)
+  --light        MCP-connected mode: only orchestrator + coach agents
+                 on disk; all other knowledge from Cortex MCP
+
+${BOLD}Modes:${RESET}
+  Full (default)  12 agents, 37 skills, 20 commands, 11 hooks
+                  Everything on disk. Works without any MCP server.
+
+  Light (--light) 2 agents (orchestrator + coach), 20 commands, 11 hooks
+                  Skills and other agents load from Cortex MCP on demand.
+                  Requires Cortex MCP server configured.
 
 ${BOLD}What it does:${RESET}
-  1. Copies the .claude/ framework (agents, skills, commands, hooks, rules)
-  2. Creates clean project state files (STATE.md, EVENTS.md, etc.)
-  3. Adds FRAMEWORK_VERSION, .claudeignore, and .gitignore
+  1. Copies the .claude/ framework (commands, hooks, rules, state)
+  2. Full: also copies all agents and skills
+  3. Light: only orchestrator + coach agents, skills from MCP
   4. Does NOT overwrite existing files unless --force is used
 
 ${BOLD}After install:${RESET}
@@ -92,6 +179,7 @@ ${BOLD}After install:${RESET}
   }
 
   const force = args.includes("--force");
+  const light = args.includes("--light");
   const dirArg = args.find((a) => !a.startsWith("-"));
   const targetDir = dirArg ? path.resolve(dirArg) : process.cwd();
 
@@ -99,9 +187,15 @@ ${BOLD}After install:${RESET}
   log(
     `${BOLD}The AI Orchestrator System${RESET} v${VERSION}`
   );
-  log(
-    `${DIM}12 agents | 36 skills | 20 commands | 11 safety hooks${RESET}`
-  );
+  if (light) {
+    log(
+      `${DIM}MCP-connected mode | 2 agents (local) | 20 commands | 11 hooks${RESET}`
+    );
+  } else {
+    log(
+      `${DIM}12 agents | 37 skills | 20 commands | 11 safety hooks${RESET}`
+    );
+  }
   log("");
 
   // Create target directory if it doesn't exist
@@ -130,24 +224,19 @@ ${BOLD}After install:${RESET}
   }
 
   // Copy template
-  log("Installing framework...");
+  if (light) {
+    log("Installing framework (light mode)...");
+  } else {
+    log("Installing framework...");
+  }
   log("");
 
-  const stats = { copied: 0, skipped: 0 };
+  const stats = { copied: 0, skipped: 0, lightSkipped: 0 };
 
   if (force && fs.existsSync(claudeDir)) {
-    // In force mode, still don't delete — just overwrite individual files
-    copyDirRecursive(
-      TEMPLATE_DIR,
-      targetDir,
-      Object.assign(stats, { skipped: -stats.skipped })
-    );
-    // Reset: in force mode, we overwrite
-    stats.skipped = 0;
-    stats.copied = 0;
-    copyDirForce(TEMPLATE_DIR, targetDir, stats);
+    copyDirForce(TEMPLATE_DIR, targetDir, stats, light, TEMPLATE_DIR);
   } else {
-    copyDirRecursive(TEMPLATE_DIR, targetDir, stats);
+    copyDirRecursive(TEMPLATE_DIR, targetDir, stats, light, TEMPLATE_DIR);
   }
 
   // Initialize git if needed
@@ -167,6 +256,9 @@ ${BOLD}After install:${RESET}
   if (stats.skipped > 0) {
     log(`  ${YELLOW}Skipped:${RESET} ${stats.skipped} files (already exist)`);
   }
+  if (stats.lightSkipped > 0) {
+    log(`  ${DIM}Excluded:${RESET} ${stats.lightSkipped} files (loaded from MCP)`);
+  }
   log("");
 
   success("Framework installed successfully!");
@@ -182,6 +274,24 @@ ${BOLD}After install:${RESET}
     log(`  2. Run /start`);
     log(`     ${DIM}First time? It'll ask about you to personalize the experience.${RESET}`);
   }
+
+  if (light) {
+    log("");
+    log(`${YELLOW}${BOLD}Cortex MCP Setup Required${RESET}`);
+    log("");
+    log(`  This install uses MCP-connected mode. Skills and agents`);
+    log(`  load on-demand from Cortex MCP. To configure:`);
+    log("");
+    log(`  Add to your Claude Code MCP settings:`);
+    log(`    Server name: ${BOLD}cortex${RESET}`);
+    log(`    Command:     ${BOLD}node${RESET}`);
+    log(`    Args:        ${BOLD}path/to/cortex-mcp/dist/index.js${RESET}`);
+    log("");
+    log(`  ${DIM}See: https://github.com/BasharAmso/cortex-mcp${RESET}`);
+    log(`  ${DIM}orchestrator.md and coach.md are installed locally.${RESET}`);
+    log(`  ${DIM}All other agents and skills load from MCP on demand.${RESET}`);
+  }
+
   log("");
   log(
     `${DIM}Documentation: README.md${RESET}`
@@ -190,27 +300,6 @@ ${BOLD}After install:${RESET}
     `${DIM}Full reference: .claude/REFERENCE.md${RESET}`
   );
   log("");
-}
-
-function copyDirForce(src, dest, stats) {
-  if (!fs.existsSync(src)) return;
-
-  const entries = fs.readdirSync(src, { withFileTypes: true });
-  for (const entry of entries) {
-    const srcPath = path.join(src, entry.name);
-    const destPath = path.join(dest, entry.name);
-
-    if (entry.isDirectory()) {
-      if (!fs.existsSync(destPath)) {
-        fs.mkdirSync(destPath, { recursive: true });
-      }
-      copyDirForce(srcPath, destPath, stats);
-    } else {
-      fs.mkdirSync(path.dirname(destPath), { recursive: true });
-      fs.copyFileSync(srcPath, destPath);
-      stats.copied++;
-    }
-  }
 }
 
 main();

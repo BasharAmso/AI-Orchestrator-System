@@ -85,10 +85,11 @@ Go beyond file presence — verify the dispatch chain and cross-references actua
 
 #### 7a. Dispatch Chain Test
 
-1. Pick the first skill listed in `REGISTRY.md` (the first row of the Skills Index table).
-2. Verify that the skill's folder path exists on disk and contains a `SKILL.md` file.
-3. Verify that the skill's `SKILL.md` references a valid agent (check that `.claude/agents/<agent-name>.md` exists).
-4. Result: `Dispatch chain: OK` or `Dispatch chain: BROKEN — [reason]`
+1. Read `Knowledge Source` from STATE.md Run Cycle section (default: `Files` if not present).
+2. Pick the first skill listed in `REGISTRY.md` (the first row of the Skills Index table).
+3. **Files mode:** Verify that the skill's folder path exists on disk and contains a `SKILL.md` file. Verify that `.claude/agents/<agent-name>.md` exists for the skill's owner.
+4. **MCP mode:** Skip skill folder and agent file checks (they load from MCP). Only verify that `.claude/agents/orchestrator.md` and `.claude/agents/coach.md` exist (these always load from files).
+5. Result: `Dispatch chain: OK` or `Dispatch chain: BROKEN — [reason]`
 
 #### 7b. State Consistency Test
 

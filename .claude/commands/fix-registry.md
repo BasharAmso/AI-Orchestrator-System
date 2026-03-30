@@ -23,6 +23,16 @@ When deployed into a project, `.claude/skills/` contains the master skill defini
 
 ## Procedure
 
+### Step 0: MCP Mode Guard
+
+Before scanning, check if this is an MCP-connected (light) install:
+
+1. Read `.claude/project/STATE.md` and look for `Knowledge Source` in the Run Cycle section.
+2. If Knowledge Source = `MCP`, OR if no skill subfolders exist in `.claude/skills/` (only `REGISTRY.md` is present):
+   - Print: "REGISTRY.md is maintained for MCP trigger mapping. No local skill files to scan. Skipping rebuild."
+   - Exit without modifying REGISTRY.md.
+3. Otherwise, proceed with the normal rebuild below.
+
 ### Step 1: Scan Skill Files
 
 Find all `SKILL.md` files in both directories, using **absolute paths from the project root** (the directory containing `.claude/`):

@@ -1,7 +1,7 @@
 {
   "name": "create-ai-orchestrator",
-  "version": "1.9.0",
-  "description": "Set up The AI Orchestrator System in any project. Adds 12 agents, 36 skills, 20 commands, and 11 safety hooks for structured AI-assisted development with Claude Code.",
+  "version": "2.0.0",
+  "description": "Set up The AI Orchestrator System in any project. Full mode: 12 agents, 37 skills, 20 commands, 11 hooks. Light mode (--light): MCP-connected, skills load on-demand from Cortex.",
   "bin": {
     "create-ai-orchestrator": "./bin/create-ai-orchestrator.js"
   },
