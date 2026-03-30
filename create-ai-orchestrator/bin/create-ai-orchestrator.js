@@ -142,9 +142,11 @@ ${BOLD}create-ai-orchestrator${RESET} v${VERSION}
 Set up The AI Orchestrator System in any project.
 
 ${BOLD}Usage:${RESET}
-  npx create-ai-orchestrator              Install full framework
+  npx create-ai-orchestrator              Install in current directory
   npx create-ai-orchestrator my-app       Create new directory and install
   npx create-ai-orchestrator --light      MCP-connected mode (lighter install)
+
+  Tip: Use a directory name for new projects, omit it for existing ones.
 
 ${BOLD}Options:${RESET}
   --help, -h     Show this help message
