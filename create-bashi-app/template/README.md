@@ -78,7 +78,7 @@ No programming languages to install, no build tools, no package managers. The fr
 
 ## Token Efficient by Design
 
-The framework loads ~700 tokens at startup (0.07% of the context window). Skills, agents, and knowledge files load only when needed. State persists across sessions so you never re-explain your project. Chat output stays concise while artifacts go to files.
+The framework loads ~700 tokens at startup (0.07% of the context window). Skills, agents, and knowledge files load only when needed. In MCP mode, skills aren't even on disk — they're fetched from Cortex on-demand, keeping your project directory light. State persists across sessions so you never re-explain your project. Chat output stays concise while artifacts go to files.
 
 ## What's Inside
 
@@ -88,7 +88,7 @@ The framework loads ~700 tokens at startup (0.07% of the context window). Skills
   agents/              12 specialized AI agents (builder, reviewer, coach, etc.)
   commands/            20 entry point commands
   rules/               4 routing and governance policies
-  skills/              28 built-in task procedures + registry
+  skills/              37 built-in task procedures + registry
   hooks/               11 automatic guards (security, quality, session mgmt)
   project/
     STATE.md           Current project status (single source of truth)
@@ -107,7 +107,7 @@ The framework supports two knowledge sources:
 | **Standalone (default)** | Loads agents and skills from `.claude/` files. Works everywhere, no setup needed. |
 | **MCP-connected** | Queries [Cortex MCP](https://github.com/BasharAmso/cortex-mcp) for on-demand knowledge with smart context (related patterns and examples). Falls back to files if MCP is unavailable. |
 
-In MCP mode, the orchestrator auto-loads related patterns (up to 2) and examples (up to 1) alongside the primary skill, giving agents richer context. Difficulty-based skill selection adapts to your experience level.
+In MCP mode, the orchestrator auto-loads related patterns (up to 2) and examples (up to 1) alongside the primary skill, giving agents richer context. Difficulty-based skill selection adapts to your experience level. Update Cortex once, and every Bashi project benefits automatically — no framework update needed.
 
 ## Commands
 
