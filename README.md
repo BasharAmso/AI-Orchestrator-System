@@ -95,7 +95,7 @@ The framework loads ~700 tokens at startup (0.07% of the context window). Skills
     EVENTS.md          Event queue (things to process)
     IDENTITY.md        Project identity lock (survives upgrades)
     knowledge/         Decisions, research, glossary, open questions
-custom-skills/           8 additional skills (security, marketing, growth)
+custom-skills/         8 additional skills (security, marketing, growth)
 ```
 
 ## Two-Mode Knowledge Loading (v2.0.0)
