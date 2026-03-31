@@ -49,12 +49,28 @@ B) Skills Lookup (task-assigned first, then registry/MCP)
             returned fragment category = "skills". If no results or wrong category:
             fall back to REGISTRY.md lookup.
       --> If high-confidence match: assign skill ID, write back to STATE.md.
-      --> If no match: skip to C) Direct Agent Routing (fallback).
+      --> If no match: proceed to B.5) Cortex Skill Discovery.
    3. If REGISTRY.md is missing or stale --> instruct user to run /fix-registry
       (do not fail; proceed with fallback routing).
 
+B.5) Cortex Skill Discovery (fallback before agent routing)
+   If step B found no match from REGISTRY or auto-classification:
+   1. If B.2 already searched Cortex (Knowledge Source = MCP): skip this step
+      (Cortex was already consulted as the primary source). Proceed to C).
+   2. If Knowledge Source = Files: check if Cortex MCP is configured and available.
+      - If not available: skip silently, proceed to C).
+      - If available: call search_knowledge with the task description, mode="catalog",
+        category="skills", budget=1000.
+   3. If results returned with category = "skills" and score > 0.5:
+      - Assign the top result's skill ID to the task in STATE.md.
+      - Call get_fragment to load the full skill procedure.
+      - Use the owner field from the catalog response for agent routing.
+      - Log: "Cortex discovery: [task] --> [SKL-XXXX] ([skill name])"
+      - Execute the skill.
+   4. If no results or score <= 0.5: proceed to C) Direct Agent Routing.
+
 C) Direct Agent Routing (fallback)
-   If no skill match from step B:
+   If no skill match from steps B and B.5:
    1. Check .claude/rules/event-hooks.md    (for events)
    2. Check .claude/agents/ for a specialist agent matching the task type
    3. Check .claude/rules/orchestration-routing.md  (for tasks, final fallback)
@@ -77,12 +93,12 @@ How skills are loaded depends on Knowledge Source (set during Initialization ste
 
 **Fallback chain:**
 ```
-1. Try Cortex MCP (if Knowledge Source = MCP)
-   ↓ fails
-2. Try REGISTRY.md + .claude/skills/ files
-   ↓ fails
-3. Try orchestration-routing.md (task type → agent)
-   ↓ fails
+1. REGISTRY.md trigger/keyword lookup (+ Cortex auto-classify if MCP mode)
+   ↓ no match
+2. Cortex search_knowledge discovery (if Files mode + MCP available)
+   ↓ no match or unavailable
+3. event-hooks.md + orchestration-routing.md (task type → agent)
+   ↓ no match
 4. Orchestrator handles directly (best effort)
 ```
 
