@@ -500,7 +500,7 @@ EVT-XXXX | PROJECT_INITIALIZED | Project initialized as <type> | system | YYYY-M
 - **AI-Memory:** [Created at <path> | Found at <path> — skipped]
 - **Current Mode:** [from STATE.md, e.g., Semi-Autonomous]
 - **Unprocessed Events:** [count from EVENTS.md]
-- **Skills Registered:** [count from REGISTRY.md]
+- **Skills Available:** [If Cortex MCP connected: call `list_categories`, sum all pillar counts, print "[total] via Cortex MCP ([count from REGISTRY.md] local triggers)". If no Cortex: print "[count from REGISTRY.md] local skills"]
 - **Framework Files:** [pass count] / [total count]
 - **Runtime Files:** [pass count] / [total count] ([list of CREATED files, or "all present"])
 - **Folders Ensured:** [list of folders created or already present]
