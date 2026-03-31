@@ -45,9 +45,10 @@ B) Skills Lookup (task-assigned first, then registry/MCP)
       --> Auto-classify using the active knowledge source:
           - Files mode: match task keywords against REGISTRY skill descriptions.
           - MCP mode: call search_knowledge with task description, mode="catalog",
-            category="skills", budget=1000. Pick the highest-scoring result. Verify
-            returned fragment category = "skills". If no results or wrong category:
-            fall back to REGISTRY.md lookup.
+            category="skills", budget=1000. If a Pillar is set in STATE.md Run Cycle
+            (not "general"), also pass pillar=<value> to filter results by domain.
+            Pick the highest-scoring result. Verify returned fragment category = "skills".
+            If no results or wrong category: fall back to REGISTRY.md lookup.
       --> If high-confidence match: assign skill ID, write back to STATE.md.
       --> If no match: proceed to B.5) Cortex Skill Discovery.
    3. If REGISTRY.md is missing or stale --> instruct user to run /fix-registry
@@ -60,7 +61,8 @@ B.5) Cortex Skill Discovery (fallback before agent routing)
    2. If Knowledge Source = Files: check if Cortex MCP is configured and available.
       - If not available: skip silently, proceed to C).
       - If available: call search_knowledge with the task description, mode="catalog",
-        category="skills", budget=1000.
+        category="skills", budget=1000. If a Pillar is set in STATE.md (not "general"),
+        also pass pillar=<value>.
    3. If results returned with category = "skills" and score > 0.5:
       - Assign the top result's skill ID to the task in STATE.md.
       - Call get_fragment to load the full skill procedure.

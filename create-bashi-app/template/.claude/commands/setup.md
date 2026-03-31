@@ -293,13 +293,15 @@ Write the file using the detected values. If IDENTITY.md already exists, skip �
 
    > "Based on what you described, I'd recommend **[type]**. Does that sound right, or would you prefer one of these?"
 
-   Present all options so they can override:
+   **If Cortex MCP is available:** Call `list_categories` to get the `pillars` object. Present the available pillars as project type options (e.g., "web-dev", "game-dev", "ecommerce", "mobile", "iot", etc.). This ensures new domains added to Cortex appear automatically without updating setup.
+
+   **If Cortex MCP is NOT available:** Present the default options:
    - **Web App** — React, Next.js, SPA, browser-based games, static sites
    - **Mobile App** — React Native/Expo (cross-platform), Swift/SwiftUI (iOS), Kotlin/Compose (Android)
    - **API / Backend** — REST, GraphQL, server-side services
    - **SaaS (Full-Stack)** — Frontend + backend + database + auth
 
-   **MCP enhancement (if Cortex MCP is available):** Also call `detect_project` with the project's root files to refine the recommendation. Combine MCP detection with the user's description for the best suggestion.
+   **MCP enhancement:** Also call `detect_project` with the project's root files to refine the recommendation.
 
    Wait for the user's confirmation before proceeding. Never skip this step.
 
@@ -308,7 +310,8 @@ Once determined, create `PROJECT_TYPE.md` **only if it does not already exist** 
 ```
 # Project Type
 
-- **Project Type:** [Web App | Mobile App | API / Backend | SaaS (Full-Stack) | Template]
+- **Project Type:** [selected type]
+- **Pillar:** [selected pillar from Cortex, or "general" if no MCP]
 - **Initialized:** YYYY-MM-DD
 ```
 

@@ -77,36 +77,31 @@ The Skill column uses `—` for scaffold tasks because the specific skill depend
 
 ### B4: Emit Events
 
-Emit `IDEA_CAPTURED` event (same as Full Planning path Step 5).
+Set state directly (no events that block building):
 
-Then emit a second event for the problem stress test:
-
-```
-EVT-XXXX | PROBLEM_VALIDATION_REQUESTED | Problem stress test for <project name> | system | YYYY-MM-DD HH:MM
-```
-
-Auto-increment the EVT ID from the event emitted above. This triggers SKL-0027 (Problem Stress Test) during the next `/run-project` cycle.
-
-If the project was detected as a game (same keyword detection as in B3), also emit:
+1. Set `Current Phase` to `Building` in STATE.md. Do NOT go through Planning.
+2. Do NOT emit `IDEA_CAPTURED` (it triggers Plan From Idea which re-plans what B3 already seeded).
+3. Do NOT emit `PROBLEM_VALIDATION_REQUESTED` (advisory, available on-demand later).
+4. Do NOT emit `GDD_CREATION_REQUESTED` (game-dev skill works without a GDD, available on-demand later).
+5. Emit a `PHASE_TRANSITION` event (informational, doesn't block):
 
 ```
-EVT-XXXX | GDD_CREATION_REQUESTED | Game design document for <project name> | system | YYYY-MM-DD HH:MM
+EVT-XXXX | PHASE_TRANSITION | Phase transition: Not Started -> Building | system | YYYY-MM-DD HH:MM
 ```
 
-This triggers SKL-0028 (GDD Writing) during the next `/run-project` cycle.
+6. The 3 scaffold tasks from B3 are already in the queue. The orchestrator will execute them immediately on the next `/run-project`.
 
 ### B5: Print Summary
 
 ```
-Your idea is captured! Run `/run-project` to start building.
+Your idea is captured and your first build tasks are ready!
 
-What happens next:
-- The system will create your app's basic structure
-- Then it will build your core feature: [#1 thing from B1]
-- You can add more features anytime by describing what you want
+Run /run-project to start building.
 
-Tip: You can switch to Full Planning mode anytime with `/set-mode full-planning`
-if you want more detailed planning.
+Tip: Run /set-mode auto then /run-project to build everything in one go.
+
+Want to stress-test the idea first? Run /trigger PROBLEM_VALIDATION_REQUESTED
+Want a detailed plan? Switch to /set-mode full-planning
 ```
 
 ---

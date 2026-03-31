@@ -150,6 +150,7 @@
 | Max Cycles This Run | 50 |
 | Last Run Status | Completed |
 | Knowledge Source | Files |
+| Pillar | general |
 | Time Limit Hours | 4 |
 
 | Consecutive Failures | 0 |
