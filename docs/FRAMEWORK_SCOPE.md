@@ -1,4 +1,4 @@
-# AI Orchestration Framework — Scope
+# Bashi — Scope
 
 ## The Problem: The Syntax Wall
 
@@ -10,7 +10,7 @@ AI-assisted development tools have begun lowering this barrier, but most tools s
 
 As Uri Levine wrote in "Fall in Love with the Problem, Not the Solution," the key is obsessing over the problem before reaching for a solution. The problem here isn't "how do I use AI to write code?" It's "how do I ship software when writing code isn't my strength?"
 
-The AI Orchestration Framework approaches that problem differently.
+Bashi approaches that problem differently.
 
 Instead of writing code directly, the user **orchestrates a structured system of agents, skills, and workflows**. The user's role becomes **Architect and Orchestrator**, not programmer.
 
@@ -35,7 +35,7 @@ The framework focuses on **system design and orchestration**, not syntax.
 
 ## Bashi
 
-The **Bashi** is a practical implementation of the AI Orchestration Framework.
+**Bashi** is a practical implementation of the AI Orchestration Framework.
 
 It provides:
 
