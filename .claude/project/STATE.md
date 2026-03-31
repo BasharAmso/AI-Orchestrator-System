@@ -139,6 +139,13 @@
 | T22 | Update doctor, CLAUDE.md, RUN_POLICY, session-start, pre-compact, start, setup for MCP mode | 2026-03-30 | — |
 | T23 | README rewrite for discovery and conversion | 2026-03-30 | SKL-0024 |
 | T25 | Game-dev skill (SKL-0038) -- adventure, sandbox, action, educational modes | 2026-03-30 | — |
+| T26 | Rename to Bashi (v3.0.0) -- 157 files, npm create-bashi-app, GitHub repo renamed | 2026-03-30 | — |
+| T27 | Light install mode (--light) for MCP-connected projects | 2026-03-30 | — |
+| T28 | User-consent rule + /setup asks what you're building | 2026-03-30 | — |
+| T29 | Beginner's Guide + starter README for template | 2026-03-30 | SKL-0024 |
+| T30 | GitHub polish: 14 topics, v3.0.0 release, README badges | 2026-03-30 | — |
+| T31 | Cortex-aware orchestrator (step B.5 auto-discovery) | 2026-03-30 | — |
+| T32 | Quick Start builds on first /run-project + dynamic Cortex pillars | 2026-03-30 | — |
 
 ---
 
@@ -148,7 +155,7 @@
 |-------|-------|
 | Current Cycle | 5 |
 | Max Cycles This Run | 50 |
-| Last Run Status | Completed |
+| Last Run Status | Checkpointed |
 | Knowledge Source | Files |
 | Pillar | general |
 | Time Limit Hours | 4 |
@@ -170,7 +177,7 @@
 |-------|-------|
 | Session Started | 2026-03-30 01:15 |
 | Last Activity | 2026-03-30 |
-| Checkpointed | No |
+| Checkpointed | Yes |
 
 
 > **How it works:** When a session starts, the orchestrator writes the current timestamp to `Session Started` and sets `Checkpointed = No`. When `/save` runs, it sets `Checkpointed = Yes`. On the next session start, if `Checkpointed = No` and `Session Started` has a value, the system warns that the previous session may not have saved all progress.

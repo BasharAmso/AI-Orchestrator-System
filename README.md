@@ -20,7 +20,7 @@ npx create-bashi-app
 npx create-bashi-app --light
 ```
 
-12 agents. 155+ skills (37 local, 118 more via Cortex MCP). 20 commands. 11 safety hooks. Zero dependencies.
+12 agents. 680+ skills (37 local, 643 via Cortex MCP). 20 commands. 11 safety hooks. Zero dependencies.
 
 ---
 
