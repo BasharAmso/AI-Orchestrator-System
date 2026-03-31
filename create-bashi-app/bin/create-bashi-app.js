@@ -142,11 +142,11 @@ ${BOLD}create-bashi-app${RESET} v${VERSION}
 Set up Bashi in any project.
 
 ${BOLD}Usage:${RESET}
+  cd your-project
   npx create-bashi-app              Install in current directory
-  npx create-bashi-app my-app       Create new directory and install
-  npx create-bashi-app --light      MCP-connected mode (lighter install)
+  npx create-bashi-app --light      MCP-connected mode (680+ skills via Cortex)
 
-  Tip: Use a directory name for new projects, omit it for existing ones.
+  Starting fresh? npx create-bashi-app my-app creates a new directory.
 
 ${BOLD}Options:${RESET}
   --help, -h     Show this help message

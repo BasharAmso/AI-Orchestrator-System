@@ -10,17 +10,11 @@
 **You can architect, design, and direct. Writing code line-by-line blocks you from shipping.** This framework turns Claude Code into a structured development team that builds while you direct.
 
 ```
-# New project:
-npx create-bashi-app my-app
-
-# Existing project (run from inside it):
+cd your-project
 npx create-bashi-app
-
-# MCP-connected (skills from Cortex, lighter footprint):
-npx create-bashi-app --light
 ```
 
-12 agents. 680+ skills (37 local, 643 via Cortex MCP). 20 commands. 11 safety hooks. Zero dependencies.
+12 agents. 680+ skills across 26 domains (via [Cortex MCP](https://github.com/BasharAmso/cortex-mcp)). 20 commands. 11 safety hooks. Zero dependencies.
 
 ---
 
@@ -55,37 +49,24 @@ No programming languages to install, no build tools, no package managers. The fr
 
 ## Quick Start
 
-### Option A: New Project
+### Recommended: Full Experience (with Cortex MCP)
 
-```
-npx create-bashi-app my-app
-cd my-app
-```
+680+ skills across 26 domains, loaded on-demand:
 
-### Option B: Existing Project
+1. `npm install -g cortex-mcp-server`
+2. `cd your-project`
+3. `npx create-bashi-app --light`
+4. Open in VS Code with Claude Code, type `/start`
 
-```
-cd my-existing-project
-npx create-bashi-app
-```
+### Standalone (no setup needed)
 
-Both install the full framework. Add `--light` to either for [MCP-connected mode](#two-mode-knowledge-loading-v200) (skills from Cortex, ~40% fewer files).
+37 built-in skills, works everywhere:
 
-Open in VS Code with Claude Code, then:
+1. `cd your-project`
+2. `npx create-bashi-app`
+3. Open in VS Code with Claude Code, type `/start`
 
-```
-/start             See where you are and what to do next
-/setup             Set your project name, stack, and purpose
-/capture-idea      Describe what you want to build
-/run-project       Start processing (generates PRD, seeds tasks)
-```
-
-### Option C: Clone and Push
-
-1. Clone this repository.
-2. Open it in VS Code with Claude Code.
-3. Tell Claude Code: `push my framework to C:\Users\me\Projects\my-cool-app`
-4. Open the new project and run `/start`.
+> **Starting fresh?** `npx create-bashi-app my-app` creates a new directory.
 
 ## Token Efficient by Design
 

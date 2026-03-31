@@ -55,23 +55,7 @@ This takes about 2 minutes.
 npx create-bashi-app my-first-app
 ```
 
-You'll see something like:
-
-```
-Bashi v2.1.0
-12 agents | 37 skills | 20 commands | 11 safety hooks
-
-Installing framework...
-
-  Copied:  106 files
-
-Framework installed successfully!
-
-Next steps:
-  1. cd my-first-app
-  2. Open in VS Code with Claude Code
-  3. Run /start
-```
+This creates a new folder called `my-first-app` with the framework inside it.
 
 4. Now open the new folder. Click **File** in the top menu, then **Open Folder**, and find `my-first-app` wherever you created it. Click **Open**.
 
