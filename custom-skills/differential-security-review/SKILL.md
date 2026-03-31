@@ -6,7 +6,7 @@ description: |
   security implications of recent modifications — new attack surfaces, removed
   protections, changed auth logic, and risky refactors. Complements SKL-0016
   (Code Review) with a security lens on diffs.
-version: 1.0
+version: 1.1
 owner: reviewer
 triggers:
   - DIFF_SECURITY_REVIEW_REQUESTED

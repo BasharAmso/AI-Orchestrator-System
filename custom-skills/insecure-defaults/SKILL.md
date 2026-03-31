@@ -6,7 +6,7 @@ description: |
   security patterns, and dangerous default values in application code and
   configuration files. Complements SKL-0015 (Security Audit) by focusing
   on configuration-level vulnerabilities that dependency scanners miss.
-version: 1.0
+version: 1.1
 owner: reviewer
 triggers:
   - INSECURE_DEFAULTS_CHECK_REQUESTED

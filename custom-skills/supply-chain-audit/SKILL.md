@@ -5,7 +5,7 @@ description: |
   Audit the dependency supply chain for security risks beyond what `npm audit`
   or `pip audit` catches. Analyzes dependency health, maintainer trust signals,
   typosquatting risk, and transitive dependency exposure.
-version: 1.0
+version: 1.1
 owner: reviewer
 triggers:
   - SUPPLY_CHAIN_AUDIT_REQUESTED

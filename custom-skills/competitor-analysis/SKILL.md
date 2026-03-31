@@ -5,7 +5,7 @@ description: |
   Structured competitor research: features, pricing, positioning, gaps, and
   differentiation strategy. Feeds into PRD Writing (SKL-0004) and Problem
   Stress Test (SKL-0027) with better market context.
-version: 1.0
+version: 1.1
 owner: product-manager
 triggers:
   - COMPETITOR_ANALYSIS_REQUESTED
