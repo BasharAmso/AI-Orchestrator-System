@@ -9,12 +9,20 @@
 
 **You can architect, design, and direct. Writing code line-by-line blocks you from shipping.** This framework turns Claude Code into a structured development team that builds while you direct.
 
+**Recommended** (680+ skills via [Cortex MCP](https://github.com/BasharAmso/cortex-mcp)):
+```
+npm install -g cortex-mcp-server
+cd your-project
+npx create-bashi-app --light
+```
+
+**Standalone** (37 built-in skills, no setup needed):
 ```
 cd your-project
 npx create-bashi-app
 ```
 
-12 agents. 680+ skills across 26 domains (via [Cortex MCP](https://github.com/BasharAmso/cortex-mcp)). 20 commands. 11 safety hooks. Zero dependencies.
+12 agents. 20 commands. 11 safety hooks. Zero dependencies.
 
 ---
 
