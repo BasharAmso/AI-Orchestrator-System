@@ -44,6 +44,8 @@ tags:
 
 Scan application code and configuration files for insecure default values, hardcoded credentials, fail-open security patterns, and dangerous configurations that would survive into production. This catches the class of vulnerabilities that dependency scanners and OWASP checklists miss — the ones baked into *your* code, not your dependencies.
 
+Inspired by [Trail of Bits' insecure-defaults skill](https://github.com/trailofbits/skills).
+
 > **See also:** For full OWASP codebase audit, see SKL-0015 (Security Audit).
 
 ---

@@ -47,6 +47,8 @@ Interview the user conversationally and produce a structured Game Design Documen
 
 This skill is the game-development parallel to PRD Writing (SKL-0004). Where PRD Writing asks "what problem are we solving?", GDD Writing asks "what fantasy are we delivering?"
 
+**Frameworks referenced:** [MDA Framework](https://users.cs.northwestern.edu/~hunicke/MDA.pdf) (Hunicke, LeBlanc, Zala), [Bartle Player Types](https://mud.co.uk/richard/hcds.htm) (Richard Bartle), [Self-Determination Theory](https://selfdeterminationtheory.org/) (Deci & Ryan).
+
 ---
 
 ## Cognitive Mode

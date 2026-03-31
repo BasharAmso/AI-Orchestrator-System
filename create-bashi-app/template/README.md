@@ -9,7 +9,7 @@
 
 **You can architect, design, and direct. Writing code line-by-line blocks you from shipping.** This framework turns Claude Code into a structured development team that builds while you direct.
 
-**Recommended** (680+ skills via [Cortex MCP](https://github.com/BasharAmso/cortex-mcp)):
+**Recommended** (600+ skills via [Cortex MCP](https://github.com/BasharAmso/cortex-mcp)):
 ```
 npm install -g cortex-mcp-server
 cd your-project
@@ -59,7 +59,7 @@ No programming languages to install, no build tools, no package managers. The fr
 
 ### Recommended: Full Experience (with Cortex MCP)
 
-680+ skills across 26 domains, loaded on-demand:
+600+ skills across 26 domains, loaded on-demand:
 
 1. `npm install -g cortex-mcp-server`
 2. `cd your-project`
