@@ -218,3 +218,11 @@ reviewer
 - [ ] Critical issues presented individually for user decision
 - [ ] Verdict issued with evidence
 - [ ] STATE.md updated with review summary
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | Review summary with verdict (`APPROVED` or `NEEDS WORK`), categorized findings (CRITICAL / INFORMATIONAL) |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log files modified |
+| **Handoff Event** | `TASK_COMPLETED` or `REWORK_REQUESTED` (depends on verdict) |

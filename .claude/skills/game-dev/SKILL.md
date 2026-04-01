@@ -259,6 +259,14 @@ These systems are needed regardless of game mode:
 - [ ] GDD requirements addressed (cross-reference docs/GDD.md)
 - [ ] STATE.md updated
 
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | Game source files (`src/game/`, `src/scenes/`, `src/entities/`), asset pipeline |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log files modified |
+| **Handoff Event** | `TASK_COMPLETED` (game feature built) |
+
 ## Anti-Patterns
 
 - Never hardcode level data in source files -- use JSON data files

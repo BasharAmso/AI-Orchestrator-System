@@ -121,3 +121,11 @@ documenter
 - [ ] No placeholder text remaining
 - [ ] CHANGELOG updated if a feature was shipped
 - [ ] STATE.md updated with files created/modified
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | Documentation files (`README.md`, `docs/*.md`, `CHANGELOG.md`, API references) |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log files modified |
+| **Handoff Event** | `TASK_COMPLETED` (no mandatory next step) |

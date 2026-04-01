@@ -1,10 +1,26 @@
 ---
 id: SKL-0037
 name: Friction Audit
+description: |
+  Audit user-facing flows for unnecessary friction. Produces a friction report
+  with scored findings and actionable fixes. Use this skill before launch
+  readiness checks, after major UX changes, or when user drop-off is suspected.
 version: 1.0.0
 owner: reviewer
 triggers:
   - FRICTION_AUDIT_REQUESTED
+inputs:
+  - Target flows (user-specified or auto-detected from recent tasks)
+  - Friction Audit Checklist (.claude/skills/friction-audit/CHECKLIST.md)
+  - Project source files (src/, docs/, UI components)
+outputs:
+  - Friction Audit Report (in Execution Summary or standalone file)
+  - .claude/project/STATE.md (updated)
+tags:
+  - review
+  - ux
+  - friction
+  - quality
 ---
 
 # Friction Audit
@@ -94,3 +110,11 @@ Friction check: [N] flows audited, [M] flagged (scores below 70%)
 - [ ] Each flow scored against the full checklist
 - [ ] Findings reported with actionable fixes
 - [ ] No flow scores below 70% without a documented fix plan
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | Friction Audit Report (in Execution Summary or standalone file if requested) |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log friction scores |
+| **Handoff Event** | `TASK_COMPLETED` (friction audit complete) |

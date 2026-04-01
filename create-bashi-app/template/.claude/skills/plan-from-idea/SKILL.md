@@ -74,3 +74,12 @@ None required for v1. The user reviews the PRD and task queue after execution.
 - [ ] At least 3 tasks are added to the Next Task Queue
 - [ ] STATE.md is updated with outputs and files modified
 - [ ] Decision logged in DECISIONS.md
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | Actionable plan in `.claude/project/STATE.md` (Next Task Queue seeded), PRD stub at `docs/PRD.md`, event emitted |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log files modified |
+| **Decision Log** | `.claude/project/knowledge/DECISIONS.md` — project direction chosen |
+| **Handoff Event** | `PRD_CREATION_REQUESTED` (triggers PRD writing via SKL-0004) |

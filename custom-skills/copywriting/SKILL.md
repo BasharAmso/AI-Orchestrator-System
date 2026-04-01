@@ -144,3 +144,11 @@ builder
 - [ ] Voice consistency verified against brand guidelines (if any)
 - [ ] Copy written to target files or docs/COPY.md
 - [ ] STATE.md updated
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | Copy in target files or `docs/COPY.md` |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log files modified |
+| **Handoff Event** | `TASK_COMPLETED` (copy written) |

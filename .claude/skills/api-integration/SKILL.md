@@ -112,3 +112,12 @@ builder
 - [ ] Integration tested in sandbox mode
 - [ ] Integration documented in DECISIONS.md
 - [ ] STATE.md updated
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | Integration service files, webhook handlers, `.env.example` (updated) |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log files modified |
+| **Decision Log** | `.claude/project/knowledge/DECISIONS.md` — service chosen, env vars, webhook endpoints |
+| **Handoff Event** | `TASK_COMPLETED` (integration connected) |

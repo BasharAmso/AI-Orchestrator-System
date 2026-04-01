@@ -183,3 +183,11 @@ reviewer
 - [ ] Verdict issued (APPROVED / NEEDS WORK)
 - [ ] Must Fix items added as tasks to Next Task Queue (if NEEDS WORK)
 - [ ] STATE.md updated with verdict and finding counts
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | Review summary with categorized findings (Must Fix / Should Fix / Nice to Have) |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log verdict and finding counts |
+| **Handoff Event** | `TASK_COMPLETED` (if APPROVED) or `REWORK_REQUESTED` (if NEEDS WORK) |

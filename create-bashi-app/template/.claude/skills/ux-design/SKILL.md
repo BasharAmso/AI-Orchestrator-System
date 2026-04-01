@@ -124,3 +124,12 @@ designer
 - [ ] Design document written to docs/ux/[feature-name]-flow.md
 - [ ] UX decisions logged to DECISIONS.md
 - [ ] STATE.md updated
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | `docs/ux/[feature-name]-flow.md` |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log files modified |
+| **Decision Log** | `.claude/project/knowledge/DECISIONS.md` — UX decisions |
+| **Handoff Event** | `TASK_COMPLETED` (UX design complete) |

@@ -124,3 +124,11 @@ builder
 - [ ] Performance signals checked (images, mobile)
 - [ ] Each finding has specific fix recommendation
 - [ ] STATE.md updated
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | SEO audit report (findings by severity with fix recommendations) |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log pages audited and findings |
+| **Handoff Event** | `TASK_COMPLETED` (SEO audit complete) |

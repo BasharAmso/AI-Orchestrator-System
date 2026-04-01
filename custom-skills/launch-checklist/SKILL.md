@@ -4,7 +4,8 @@ name: Launch Checklist
 description: |
   Pre-launch validation covering everything deployment (SKL-0021) doesn't:
   analytics, error tracking, social meta, legal pages, email setup, DNS,
-  SSL, and go-live readiness. The "did you remember to..." layer.
+  SSL, and go-live readiness. Produces a launch readiness report with
+  pass/fail checklist. Use this skill before going live on any project.
 version: 1.0
 owner: builder
 triggers:
@@ -152,3 +153,11 @@ builder
 - [ ] Failed items have specific fix recommendations
 - [ ] Verdict issued (READY / NOT READY)
 - [ ] STATE.md updated
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | Launch readiness report (pass/fail per item with verdict) |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log verdict |
+| **Handoff Event** | `TASK_COMPLETED` (launch checklist complete) |

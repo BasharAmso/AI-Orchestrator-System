@@ -142,3 +142,11 @@ reviewer
 - [ ] Transitive risk evaluation completed
 - [ ] Report generated with prioritized recommendations
 - [ ] STATE.md updated
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | Supply chain risk report (dependency health, red flags, transitive risks, recommendations) |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log audit findings |
+| **Handoff Event** | `TASK_COMPLETED` (supply chain audit complete) |

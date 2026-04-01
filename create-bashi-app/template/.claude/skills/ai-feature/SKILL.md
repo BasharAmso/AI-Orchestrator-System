@@ -114,3 +114,19 @@ builder
 - [ ] AI feature documented in docs/AI.md
 - [ ] Architecture decision logged to DECISIONS.md
 - [ ] STATE.md updated
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | AI service layer files (`src/services/ai/`), prompt templates (`prompts/`), guardrails, `docs/AI.md` |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log files modified |
+| **Decision Log** | `.claude/project/knowledge/DECISIONS.md` — AI architecture and model selection decisions |
+| **Handoff Event** | `TASK_COMPLETED` (ready for code review) |
+
+## Knowledge Enhancement (MCP mode)
+
+If Cortex MCP is available:
+1. Call `search_knowledge` with query derived from task (e.g., "RAG pipeline patterns", "prompt engineering best practices"), category="patterns"
+2. If relevant results found, call `get_fragment` on the top result
+3. Apply as supplementary context (does not override this skill's procedure)

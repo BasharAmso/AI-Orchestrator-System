@@ -101,3 +101,12 @@ builder
 - [ ] Seed file created for dev environment
 - [ ] Backup config documented
 - [ ] STATE.md updated
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | Migration files, schema changes, index definitions, seed files, `docs/DATABASE.md` |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log files modified |
+| **Decision Log** | `.claude/project/knowledge/DECISIONS.md` — database engine, ORM, migration tool |
+| **Handoff Event** | `TASK_COMPLETED` (database work complete) |

@@ -135,3 +135,11 @@ deployer
 - [ ] Credential setup instructions provided
 - [ ] Connection verified via `claude mcp list`
 - [ ] STATE.md updated with Active MCP Integrations
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | `.mcp.json` (created or updated at project root) |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log Active MCP Integrations |
+| **Handoff Event** | `TASK_COMPLETED` (MCP server configured) |

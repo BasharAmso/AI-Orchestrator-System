@@ -104,3 +104,12 @@ builder
 - [ ] Dashboard metrics documented in ANALYTICS.md
 - [ ] Provider credentials in env vars
 - [ ] STATE.md updated
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | Analytics service layer (`src/services/analytics/`), event taxonomy (`src/services/analytics/events.js`), `docs/ANALYTICS.md` |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log files modified |
+| **Decision Log** | `.claude/project/knowledge/DECISIONS.md` — analytics provider choice |
+| **Handoff Event** | `TASK_COMPLETED` (analytics instrumented) |

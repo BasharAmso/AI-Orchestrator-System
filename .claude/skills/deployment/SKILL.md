@@ -557,3 +557,12 @@ deployer
 - [ ] Common rejection reasons checked (reviewer run completed)
 - [ ] Mobile pre-deployment checklist completed
 - [ ] STATE.md updated with submission details
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | Commits pushed, PR created, `CHANGELOG.md` updated, `VERSION` bumped, `docs/deployment.md` (setup mode) |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log files modified |
+| **Decision Log** | `.claude/project/knowledge/DECISIONS.md` — hosting and infrastructure decisions (setup mode) |
+| **Handoff Event** | `TASK_COMPLETED` (terminal step in pipeline) |

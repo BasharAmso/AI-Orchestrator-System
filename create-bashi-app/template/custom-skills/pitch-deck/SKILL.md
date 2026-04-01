@@ -175,3 +175,11 @@ product-manager
 - [ ] Uri Levine pitch principles applied
 - [ ] Written to docs/PITCH_DECK.md
 - [ ] STATE.md updated
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | `docs/PITCH_DECK.md` (12-slide outline) |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log files modified |
+| **Handoff Event** | `TASK_COMPLETED` (pitch deck outline complete) |

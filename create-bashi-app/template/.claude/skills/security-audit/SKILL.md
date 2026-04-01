@@ -102,3 +102,18 @@ reviewer
 - [ ] Auth and authorization reviewed (if applicable)
 - [ ] All findings rated by severity
 - [ ] Security report written to STATE.md
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | Security audit report with severity-rated findings (CRITICAL / HIGH / MEDIUM / LOW) in Execution Summary |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log files modified |
+| **Handoff Event** | `TASK_COMPLETED` (findings reported) |
+
+## Knowledge Enhancement (MCP mode)
+
+If Cortex MCP is available:
+1. Call `search_knowledge` with query derived from task (e.g., "OWASP security patterns", "authentication best practices"), category="patterns"
+2. If relevant results found, call `get_fragment` on the top result
+3. Apply as supplementary context (does not override this skill's procedure)

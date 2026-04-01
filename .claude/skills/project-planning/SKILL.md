@@ -2,9 +2,10 @@
 id: SKL-0025
 name: Project Planning
 description: |
-  Manage project planning, sprint reviews, and status tracking. Use this
-  skill when project planning is requested, a status update is needed, or a
-  sprint review is due.
+  Manage project planning, sprint reviews, and status tracking. Produces
+  sprint plans, velocity reports, and updates the STATE.md task queue. Use
+  this skill when project planning is requested, a status update is needed,
+  or a sprint review is due.
 version: 1.0
 owner: project-manager
 triggers:
@@ -144,3 +145,11 @@ project-manager
 - [ ] Blockers named with specific resolution actions and follow-up dates
 - [ ] SPRINT.md created or updated
 - [ ] STATE.md updated with project status
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | `.claude/project/knowledge/SPRINT.md` (created or updated), sprint plan or status report |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log files modified |
+| **Handoff Event** | `TASK_COMPLETED` (no mandatory next step) |

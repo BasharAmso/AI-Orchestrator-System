@@ -144,3 +144,11 @@ product-manager
 - [ ] Report written to docs/COMPETITOR_ANALYSIS.md
 - [ ] Key findings logged in RESEARCH.md
 - [ ] STATE.md updated
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | `docs/COMPETITOR_ANALYSIS.md`, `.claude/project/knowledge/RESEARCH.md` (updated) |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log files modified |
+| **Handoff Event** | `TASK_COMPLETED` (competitor analysis complete) |

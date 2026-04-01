@@ -143,3 +143,11 @@ reviewer
 - [ ] Each finding has file, line, severity, explanation, and fix
 - [ ] No actual secrets exposed in the report
 - [ ] STATE.md updated with findings summary
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | Insecure defaults report (findings with severity ratings and recommended fixes) |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log findings summary and severity counts |
+| **Handoff Event** | `TASK_COMPLETED` (insecure defaults check complete) |

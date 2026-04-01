@@ -151,3 +151,11 @@ reviewer
 - [ ] Mobile testing priority followed (ViewModel tests first) — if mobile project
 - [ ] Platform-appropriate test framework used (Swift Testing / JUnit4+MockK / Jest) — if mobile project
 - [ ] STATE.md updated
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | Test files (unit, integration, e2e) matching project conventions |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log files modified |
+| **Handoff Event** | `TASK_COMPLETED` (tests written, ready for review) |

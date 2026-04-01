@@ -155,3 +155,11 @@ builder
 - [ ] Growth events tracked
 - [ ] Visual Tier applied ([Clean | Premium])
 - [ ] STATE.md updated
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | Landing pages, SEO components (`robots.txt`, `sitemap.xml`), referral/waitlist logic, share flows |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log files modified |
+| **Handoff Event** | `TASK_COMPLETED` (growth infrastructure built) |

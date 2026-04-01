@@ -89,3 +89,11 @@ fixer
 - [ ] No public interfaces changed
 - [ ] All tests pass after refactoring (or behavior manually verified)
 - [ ] STATE.md updated
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | Refactored source files (behavior unchanged) |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log files modified |
+| **Handoff Event** | `TASK_COMPLETED` (refactoring complete) |

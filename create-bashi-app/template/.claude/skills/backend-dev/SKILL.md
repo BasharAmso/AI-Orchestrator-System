@@ -99,3 +99,19 @@ builder
 - [ ] No hardcoded credentials
 - [ ] Migrations created for schema changes
 - [ ] STATE.md updated
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | Backend source files (routes, models, services, migrations) |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log files modified |
+| **Decision Log** | `.claude/project/knowledge/DECISIONS.md` — stack and database architecture decisions |
+| **Handoff Event** | `TASK_COMPLETED` (ready for code review) |
+
+## Knowledge Enhancement (MCP mode)
+
+If Cortex MCP is available:
+1. Call `search_knowledge` with query derived from task (e.g., "REST API patterns", "database migration patterns"), category="patterns"
+2. If relevant results found, call `get_fragment` on the top result
+3. Apply as supplementary context (does not override this skill's procedure)

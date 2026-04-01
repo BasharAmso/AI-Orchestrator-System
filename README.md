@@ -147,6 +147,7 @@ The system suggests these at the right time. You don't need to memorize them.
 | `/fix-registry` | Rebuilds the Skills Registry so the orchestrator can discover all workflows. | After adding/removing skills, or if `/doctor` flags registry issues. |
 | `/test-framework` | Validates framework structure, dispatch chain, and file consistency. | After modifying framework files or before a release. |
 | `/test-hooks` | Smoke tests all 11 hooks. Verifies they fire and block correctly. | After modifying hooks or upgrading the framework. |
+| `/test-skill` | Validates skill files for structural completeness, quality signals, and registry consistency. | After adding or modifying skills. |
 | `/log-session` | Logs session quality metrics to the global progress tracker. | When you want to track productivity trends over time. |
 | `/framework-review` | Deep review of framework health, unused components, and improvement opportunities. | Periodic framework maintenance (monthly or after major milestones). |
 

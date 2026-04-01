@@ -106,3 +106,11 @@ builder
 - [ ] NPS/CSAT implemented (if PRD requires)
 - [ ] Help articles written for user-facing features
 - [ ] STATE.md updated
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | Onboarding flows, empty states, error messages, email templates, help content (`docs/help/` if applicable) |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log files modified |
+| **Handoff Event** | `TASK_COMPLETED` (support infrastructure built) |

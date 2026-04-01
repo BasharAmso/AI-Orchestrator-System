@@ -104,76 +104,25 @@ cat TODOS.md 2>/dev/null || true
 
 ### Step 2 — Compute Metrics
 
-Calculate and present in a summary table:
-
-| Metric | Value |
-|--------|-------|
-| Commits to main | N |
-| Contributors | N |
-| Total insertions | N |
-| Total deletions | N |
-| Net LOC added | N |
-| Test LOC (insertions) | N |
-| Test LOC ratio | N% |
-| Active days | N |
-| Detected sessions | N |
-| Avg LOC/session-hour | N |
-
-**Test LOC:** Files matching `test/`, `spec/`, `__tests__/`, `*.test.*`, `*.spec.*` patterns.
-
-**Per-author leaderboard** (immediately below):
-```
-Contributor         Commits   +/-          Top area
-You (name)               N   +N/-N        src/
-alice                    N   +N/-N        app/services/
-```
-
-Sort by commits descending. Current user always first, labeled "You (name)".
-
-**Backlog Health** (if TODOS.md exists):
-- Total open TODOs
-- P0/P1 count (critical/urgent)
-- Items completed this period
+Calculate metrics and present using the summary table, per-author leaderboard, and backlog health formats. Read `SCHEMA.md` in this skill folder for the metrics schema and report format.
 
 ---
 
 ### Step 3 — Commit Time Distribution
 
-Show hourly histogram:
-```
-Hour  Commits  ████████████████
- 09:    5      █████
- 14:    8      ████████
- 22:    3      ███
-```
-
-Call out: peak hours, dead zones, late-night coding clusters.
+Show hourly commit histogram. Call out: peak hours, dead zones, late-night coding clusters. See `SCHEMA.md` for histogram format.
 
 ---
 
 ### Step 4 — Work Session Detection
 
-Detect sessions using **45-minute gap** between consecutive commits.
-
-Classify:
-- **Deep sessions** (50+ min)
-- **Medium sessions** (20-50 min)
-- **Micro sessions** (<20 min, single-commit)
-
-Calculate: total active coding time, average session length, LOC per hour of active time.
+Detect sessions using **45-minute gap** between consecutive commits. Classify into deep/medium/micro sessions and calculate active coding time. See `SCHEMA.md` for session classification thresholds.
 
 ---
 
 ### Step 5 — Commit Type Breakdown
 
-Categorize by conventional commit prefix (feat/fix/refactor/test/chore/docs):
-```
-feat:     20  (40%)  ████████████████████
-fix:      27  (54%)  ███████████████████████████
-refactor:  2  ( 4%)  ██
-```
-
-Flag if fix ratio exceeds 50% — signals "ship fast, fix fast" pattern.
+Categorize by conventional commit prefix (feat/fix/refactor/test/chore/docs). Flag if fix ratio exceeds 50%. See `SCHEMA.md` for histogram format.
 
 ---
 
@@ -204,23 +153,7 @@ Auto-identify the single highest-LOC PR or commit set in the window. Highlight i
 
 ### Step 9 — Per-Contributor Analysis
 
-For each contributor (including current user):
-
-1. **Commits and LOC** — total commits, insertions, deletions
-2. **Areas of focus** — top 3 directories/files touched
-3. **Commit type mix** — their personal feat/fix/refactor breakdown
-4. **Session patterns** — when they code, session count
-5. **Test discipline** — their personal test LOC ratio
-
-**For the current user ("You"):** Deepest treatment. Include session analysis, time patterns, focus score. Frame in first person.
-
-**For each teammate:**
-- **Praise** (1-2 specific things): Anchor in actual commits. Not "great work" — say exactly what was good.
-- **Growth opportunity** (1 specific thing): Frame as investment, not criticism. Anchor in data.
-
-**AI collaboration note:** If commits have `Co-Authored-By` AI trailers, note AI-assisted commit percentage as a metric.
-
-**Solo repo:** Skip team breakdown — retro is personal.
+Analyze each contributor's commits, focus areas, commit type mix, session patterns, and test discipline. Give the current user the deepest treatment. For teammates, provide specific praise and one growth opportunity anchored in data. See `SCHEMA.md` for per-contributor analysis fields and formatting rules.
 
 ---
 
@@ -255,13 +188,7 @@ Check for prior retros:
 ls -t .claude/project/retros/*.json 2>/dev/null
 ```
 
-**If prior retros exist:** Load the most recent. Calculate deltas:
-```
-                    Last        Now         Delta
-Test ratio:         22%    →    41%         ↑19pp
-Sessions:           10     →    14          ↑4
-Commits:            32     →    47          ↑47%
-```
+**If prior retros exist:** Load the most recent and calculate deltas. See `SCHEMA.md` for trend comparison format.
 
 **If no prior retros:** Skip comparison. Note: "First retro — run again next week to see trends."
 
@@ -279,25 +206,7 @@ Write JSON snapshot with metrics, per-author data, and streak info. Filename: `.
 
 ### Step 14 — Write the Narrative
 
-Structure the output:
-
-**Tweetable summary** (first line):
-```
-Week of Mar 8: 47 commits, 3.2k LOC, 38% tests, peak: 10pm | Streak: 47d
-```
-
-Then sections:
-1. **Summary Table** (Step 2)
-2. **Trends vs Last Retro** (Step 12, if available)
-3. **Time & Session Patterns** (Steps 3-4)
-4. **Shipping Velocity** (Steps 5-7)
-5. **Code Quality Signals** (test ratio, hotspots)
-6. **Focus & Highlights** (Steps 7-8)
-7. **Your Week** (personal deep-dive, Step 9)
-8. **Team Breakdown** (Step 9, if not solo)
-9. **Top 3 Wins** (highest-impact things shipped)
-10. **3 Things to Improve** (specific, actionable)
-11. **3 Habits for Next Week** (small, practical, <5 min to adopt)
+Structure the output using the narrative report structure in `SCHEMA.md`: tweetable summary first, then 11 sections from summary table through habits for next week.
 
 ---
 
@@ -361,3 +270,11 @@ orchestrator
 - [ ] JSON snapshot saved to `.claude/project/retros/`
 - [ ] Narrative written to conversation
 - [ ] STATE.md updated
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | Retro narrative (output to conversation), `.claude/project/retros/<date>.json` (snapshot) |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log retro window and health metrics |
+| **Handoff Event** | `TASK_COMPLETED` (retrospective complete) |

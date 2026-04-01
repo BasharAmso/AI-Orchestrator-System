@@ -219,3 +219,12 @@ product-manager
 - [ ] Kill rule defined
 - [ ] Key decisions logged in DECISIONS.md
 - [ ] STATE.md updated
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | `docs/PRD.md` (created or updated) |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log files modified |
+| **Decision Log** | `.claude/project/knowledge/DECISIONS.md` — scope posture and key product decisions |
+| **Handoff Event** | `PRD_UPDATED` (triggers task breakdown via SKL-0003) |

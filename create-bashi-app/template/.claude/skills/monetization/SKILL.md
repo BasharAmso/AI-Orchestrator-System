@@ -127,3 +127,12 @@ builder
 - [ ] No hardcoded Stripe keys
 - [ ] BILLING.md created
 - [ ] STATE.md updated
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | Billing service files, webhook handlers, paywall middleware, `docs/BILLING.md` |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log files modified |
+| **Decision Log** | `.claude/project/knowledge/DECISIONS.md` — billing model, provider choice |
+| **Handoff Event** | `TASK_COMPLETED` (monetization implemented) |

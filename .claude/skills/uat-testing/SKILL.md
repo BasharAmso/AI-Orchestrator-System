@@ -404,3 +404,11 @@ reviewer
 - [ ] Baseline saved for regression
 - [ ] Bugs routed to fixer with reproduction steps
 - [ ] STATE.md updated with verdict and health score
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | `.claude/project/knowledge/UAT_REPORT.md`, `.claude/project/qa-reports/baseline.json` |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log verdict and health score |
+| **Handoff Event** | `TASK_COMPLETED` (if GO) or `REWORK_REQUESTED` (if NO-GO or GO WITH CONDITIONS with critical fixes) |

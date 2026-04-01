@@ -92,3 +92,11 @@ fixer
 - [ ] Fix verified against original bug report
 - [ ] Finding documented in STATE.md
 - [ ] STATE.md updated
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | Bug fix applied to source files |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log root cause and fix |
+| **Handoff Event** | `TASK_COMPLETED` (bug fixed) |

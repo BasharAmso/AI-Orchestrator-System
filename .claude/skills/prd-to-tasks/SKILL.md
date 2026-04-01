@@ -85,18 +85,7 @@ Produce an ordered list of **8 to 15 tasks** following these rules:
    - Polish, testing, and review tasks last (Medium/Low priority)
 5. **No tasks for non-goals** — Cross-check against the Non-Goals section. Do not generate tasks for anything explicitly excluded.
 
-6. **Skill assignment** — Assign each task a Skill ID from `.claude/skills/REGISTRY.md`. The planner has full PRD context (architecture, features, tech stack) and should map each task to the most relevant skill. This is the **primary mechanism** by which skills are invoked during the build phase.
-   - Read REGISTRY.md and match the task's domain to the closest skill.
-   - If a task spans multiple skills, assign the **primary** skill (the one that covers the most work).
-   - If no skill clearly applies, leave the Skill column as `—` (the orchestrator will use fallback routing).
-
-**Task format** (see `.claude/project/knowledge/TASK-FORMAT.md` for full column definitions):
-
-```
-| # | Task | Priority | Skill |
-|---|------|----------|-------|
-| 1 | <short title> (<target file/folder>) | High | SKL-0006 |
-```
+6. **Skill assignment** — Assign each task a Skill ID from `.claude/skills/REGISTRY.md`. This is the **primary mechanism** by which skills are invoked during the build phase. Use the task format defined in `.claude/project/knowledge/TASK-FORMAT.md` (includes column definitions, skill assignment rules, and common mappings).
 
 ### B2) Phase Grouping (Conditional)
 
@@ -223,3 +212,11 @@ Orchestrator self-reviews task titles for beginner clarity. For deeper quality r
 - [ ] Any ambiguous requirements logged to .claude/project/knowledge/OPEN_QUESTIONS.md
 - [ ] Event suggestion printed for TASK_QUEUE_PROPOSED
 - [ ] .claude/project/STATE.md updated with outputs produced and files modified
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | `.claude/project/STATE.md` (Next Task Queue updated with 8-15 tasks), `.claude/project/knowledge/OPEN_QUESTIONS.md` (optional new entries) |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log files modified |
+| **Handoff Event** | `TASK_QUEUE_PROPOSED` (task queue ready for execution) |

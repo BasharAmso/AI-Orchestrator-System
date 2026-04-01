@@ -209,3 +209,12 @@ builder
 - [ ] Accessibility labels present on interactive elements
 - [ ] App Store readiness flags noted
 - [ ] STATE.md updated
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | Mobile app files (screens, components, navigation, ViewModels) |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log files modified |
+| **Decision Log** | `.claude/project/knowledge/DECISIONS.md` — platform, architecture pattern, stack choices |
+| **Handoff Event** | `TASK_COMPLETED` (mobile feature built) |

@@ -141,3 +141,11 @@ reviewer
 - [ ] Cross-referenced with DECISIONS.md for intentional changes
 - [ ] Each finding has file, diff context, severity, and recommendation
 - [ ] STATE.md updated
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | Differential security report (findings with severity and recommendations) |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log files analyzed and severity summary |
+| **Handoff Event** | `TASK_COMPLETED` (security review complete) |

@@ -191,3 +191,11 @@ builder
 - [ ] **Color palette limited and contrast-checked**
 - [ ] At least one visual moment that would make someone pause
 - [ ] STATE.md updated
+
+## Output Contract
+
+| Field | Value |
+|-------|-------|
+| **Artifacts** | Frontend component/page files (components, pages, styles, assets) |
+| **State Update** | `.claude/project/STATE.md` — mark task complete, log files modified |
+| **Handoff Event** | `TASK_COMPLETED` (ready for code review) |
