@@ -81,11 +81,15 @@ flowchart TB
     end
 
     subgraph Skill Layer
-        D["Skills (26 reusable workflows)"]
+        D["Skills (37 local + 600+ via Cortex MCP)"]
     end
 
     subgraph Agent Layer
         E["Agents (Builder, Reviewer, Fixer, Deployer, ...)"]
+    end
+
+    subgraph Cortex Layer
+        CX["Cortex MCP (728 fragments, 26 pillars)"]
     end
 
     subgraph State Layer
@@ -105,6 +109,8 @@ flowchart TB
     C <--> F
     C <--> G
     C <--> H
+    C <-->|search + get_fragment| CX
+    D -.->|Knowledge Enhancement| CX
 ```
 
 ---

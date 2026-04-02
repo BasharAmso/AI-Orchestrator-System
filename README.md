@@ -225,7 +225,12 @@ flowchart TD
     RULES -->|task type match| SKILL
     SKILL -->|delegates to| AGENT[Agent]
     AGENT -->|updates| STATE[(STATE.md)]
+    SKILL -->|handoff event| EVT
     STATE -->|next task| ORCH
+
+    ORCH -->|3. MCP mode| CORTEX[(Cortex MCP)]
+    CORTEX -->|patterns + knowledge| AGENT
+    SKILL -.->|Knowledge Enhancement| CORTEX
 
     subgraph Hooks [Hooks: 11 automatic guards]
         H1[security: secrets scan, git guard, firewall]
@@ -234,13 +239,14 @@ flowchart TD
         H4[agents: subagent validation, MCP failure advisor]
     end
 
-    AGENT -.->|every write| Hooks
+    AGENT -.->|every tool call| Hooks
 
     style User fill:#f9f,stroke:#333
     style ORCH fill:#ff9,stroke:#333
     style STATE fill:#9cf,stroke:#333
     style EVT fill:#9cf,stroke:#333
     style REG fill:#9cf,stroke:#333
+    style CORTEX fill:#c9f,stroke:#333
 ```
 
 ## Origin Story
