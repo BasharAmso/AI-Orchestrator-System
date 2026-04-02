@@ -46,14 +46,16 @@ If you can think in systems but hit a wall when it's time to code, this was buil
 
 **1. A computer** (Windows, Mac, or Linux)
 
-**2. Claude Code** -- install via:
-- **VS Code** (recommended): Claude Code extension from the Extensions sidebar
+**2. [Node.js](https://nodejs.org)** -- click the LTS button and install with defaults
+
+**3. [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview)** -- install via:
+- **[VS Code](https://code.visualstudio.com)** (recommended): Claude Code extension from the Extensions sidebar
 - **JetBrains IDEs**: Claude Code plugin
 - **Terminal**: Claude Code CLI
 
-**3. A Claude subscription** (Pro or Max plan)
+**4. A [Claude subscription](https://claude.ai/pricing)** (Pro or Max plan)
 
-No programming languages to install, no build tools, no package managers. The framework is pure markdown and shell scripts.
+No programming languages to learn, no build tools, no package managers. The framework is pure markdown and shell scripts. New to all of this? See the [Beginner's Guide](docs/BEGINNERS_GUIDE.md) for step-by-step setup with screenshots.
 
 ## Quick Start
 
