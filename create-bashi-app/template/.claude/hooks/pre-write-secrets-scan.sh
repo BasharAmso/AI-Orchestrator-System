@@ -44,6 +44,12 @@ patterns = [
     (r'(postgres|mysql|mongodb|redis)://[^:]+:[^@]+@', 'Database connection string with credentials'),
     (r'hooks\.slack\.com/services/T[A-Z0-9]+/B[A-Z0-9]+/[a-zA-Z0-9]+', 'Slack webhook URL'),
     (r'amzn\.mws\.[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', 'AWS MWS token'),
+    (r'[Aa][Pp][Ii]_?[Kk][Ee][Yy]\s*=\s*[\"\\'][^\"\\']{8,}[\"\\']', 'Generic API key assignment'),
+    (r'[Aa][Cc][Cc][Ee][Ss][Ss]_?[Tt][Oo][Kk][Ee][Nn]\s*=\s*[\"\\'][^\"\\']{8,}[\"\\']', 'Access token assignment'),
+    (r'[Cc][Ll][Ii][Ee][Nn][Tt]_?[Ss][Ee][Cc][Rr][Ee][Tt]\s*=\s*[\"\\'][^\"\\']{8,}[\"\\']', 'OAuth client secret'),
+    (r'[Aa][Uu][Tt][Hh][Oo][Rr][Ii][Zz][Aa][Tt][Ii][Oo][Nn]\s*[:=]\s*[\"\\']?(?:Basic|Bearer)\s+[^\s\"\\']{8,}', 'Hardcoded authorization header'),
+    (r'DATABASE_URL\s*=\s*[\"\\'][^\"\\']+[\"\\']', 'Database URL assignment'),
+    (r'CONNECTION_STRING\s*=\s*[\"\\'][^\"\\']+[\"\\']', 'Connection string assignment'),
 ]
 
 for pat, name in patterns:

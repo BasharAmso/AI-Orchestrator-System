@@ -68,7 +68,8 @@ For each page, verify:
 | Open Graph tags | `og:title`, `og:description`, `og:image` present | MEDIUM |
 | Twitter Card tags | `twitter:card`, `twitter:title`, `twitter:description` | LOW |
 | Viewport meta | `<meta name="viewport">` for mobile | HIGH |
-| Robots meta | Not accidentally blocking indexing | CRITICAL |
+| Robots meta | Not accidentally blocking indexing of public pages | CRITICAL |
+| Admin/internal `noindex` | Admin, staging, and internal pages have `noindex` meta or `X-Robots-Tag` header | CRITICAL |
 
 ### Step 3 — Content Quality Check
 

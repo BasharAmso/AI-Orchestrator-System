@@ -95,6 +95,8 @@ Check each item. Mark as PASS, FAIL, or N/A.
 - [ ] Debug mode disabled in production
 - [ ] API keys rotated from development values
 - [ ] Rate limiting on authentication endpoints
+- [ ] `security.txt` exists at `/.well-known/security.txt` with contact and disclosure policy
+- [ ] Content Security Policy (CSP) header configured (not relying on browser defaults)
 
 **Performance:**
 - [ ] Images optimized (compressed, modern formats)
