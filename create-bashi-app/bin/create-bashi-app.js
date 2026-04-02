@@ -156,8 +156,8 @@ ${BOLD}Options:${RESET}
                  on disk; all other knowledge from Cortex MCP
 
 ${BOLD}Modes:${RESET}
-  Full (default)  12 agents, 37 skills, 20 commands, 11 hooks
-                  Everything on disk. Works without any MCP server.
+  Standalone (default)  12 agents, 37 skills, 20 commands, 11 hooks
+                        Everything on disk. Works without any MCP server.
 
   Light (--light) 2 agents (orchestrator + coach), 20 commands, 11 hooks
                   Skills and other agents load from Cortex MCP on demand.
@@ -165,7 +165,7 @@ ${BOLD}Modes:${RESET}
 
 ${BOLD}What it does:${RESET}
   1. Copies the .claude/ framework (commands, hooks, rules, state)
-  2. Full: also copies all agents and skills
+  2. Standalone: also copies all agents and skills
   3. Light: only orchestrator + coach agents, skills from MCP
   4. Does NOT overwrite existing files unless --force is used
 

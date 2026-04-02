@@ -1,7 +1,7 @@
 {
   "name": "create-bashi-app",
   "version": "1.0.7",
-  "description": "Set up Bashi in any project. 680+ skills across 26 domains. Full mode: 12 agents, 37 local skills, 20 commands, 11 hooks. Light mode (--light): MCP-connected, skills load on-demand from Cortex.",
+  "description": "Set up Bashi in any project. 600+ skills across 26 domains via Cortex MCP. Standalone: 12 agents, 37 skills, 20 commands, 11 hooks. Light (--light): MCP-connected, skills load on-demand.",
   "bin": {
     "create-bashi-app": "./bin/create-bashi-app.js"
   },

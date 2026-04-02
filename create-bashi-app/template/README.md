@@ -57,7 +57,7 @@ No programming languages to install, no build tools, no package managers. The fr
 
 ## Quick Start
 
-### Recommended: Full Experience (with Cortex MCP)
+### Recommended (with Cortex MCP)
 
 600+ skills across 26 domains, loaded on-demand:
 
