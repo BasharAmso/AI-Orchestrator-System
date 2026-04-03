@@ -151,6 +151,8 @@ When you come back:
 - **Talk to it like a person.** You don't need special commands for everything. If you're confused, just ask: "What should I do next?"
 - **One step at a time.** Don't try to build everything at once. Let the system plan and pace the work.
 - **Save often.** Type `/save` whenever you step away, even for a few minutes.
+- **Convert documents to markdown.** If you want Claude to read a PDF, Word doc, or spreadsheet, convert it to markdown first (just ask Claude: "convert this to markdown"). Raw files can waste 20x more tokens than plain text.
+- **Start fresh conversations.** After 10-15 exchanges, type `/save`, then start a new session. Long conversations get expensive and the AI works less well.
 
 ---
 

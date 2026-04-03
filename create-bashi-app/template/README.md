@@ -214,6 +214,23 @@ Build native mobile apps with the same structured workflow:
 
 Agents evaluate their own work after each task. Cross-agent feedback captures review failures with pattern tags. When the same pattern appears 3+ times, the system proposes a skill improvement. All proposals are logged for human review -- nothing auto-modifies.
 
+## Token Efficiency
+
+AI models are getting smarter and more expensive. Bashi is designed to minimize wasted tokens so you get more done per session.
+
+**What the framework does automatically:**
+- **Lazy context loading.** Only reads files the current task requires. No "dump everything into context."
+- **Skills are pre-processed context.** The agent doesn't spend tokens figuring out HOW to do something. The skill procedure tells it.
+- **Scoped agents.** Each agent sees only what it needs. The builder doesn't load reviewer context.
+- **Pre-compact snapshots.** Before context compression, state is saved to files so nothing is lost.
+- **In MCP mode, skills aren't even on disk.** Cortex serves only the fragment you need, when you need it. Unused knowledge never touches your context window.
+
+**What you should do:**
+- **Convert documents to markdown** before feeding them to Claude. Raw PDFs can use 20x more tokens than the same content in markdown. Copy-paste text or ask Claude to convert first.
+- **Start fresh conversations** every 10-15 turns. Run `/save` first to preserve state, then open a new session. Long conversations compound token waste.
+- **Use the right model for the task.** Opus for reasoning and architecture decisions. Sonnet for code execution and building. Haiku for formatting and polish. Don't bring a Ferrari to the grocery store.
+- **Audit your MCP servers and plugins.** Every connected tool loads tokens before you type a word. If you added something months ago and never use it, remove it. Run `/context` in Claude Code to see what's loaded.
+
 ## Architecture
 
 ```mermaid
