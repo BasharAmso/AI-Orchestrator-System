@@ -45,14 +45,18 @@ function shouldSkipInLightMode(relPath) {
   }
 
   // Skip skill subfolders (everything inside .claude/skills/*/)
-  // Keep REGISTRY.md at .claude/skills/REGISTRY.md
+  // Keep REGISTRY.md and meta-skills that need local file access
   if (normalized.startsWith(".claude/skills/")) {
     const rest = normalized.slice(".claude/skills/".length);
     // REGISTRY.md is at the skills root, not in a subfolder
     if (rest === "REGISTRY.md") {
       return false;
     }
-    // Anything in a subfolder (contains /) gets skipped
+    // Meta-skills that inspect local project files (can't run from Cortex)
+    if (rest.startsWith("token-audit/") || rest.startsWith("skill-creator/")) {
+      return false;
+    }
+    // Anything else in a subfolder gets skipped
     if (rest.length > 0) {
       return true;
     }
