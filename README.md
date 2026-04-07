@@ -231,7 +231,42 @@ AI models are getting smarter and more expensive. Bashi is designed to minimize 
 - **Use the right model for the task.** Opus for reasoning and architecture decisions. Sonnet for code execution and building. Haiku for formatting and polish. Don't bring a Ferrari to the grocery store.
 - **Audit your MCP servers and plugins.** Every connected tool loads tokens before you type a word. If you added something months ago and never use it, remove it. Run `/context` in Claude Code to see what's loaded.
 
-## Architecture
+## How It Works
+
+Three commands. One file. That's the whole loop.
+
+```
+You: /capture-idea       "I want to build a recipe app"
+You: /run-project        Orchestrator reads STATE.md, finds the next task, builds it
+You: /run-project        Repeat. Each run completes one task and updates STATE.md
+You: /save               Done for the day. Progress is saved for next session.
+```
+
+STATE.md is the single file that tracks what's done, what's in progress, and what's next. Every session reads it to pick up where you left off. Everything else (agents, skills, hooks, events) runs under the hood automatically.
+
+```
+ ┌───────────────────────────────────────────────┐
+ │  You type /run-project                        │
+ │      │                                        │
+ │      ▼                                        │
+ │  STATE.md ─── "What's the next task?"         │
+ │      │                                        │
+ │      ▼                                        │
+ │  Agent builds it (hooks guard silently)       │
+ │      │                                        │
+ │      ▼                                        │
+ │  Reviewer checks the work                     │
+ │      │                                        │
+ │      ▼                                        │
+ │  STATE.md updates ─── task marked done        │
+ │                                               │
+ │  "Done. Here's what changed. Ready for next?" │
+ └───────────────────────────────────────────────┘
+```
+
+## Full Architecture
+
+For contributors and anyone curious about what's under the hood.
 
 ```mermaid
 flowchart TD

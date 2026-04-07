@@ -107,7 +107,7 @@
 
 | # | Task | Priority | Skill |
 |---|------|----------|-------|
-| 1 | Submit to awesome-claude-code lists (3 PRs) | Medium | — |
+| 1 | Submit to hesreallyhim/awesome-claude-code (browser form, wait 1 week) | Low | — |
 
 ---
 
@@ -146,6 +146,13 @@
 | T30 | GitHub polish: 14 topics, v3.0.0 release, README badges | 2026-03-30 | — |
 | T31 | Cortex-aware orchestrator (step B.5 auto-discovery) | 2026-03-30 | — |
 | T32 | Quick Start builds on first /run-project + dynamic Cortex pillars | 2026-03-30 | — |
+| T33 | Cortex MCP expanded to 680+ fragments, skill counts updated across framework | 2026-03-31 | — |
+| T34 | README Quick Start rewrite (Recommended vs Standalone, Cortex first) | 2026-03-31 | SKL-0024 |
+| T35 | Trail of Bits + GDD framework attribution restored | 2026-03-31 | — |
+| T36 | Awesome-list submissions: jqueryscript PR #158, rohitg00 PR #178 | 2026-03-31 | — |
+| T37 | Broad Bash permissions (DEC-0019) — replace granular patterns with deny list | 2026-03-31 | — |
+| T38 | Setup shows Cortex skill count when MCP connected | 2026-03-31 | — |
+| T39 | Framework version bumped to 3.1.0, npm create-bashi-app@1.0.6 published | 2026-03-31 | — |
 
 ---
 
@@ -155,7 +162,7 @@
 |-------|-------|
 | Current Cycle | 5 |
 | Max Cycles This Run | 50 |
-| Last Run Status | Checkpointed |
+| Last Run Status | Checkpointed (v3.1.0) |
 | Knowledge Source | Files |
 | Pillar | general |
 | Time Limit Hours | 4 |
@@ -175,8 +182,8 @@
 
 | Field | Value |
 |-------|-------|
-| Session Started | 2026-03-30 01:15 |
-| Last Activity | 2026-03-30 |
+| Session Started | 2026-03-31 08:30 |
+| Last Activity | 2026-03-31 |
 | Checkpointed | Yes |
 
 

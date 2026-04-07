@@ -126,6 +126,30 @@ While you were typing those commands, the system:
 3. **Reviewed** its own work after each step
 4. **Tracked** everything in a state file so nothing gets lost
 
+Here's what the whole loop looks like:
+
+```
+ ┌───────────────────────────────────────────────┐
+ │  You type /run-project                        │
+ │      │                                        │
+ │      ▼                                        │
+ │  STATE.md ─── "What's the next task?"         │
+ │      │                                        │
+ │      ▼                                        │
+ │  Agent builds it                              │
+ │      │                                        │
+ │      ▼                                        │
+ │  Reviewer checks the work                     │
+ │      │                                        │
+ │      ▼                                        │
+ │  STATE.md updates ─── task marked done        │
+ │                                               │
+ │  "Done. Here's what changed. Ready for next?" │
+ └───────────────────────────────────────────────┘
+```
+
+STATE.md is just a text file that tracks your tasks. It's the only file you need to know about. Everything else (agents, skills, hooks) runs automatically in the background.
+
 Your project files are in the folder you opened. The actual app code is usually in `src/`. The plans and documents are in `docs/`.
 
 When the system tells you the app is ready to preview, it will include instructions for how to see it in your browser.
