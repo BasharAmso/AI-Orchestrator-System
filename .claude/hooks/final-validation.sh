@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
-# Final Validation — runs at session Stop phase
+# Final Validation - runs at session Stop phase
 # Checks that the framework is internally consistent
-# Always exits 0 — this is a reporting hook, not a blocker
-# Note: BASH_SOURCE path resolution may behave unexpectedly under Git Bash
-# on Windows — this script is designed for Linux/Mac deployment environments
+# Always exits 0 - this is a reporting hook, not a blocker
 
 set -uo pipefail
 echo "$(basename "${BASH_SOURCE[0]}")" >> /tmp/bashi-hook-usage.log 2>/dev/null || true
@@ -62,7 +60,7 @@ for agent in "${PHANTOM_AGENTS[@]}"; do
 done
 
 if grep -rE "C:\\\\Users\\\\[a-zA-Z0-9_.-]+" "$CLAUDE_DIR" --include="*.md" -l 2>/dev/null | grep -q .; then
-  echo "Hardcoded path found: A personal file path (C:\\Users\\...) is still in framework files. Replace with a relative path or variable." >&2
+  echo "Hardcoded path found: A personal file path (C:\Users\...) is still in framework files. Replace with a relative path or variable." >&2
   ALL_GOOD=false
 fi
 
@@ -79,21 +77,19 @@ fi
 if [ "$ALL_GOOD" = true ]; then
   echo "All validation checks passed."
 else
-  echo "Validation completed with warnings — review items above."
+  echo "Validation completed with warnings - review items above."
 fi
 
-# Checkpoint reminder: check for unsaved progress
 STATE_FILE="$CLAUDE_DIR/project/STATE.md"
 PARSER="$CLAUDE_DIR/hooks/lib/parse_state.py"
 if [ -f "$STATE_FILE" ]; then
-  # shellcheck source=lib/detect-python.sh
   source "$(dirname "${BASH_SOURCE[0]}")/lib/detect-python.sh"
   if [ -f "$PARSER" ]; then
-    ACTIVE_ID=$($PYTHON "$PARSER" "$STATE_FILE" active_id 2>/dev/null || echo "—")
+    ACTIVE_ID=$($PYTHON "$PARSER" "$STATE_FILE" active_id 2>/dev/null || echo "-")
   else
     ACTIVE_ID=$(grep '| ID |' "$STATE_FILE" 2>/dev/null | head -1 | sed 's/.*| ID | *//;s/ *|.*//')
   fi
-  if [ -n "$ACTIVE_ID" ] && [ "$ACTIVE_ID" != "—" ] && [ "$ACTIVE_ID" != "-" ]; then
+  if [ -n "$ACTIVE_ID" ] && [ "$ACTIVE_ID" != "-" ]; then
     echo ""
     echo "Reminder: Active task ($ACTIVE_ID) detected. Run /save before ending this session to preserve progress."
   fi

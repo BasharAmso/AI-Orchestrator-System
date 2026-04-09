@@ -1,7 +1,7 @@
 # Command: /log-session
 
 > Log session metrics to track framework effectiveness over time.
-> Lightweight — 4 quick questions, then a single row appended to the global log.
+> Lightweight - 4 quick questions, then a single row appended to the global log.
 
 ---
 
@@ -55,7 +55,7 @@ Pre-filled: Project = [auto] | Duration = [auto]min
 Print a one-line confirmation:
 
 ```
-Logged: [Quality]/5 quality, [Iterations] iterations, [Bugs] bugs — [Project] ([Duration]min)
+Logged: [Quality]/5 quality, [Iterations] iterations, [Bugs] bugs - [Project] ([Duration]min)
 ```
 
 Do not print the full CSV. Do not suggest next steps unless asked.

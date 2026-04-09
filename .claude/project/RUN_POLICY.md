@@ -32,9 +32,9 @@ The orchestrator must stop immediately if any of the following occur:
 4. The Next Task Queue becomes empty and no next tasks can be proposed.
 5. A required artifact is missing and cannot be created safely.
 6. The project goal exit condition is satisfied (if `GOAL.md` exists).
-7. Consecutive failure limit reached (default 3 — see Circuit Breakers).
-8. Time limit exceeded (Overnight mode, default 4 hours — see Circuit Breakers).
-9. Phantom completion limit reached (Overnight mode, default 2 — see Circuit Breakers).
+7. Consecutive failure limit reached (default 3 - see Circuit Breakers).
+8. Time limit exceeded (Overnight mode, default 4 hours - see Circuit Breakers).
+9. Phantom completion limit reached (Overnight mode, default 2 - see Circuit Breakers).
 
 ---
 
@@ -138,7 +138,7 @@ When the Next Task Queue contains 2+ independent tasks at the same priority leve
 | Breaker | Default | Description |
 |---------|---------|-------------|
 | Merge Conflict Limit | 2 | Stop if N+ tasks conflict during a single parallel merge cycle. Indicates tasks are not truly independent. |
-| All-Slots-Failed | — | If every slot in a parallel dispatch fails or conflicts, count as 1 consecutive failure toward the standard Consecutive Failure Limit. |
+| All-Slots-Failed | - | If every slot in a parallel dispatch fails or conflicts, count as 1 consecutive failure toward the standard Consecutive Failure Limit. |
 
 ### Parallel Preconditions
 
@@ -168,7 +168,7 @@ How the orchestrator loads agent and skill knowledge. Cortex MCP provides on-dem
 
 ## Self-Improvement
 
-Agents evaluate their own work and capture feedback for continuous improvement. All improvements are proposals — never auto-applied.
+Agents evaluate their own work and capture feedback for continuous improvement. All improvements are proposals - never auto-applied.
 
 | Setting | Default | Description |
 |---------|---------|-------------|

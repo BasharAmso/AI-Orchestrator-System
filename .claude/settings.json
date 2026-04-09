@@ -1,143 +1,143 @@
 {
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/pre-bash-firewall.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/pre-bash-git-guard.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "Write|Edit|MultiEdit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/pre-write-secrets-scan.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "Write|Edit|MultiEdit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/pre-write-size-guard.sh"
-          }
-        ]
-      }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "Write|Edit|MultiEdit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/post-edit-quality.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "mcp__.*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/post-mcp-failure.sh"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "matcher": ".*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/final-validation.sh"
-          }
-        ]
-      },
-      {
-        "matcher": ".*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/stop-cost-tracker.sh"
-          }
-        ]
-      }
-    ],
-    "PreCompact": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/pre-compact.sh"
-          }
-        ]
-      }
-    ],
-    "SubagentStop": [
-      {
-        "matcher": ".*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/post-subagent-validation.sh"
-          }
-        ]
-      }
-    ],
-    "SessionStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/session-start.sh"
-          }
-        ]
-      }
-    ]
-  },
-  "permissions": {
-    "allow": [
-      "Read",
-      "Edit",
-      "Write",
-      "Bash",
-      "Glob",
-      "Grep"
-    ],
-    "deny": [
-      "Bash(rm -rf *)",
-      "Bash(git push --force *)",
-      "Bash(git push -f *)",
-      "Bash(git reset --hard *)",
-      "Bash(git checkout -- *)",
-      "Bash(DROP TABLE *)",
-      "Bash(DROP DATABASE *)"
-    ],
-    "ask": [
-      "Bash(git push *)",
-      "Bash(curl *)"
-    ]
-  },
-  "env": {
-    "AI_MEMORY_PATH": "~/Projects/AI-Memory",
-    "BASHI_PATH": "~/Projects/bashi",
-    "ECC_HOOK_PROFILE": "standard",
-    "FIREWALL_MODE": "blocklist",
-    "BASHI_OVERNIGHT_MODE": "false"
-  }
+    "hooks":  {
+                  "PreToolUse":  [
+                                     {
+                                         "matcher":  "Bash",
+                                         "hooks":  [
+                                                       {
+                                                           "type":  "command",
+                                                           "command":  "\"C:\\\\Program Files\\\\Git\\\\bin\\\\bash.exe\" --noprofile --norc .claude/hooks/pre-bash-firewall.sh"
+                                                       }
+                                                   ]
+                                     },
+                                     {
+                                         "matcher":  "Bash",
+                                         "hooks":  [
+                                                       {
+                                                           "type":  "command",
+                                                           "command":  "\"C:\\\\Program Files\\\\Git\\\\bin\\\\bash.exe\" --noprofile --norc .claude/hooks/pre-bash-git-guard.sh"
+                                                       }
+                                                   ]
+                                     },
+                                     {
+                                         "matcher":  "Write|Edit|MultiEdit",
+                                         "hooks":  [
+                                                       {
+                                                           "type":  "command",
+                                                           "command":  "\"C:\\\\Program Files\\\\Git\\\\bin\\\\bash.exe\" --noprofile --norc .claude/hooks/pre-write-secrets-scan.sh"
+                                                       }
+                                                   ]
+                                     },
+                                     {
+                                         "matcher":  "Write|Edit|MultiEdit",
+                                         "hooks":  [
+                                                       {
+                                                           "type":  "command",
+                                                           "command":  "\"C:\\\\Program Files\\\\Git\\\\bin\\\\bash.exe\" --noprofile --norc .claude/hooks/pre-write-size-guard.sh"
+                                                       }
+                                                   ]
+                                     }
+                                 ],
+                  "PostToolUse":  [
+                                      {
+                                          "matcher":  "Write|Edit|MultiEdit",
+                                          "hooks":  [
+                                                        {
+                                                            "type":  "command",
+                                                            "command":  "\"C:\\\\Program Files\\\\Git\\\\bin\\\\bash.exe\" --noprofile --norc .claude/hooks/post-edit-quality.sh"
+                                                        }
+                                                    ]
+                                      },
+                                      {
+                                          "matcher":  "mcp__.*",
+                                          "hooks":  [
+                                                        {
+                                                            "type":  "command",
+                                                            "command":  "\"C:\\\\Program Files\\\\Git\\\\bin\\\\bash.exe\" --noprofile --norc .claude/hooks/post-mcp-failure.sh"
+                                                        }
+                                                    ]
+                                      }
+                                  ],
+                  "Stop":  [
+                               {
+                                   "matcher":  ".*",
+                                   "hooks":  [
+                                                 {
+                                                     "type":  "command",
+                                                     "command":  "\"C:\\\\Program Files\\\\Git\\\\bin\\\\bash.exe\" --noprofile --norc .claude/hooks/final-validation.sh"
+                                                 }
+                                             ]
+                               },
+                               {
+                                   "matcher":  ".*",
+                                   "hooks":  [
+                                                 {
+                                                     "type":  "command",
+                                                     "command":  "\"C:\\\\Program Files\\\\Git\\\\bin\\\\bash.exe\" --noprofile --norc .claude/hooks/stop-cost-tracker.sh"
+                                                 }
+                                             ]
+                               }
+                           ],
+                  "PreCompact":  [
+                                     {
+                                         "hooks":  [
+                                                       {
+                                                           "type":  "command",
+                                                           "command":  "\"C:\\\\Program Files\\\\Git\\\\bin\\\\bash.exe\" --noprofile --norc .claude/hooks/pre-compact.sh"
+                                                       }
+                                                   ]
+                                     }
+                                 ],
+                  "SubagentStop":  [
+                                       {
+                                           "matcher":  ".*",
+                                           "hooks":  [
+                                                         {
+                                                             "type":  "command",
+                                                             "command":  "\"C:\\\\Program Files\\\\Git\\\\bin\\\\bash.exe\" --noprofile --norc .claude/hooks/post-subagent-validation.sh"
+                                                         }
+                                                     ]
+                                       }
+                                   ],
+                  "SessionStart":  [
+                                       {
+                                           "hooks":  [
+                                                         {
+                                                             "type":  "command",
+                                                             "command":  "\"C:\\\\Program Files\\\\Git\\\\bin\\\\bash.exe\" --noprofile --norc .claude/hooks/session-start.sh"
+                                                         }
+                                                     ]
+                                       }
+                                   ]
+              },
+    "permissions":  {
+                        "allow":  [
+                                      "Read",
+                                      "Edit",
+                                      "Write",
+                                      "Bash",
+                                      "Glob",
+                                      "Grep"
+                                  ],
+                        "deny":  [
+                                     "Bash(rm -rf *)",
+                                     "Bash(git push --force *)",
+                                     "Bash(git push -f *)",
+                                     "Bash(git reset --hard *)",
+                                     "Bash(git checkout -- *)",
+                                     "Bash(DROP TABLE *)",
+                                     "Bash(DROP DATABASE *)"
+                                 ],
+                        "ask":  [
+                                    "Bash(git push *)",
+                                    "Bash(curl *)"
+                                ]
+                    },
+    "env":  {
+                "AI_MEMORY_PATH":  "~/Projects/AI-Memory",
+                "BASHI_PATH":  "~/Projects/bashi",
+                "ECC_HOOK_PROFILE":  "standard",
+                "FIREWALL_MODE":  "blocklist",
+                "BASHI_OVERNIGHT_MODE":  "false"
+            }
 }

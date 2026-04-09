@@ -1,6 +1,6 @@
 # Command: /test-framework
 
-> Validate the framework's dispatch chain, hook wiring, and cross-references by running automated checks. Read-only — never modifies files.
+> Validate the framework's dispatch chain, hook wiring, and cross-references by running automated checks. Read-only - never modifies files.
 
 ---
 
@@ -97,9 +97,9 @@ Simulate the dispatch chain with 3 mock tasks to verify end-to-end resolution:
 #### T8. Mock Task: Frontend Build
 
 Mock task: `"Build login page (src/app/login/)"` with `Skill: SKL-0005`
-1. Look up SKL-0005 in REGISTRY.md — verify it exists and has a valid folder.
-2. Read the skill's `owner` field — verify the agent file exists.
-3. Trace: `SKL-0005 → [skill name] → [owner agent] → .claude/agents/[owner].md`
+1. Look up SKL-0005 in REGISTRY.md - verify it exists and has a valid folder.
+2. Read the skill's `owner` field - verify the agent file exists.
+3. Trace: `SKL-0005 -> [skill name] -> [owner agent] -> .claude/agents/[owner].md`
 4. Result: `PASS` with the full trace, or `FAIL` at the broken link.
 
 #### T9. Mock Task: Bug Fix
@@ -158,7 +158,7 @@ Result: `PASS` if valid integer, `FAIL` with error details.
 | T11 | State parser smoke test | [PASS/FAIL] |
 | T12 | Events parser test | [PASS/FAIL] |
 
-**Result: [X/12 passed]** — [All clear / X issues need attention]
+**Result: [X/12 passed]** - [All clear / X issues need attention]
 ```
 
 If any tests failed, add a `### Issues` section listing each failure with a suggested fix command.
@@ -167,6 +167,6 @@ If any tests failed, add a `### Issues` section listing each failure with a sugg
 
 ## Constraints
 
-- This command is **read-only** — it never modifies any files.
+- This command is **read-only** - it never modifies any files.
 - All tests should complete in under 30 seconds.
 - If Python is not available, skip T11 and T12 and note them as `SKIPPED (no Python)`.

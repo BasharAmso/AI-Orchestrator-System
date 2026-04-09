@@ -80,7 +80,7 @@ No programming languages to learn, no build tools, no package managers. The fram
 
 ## Token Efficient by Design
 
-The framework loads ~700 tokens at startup (0.07% of the context window). Skills, agents, and knowledge files load only when needed. In MCP mode, skills aren't even on disk — they're fetched from Cortex on-demand, keeping your project directory light. State persists across sessions so you never re-explain your project. Chat output stays concise while artifacts go to files.
+The framework loads ~700 tokens at startup (0.07% of the context window). Skills, agents, and knowledge files load only when needed. In MCP mode, skills aren't even on disk - they're fetched from Cortex on-demand, keeping your project directory light. State persists across sessions so you never re-explain your project. Chat output stays concise while artifacts go to files.
 
 ## What's Inside
 
@@ -109,7 +109,7 @@ The framework supports two knowledge sources:
 | **Standalone (default)** | Loads agents and skills from `.claude/` files. Works everywhere, no setup needed. |
 | **MCP-connected** | Queries [Cortex MCP](https://github.com/BasharAmso/cortex-mcp) for on-demand knowledge with smart context (related patterns and examples). Falls back to files if MCP is unavailable. |
 
-In MCP mode, the orchestrator auto-loads related patterns (up to 2) and examples (up to 1) alongside the primary skill, giving agents richer context. Difficulty-based skill selection adapts to your experience level. Update Cortex once, and every Bashi project benefits automatically — no framework update needed.
+In MCP mode, the orchestrator auto-loads related patterns (up to 2) and examples (up to 1) alongside the primary skill, giving agents richer context. Difficulty-based skill selection adapts to your experience level. Update Cortex once, and every Bashi project benefits automatically - no framework update needed.
 
 ## Commands
 
@@ -244,24 +244,18 @@ You: /save               Done for the day. Progress is saved for next session.
 
 STATE.md is the single file that tracks what's done, what's in progress, and what's next. Every session reads it to pick up where you left off. Everything else (agents, skills, hooks, events) runs under the hood automatically.
 
-```
- ┌───────────────────────────────────────────────┐
- │  You type /run-project                        │
- │      │                                        │
- │      ▼                                        │
- │  STATE.md ─── "What's the next task?"         │
- │      │                                        │
- │      ▼                                        │
- │  Agent builds it (hooks guard silently)       │
- │      │                                        │
- │      ▼                                        │
- │  Reviewer checks the work                     │
- │      │                                        │
- │      ▼                                        │
- │  STATE.md updates ─── task marked done        │
- │                                               │
- │  "Done. Here's what changed. Ready for next?" │
- └───────────────────────────────────────────────┘
+```text
+You type /run-project
+  ->
+STATE.md answers "What's the next task?"
+  ->
+Agent builds it while hooks guard the workflow
+  ->
+Reviewer checks the work
+  ->
+STATE.md updates and marks the task done
+
+"Done. Here's what changed. Ready for next?"
 ```
 
 ## Full Architecture

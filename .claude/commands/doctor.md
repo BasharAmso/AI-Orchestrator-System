@@ -1,6 +1,6 @@
 # Command: /doctor
 
-> Run a health check on the system — verify files, test connections, and offer to fix inconsistencies.
+> Run a health check on the system - verify files, test connections, and offer to fix inconsistencies.
 > *(Replaces `/system-check`.)*
 
 ---
@@ -81,7 +81,7 @@ If either section is missing, print a warning.
 
 ### Step 7: Functional Verification
 
-Go beyond file presence — verify the dispatch chain and cross-references actually work.
+Go beyond file presence - verify the dispatch chain and cross-references actually work.
 
 #### 7a. Dispatch Chain Test
 
@@ -89,15 +89,15 @@ Go beyond file presence — verify the dispatch chain and cross-references actua
 2. Pick the first skill listed in `REGISTRY.md` (the first row of the Skills Index table).
 3. **Files mode:** Verify that the skill's folder path exists on disk and contains a `SKILL.md` file. Verify that `.claude/agents/<agent-name>.md` exists for the skill's owner.
 4. **MCP mode:** Skip skill folder and agent file checks (they load from MCP). Only verify that `.claude/agents/orchestrator.md` and `.claude/agents/coach.md` exist (these always load from files).
-5. Result: `Dispatch chain: OK` or `Dispatch chain: BROKEN — [reason]`
+5. Result: `Dispatch chain: OK` or `Dispatch chain: BROKEN - [reason]`
 
 #### 7b. State Consistency Test
 
-1. **Orphaned Active Task:** If Active Task has an ID (not `—`), verify the task is NOT also listed in the Completed Tasks Log with the same ID. An active task that's already completed is orphaned.
+1. **Orphaned Active Task:** If Active Task has an ID (not `-`), verify the task is NOT also listed in the Completed Tasks Log with the same ID. An active task that's already completed is orphaned.
 2. **Duplicate Task IDs:** Scan the Completed Tasks Log for duplicate IDs. Each ID should appear at most once.
 3. **Mode consistency:** Exactly one row in the Current Mode table should have `**YES**`. If zero or multiple rows have it, flag as inconsistent.
 4. **Phase validity:** Current Phase should be one of: `Not Started`, `Planning`, `Building`, `Ready for Deploy`, `Deploying`, `Live`. Flag unknown values.
-5. **Run Cycle consistency:** `Run Type` must be `Standard` or `Overnight`. If `Run Type` is `Overnight` but Current Mode is not Autonomous, flag as inconsistent: `"Run Type is Overnight but mode is not Autonomous — these should always be paired."`
+5. **Run Cycle consistency:** `Run Type` must be `Standard` or `Overnight`. If `Run Type` is `Overnight` but Current Mode is not Autonomous, flag as inconsistent: `"Run Type is Overnight but mode is not Autonomous - these should always be paired."`
 6. Result: `State consistency: OK` or `State consistency: X issues found`
 
 #### 7c. Cross-Reference Test
@@ -108,14 +108,14 @@ Go beyond file presence — verify the dispatch chain and cross-references actua
 
 #### 7d. Event Health Test
 
-1. **Orphaned events:** Check if any event in `## Processed Events` has no corresponding task in the Completed Tasks Log. Flag as informational (not an error — some events don't produce tasks).
+1. **Orphaned events:** Check if any event in `## Processed Events` has no corresponding task in the Completed Tasks Log. Flag as informational (not an error - some events don't produce tasks).
 2. **Stale unprocessed events:** If any unprocessed event has a timestamp older than 7 days, flag as stale: "Event [ID] has been pending for [N] days. It may need manual attention or removal."
 3. **Duplicate events:** Check for duplicate event IDs across both sections. Flag duplicates.
 4. Result: `Event health: OK` or `Event health: X issues found`
 
 #### 7e. Phase-Progress Consistency Test
 
-1. **Phase vs. completed tasks:** If Current Phase is `Building` but Completed Tasks Log is empty, flag: "Phase is Building but no tasks have been completed yet — phase may have been set prematurely."
+1. **Phase vs. completed tasks:** If Current Phase is `Building` but Completed Tasks Log is empty, flag: "Phase is Building but no tasks have been completed yet - phase may have been set prematurely."
 2. **Phase vs. queue:** If Current Phase is `Ready for Deploy` but Next Task Queue still has items, flag: "Phase is Ready for Deploy but tasks remain in the queue."
 3. **Stale Active Task:** If Active Task has Status = `In Progress` but no `Started` timestamp, flag as inconsistent.
 4. Result: `Phase-progress consistency: OK` or `Phase-progress consistency: X issues found`
@@ -132,7 +132,7 @@ Go beyond file presence — verify the dispatch chain and cross-references actua
 #### 7g. Skill ID Validation
 
 1. Read STATE.md `## Next Task Queue` section.
-2. For each task row that has a Skill column value (not `—`):
+2. For each task row that has a Skill column value (not `-`):
    - Check that the Skill ID (e.g., `SKL-0006`) exists in REGISTRY.md's Skills Index table.
    - If the ID is not found: flag as warning: `"Task #X references SKL-XXXX but this skill is not in REGISTRY.md. Run /fix-registry or update the task."`
 3. Also check the Completed Tasks Log `Skill Used` column for unknown IDs (informational only).
@@ -167,7 +167,7 @@ Go beyond file presence — verify the dispatch chain and cross-references actua
    a. Attempt to call `list_categories` on the MCP server named in `MCP Server Name`.
    b. If available: report `"Cortex MCP: Connected ([X] fragments across [N] categories)"`.
    c. If not available: report `"Cortex MCP: Not connected (using file-based loading)"`.
-4. This is **informational, not an error** — both modes are valid.
+4. This is **informational, not an error** - both modes are valid.
 
 ### Step 8: Repair (Optional)
 
@@ -180,7 +180,7 @@ If Steps 7b, 7d, or 7e found repairable issues, offer repairs. **Behavior depend
 
 | Issue | Repair |
 |-------|--------|
-| Orphaned Active Task (ID exists but is also in Completed Log) | Clear Active Task fields (set all to `—`) |
+| Orphaned Active Task (ID exists but is also in Completed Log) | Clear Active Task fields (set all to `-`) |
 | Duplicate Task IDs in Completed Log | Remove the duplicate row (keep the first occurrence) |
 | Multiple modes marked `**YES**` | Keep only `Semi-Autonomous` as active (safe default) |
 | No mode marked `**YES**` | Set `Semi-Autonomous` as active (safe default) |
@@ -190,8 +190,8 @@ If Steps 7b, 7d, or 7e found repairable issues, offer repairs. **Behavior depend
 | Active Task with no Started timestamp | Set Started to current timestamp |
 | Phase `Ready for Deploy` with tasks remaining | Reset phase to `Building` |
 
-**Do not repair** issues from Steps 7a or 7c — those require `/fix-registry` or manual intervention.
-**Do not repair** knowledge health notes (7f) — those are informational only.
+**Do not repair** issues from Steps 7a or 7c - those require `/fix-registry` or manual intervention.
+**Do not repair** knowledge health notes (7f) - those are informational only.
 
 ### Step 9: Print System Health Summary
 
@@ -228,16 +228,16 @@ If System Status is `Needs Attention`, also print:
 - [list each fix command with a short reason]
 ```
 
-Common suggested fixes (use plain language — the user may be a technical non-programmer — assume systems literacy, not syntax fluency):
+Common suggested fixes (use plain language - the user may be a technical non-programmer - assume systems literacy, not syntax fluency):
 
 | Problem | User-Facing Message |
 |---------|-------------------|
-| Project type not set | "Your project type hasn't been set yet. Run `/setup` to choose one — it only takes a moment." |
-| Skills registry stale or missing | "The skill registry is out of date. Run `/fix-registry` to update it — this takes a few seconds." |
-| Directories or core files missing | "Some system files are missing. Run `/setup` to recreate them — it won't overwrite your existing work." |
+| Project type not set | "Your project type hasn't been set yet. Run `/setup` to choose one - it only takes a moment." |
+| Skills registry stale or missing | "The skill registry is out of date. Run `/fix-registry` to update it - this takes a few seconds." |
+| Directories or core files missing | "Some system files are missing. Run `/setup` to recreate them - it won't overwrite your existing work." |
 | STATE.md sections missing | "The project state file is incomplete. Run `/setup` to regenerate it." |
 | EVENTS.md sections missing | "The events log is incomplete. Run `/setup` to regenerate it." |
 | Dispatch chain broken | "The system can't route tasks to skills properly. Run `/fix-registry` to rebuild the connections." |
 | Cross-references broken | "Some internal references are broken. Run `/fix-registry` first, then `/doctor` again." |
 | Task format missing Skill column | "Your task queue is using an older format without the Skill column. Run `/clone-framework --upgrade` to patch it, or see `.claude/project/knowledge/TASK-FORMAT.md` for the current format." |
-| State consistency issues | "Found some inconsistencies in your project state. Run `/doctor` again — it will offer to fix them automatically." |
+| State consistency issues | "Found some inconsistencies in your project state. Run `/doctor` again - it will offer to fix them automatically." |

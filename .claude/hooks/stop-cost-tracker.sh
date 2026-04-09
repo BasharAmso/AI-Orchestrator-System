@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Stop Cost Tracker — logs session duration and activity metrics
+# Stop Cost Tracker - logs session duration and activity metrics
 # Updates one line per session in .claude/project/session-log.csv
-# Always exits 0 — reporting only, never blocks
+# Always exits 0 - reporting only, never blocks
 
 set -uo pipefail
 echo "$(basename "${BASH_SOURCE[0]}")" >> /tmp/bashi-hook-usage.log 2>/dev/null || true
@@ -56,7 +56,7 @@ if [ "$ELAPSED" -gt 0 ]; then
   echo "Session: ${ELAPSED}min ($START_FMT - $END_FMT) | Logged to .claude/project/session-log.csv"
   echo "Run /log-session to record quality metrics for this session."
 
-  # System notification — 5-minute cooldown prevents spam on every response stop
+  # System notification - 5-minute cooldown prevents spam on every response stop
   PROJECT_NAME=$(basename "$FRAMEWORK_ROOT")
   NOTIF_COOLDOWN=300
   LAST_NOTIF_FILE="/tmp/aos-last-stop-notif"
@@ -80,13 +80,13 @@ if [ "$ELAPSED" -gt 0 ]; then
       \$notify = New-Object System.Windows.Forms.NotifyIcon
       \$notify.Icon = [System.Drawing.SystemIcons]::Information
       \$notify.Visible = \$true
-      \$notify.ShowBalloonTip(6000, '${PROJECT_NAME} — done', 'Session ended (${ELAPSED}min). Run /log-session to capture metrics.', [System.Windows.Forms.ToolTipIcon]::Info)
+      \$notify.ShowBalloonTip(6000, '${PROJECT_NAME} - done', 'Session ended (${ELAPSED}min). Run /log-session to capture metrics.', [System.Windows.Forms.ToolTipIcon]::Info)
       Start-Sleep -Milliseconds 7000
       \$notify.Dispose()
     " 2>/dev/null || true
   elif [ "$SHOULD_NOTIFY" = true ] && command -v osascript &>/dev/null; then
     # macOS: native notification
-    osascript -e "display notification \"Session ended (${ELAPSED}min). Run /log-session.\" with title \"${PROJECT_NAME} — done\"" 2>/dev/null || true
+    osascript -e "display notification \"Session ended (${ELAPSED}min). Run /log-session.\" with title \"${PROJECT_NAME} - done\"" 2>/dev/null || true
   fi
 fi
 
