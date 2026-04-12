@@ -35,18 +35,14 @@ Some methodologies have documented dispatch policies but their orchestrator filt
 |-------------|--------|-------|
 | Waterfall | Shipped | — |
 | Kanban | Shipped | — |
-| Scrum | Not yet implemented | Block with message |
+| Scrum | Shipped | — |
 | FDD | Not yet implemented | Block with message |
 
-If the target methodology is `scrum`:
-- Print: `"Scrum dispatch is not yet implemented in this Bashi version. The sprint-scoped filter in orchestrator step 1.5 has not shipped. Selecting Scrum would leave STATE.md in an inconsistent state.\n\nAvailable methodologies: waterfall, kanban."`
-- Stop.
-
 If the target methodology is `fdd`:
-- Print: `"FDD dispatch is not yet implemented in this Bashi version. The feature-group filter in orchestrator step 1.5 has not shipped. Selecting FDD would leave STATE.md in an inconsistent state.\n\nAvailable methodologies: waterfall, kanban."`
+- Print: `"FDD dispatch is not yet implemented in this Bashi version. The feature-group filter in orchestrator step 1.5 has not shipped. Selecting FDD would leave STATE.md in an inconsistent state.\n\nAvailable methodologies: waterfall, kanban, scrum."`
 - Stop.
 
-> **Remove this step** when Phase 2b (Scrum) and Phase 2c (FDD) ship their filter logic.
+> **Remove this step** when Phase 2c (FDD) ships its filter logic.
 
 ### Step 2: Read Current State
 
@@ -84,7 +80,11 @@ If a warning fires: print the warning, then proceed with the switch.
 - If no `--wip` flag: default WIP limit is 3.
 
 **Scrum:**
-- No additional parameters in Phase 1. Sprint sizing is handled by the project-manager agent when `/run-project` processes the first sprint planning cycle.
+- Ask user: "How many tasks per sprint?" Suggest a default based on completed task velocity (Completed Tasks Log count / weeks elapsed) if available, otherwise suggest 5.
+- Ask user: "Sprint duration in weeks?" Default: 2.
+- Ask user: "Sprint goal? (one line describing what this sprint delivers)" No default — user must provide.
+- If the Next Task Queue is empty: print `"No tasks in queue. Add tasks first, then run /methodology scrum."` and stop.
+- Store the answers as `sprint_size`, `sprint_duration`, `sprint_goal` for use in Step 6b.
 
 **FDD:**
 - No additional parameters in Phase 1. Feature grouping is handled during task breakdown.
@@ -121,7 +121,32 @@ If `## Methodology` already exists:
 > WIP Limit: 3
 ```
 
-**Waterfall:** Remove any methodology-specific fields (WIP Limit, Sprint metadata) if present.
+**Scrum:** Perform sprint setup using the values collected in Step 5:
+
+1. Add `Sprint` column to the Next Task Queue if not present. Take the top `sprint_size` tasks and mark them `S1`. Mark remaining tasks `—` (backlog).
+2. Add sprint metadata below the Methodology table:
+   ```markdown
+   > Sprint: 1
+   > Sprint End Date: [today + sprint_duration weeks, formatted YYYY-MM-DD]
+   > Sprint Goal: [sprint_goal from Step 5]
+   ```
+3. Create `.claude/project/knowledge/SPRINT.md` with the sprint plan:
+   ```markdown
+   # Sprint Plan
+
+   ## Sprint 1
+
+   - **Goal:** [sprint_goal]
+   - **Start:** [today, YYYY-MM-DD]
+   - **End:** [today + sprint_duration weeks, YYYY-MM-DD]
+   - **Tasks:** [list the S1-tagged task descriptions from Next Task Queue]
+
+   ## Velocity
+
+   *(no data yet — populated after first sprint completes)*
+   ```
+
+**Waterfall:** Remove any methodology-specific fields (WIP Limit, Sprint metadata) if present. Remove `Sprint` column from Next Task Queue if present.
 
 #### 6c: Update Methodology History
 
