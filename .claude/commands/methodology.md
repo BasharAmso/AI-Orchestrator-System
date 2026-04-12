@@ -1,0 +1,218 @@
+# Command: /methodology
+
+> Switch the project's dispatch methodology. Updates STATE.md and validates preconditions.
+
+---
+
+## Usage
+
+```
+/methodology <methodology>
+```
+
+Where `<methodology>` is one of:
+
+- `waterfall` — Sequential task processing, no batching or limits (default)
+- `kanban` — Continuous flow with WIP limits and priority-pull dispatch
+- `scrum` — Sprint-based dispatch with timebox boundaries and ceremony injection
+- `fdd` — Feature-driven development with feature-group-first decomposition
+
+---
+
+## Procedure
+
+### Step 1: Validate Argument
+
+If `<methodology>` is not one of `waterfall`, `kanban`, `scrum`, `fdd`:
+- Print: `"Invalid methodology. Use: waterfall, kanban, scrum, or fdd."`
+- Stop.
+
+### Step 1.5: Check Implementation Status
+
+Some methodologies have documented dispatch policies but their orchestrator filter logic has not shipped yet. Block selection until the filter is implemented:
+
+| Methodology | Status | Guard |
+|-------------|--------|-------|
+| Waterfall | Shipped | — |
+| Kanban | Shipped | — |
+| Scrum | Not yet implemented | Block with message |
+| FDD | Not yet implemented | Block with message |
+
+If the target methodology is `scrum`:
+- Print: `"Scrum dispatch is not yet implemented in this Bashi version. The sprint-scoped filter in orchestrator step 1.5 has not shipped. Selecting Scrum would leave STATE.md in an inconsistent state.\n\nAvailable methodologies: waterfall, kanban."`
+- Stop.
+
+If the target methodology is `fdd`:
+- Print: `"FDD dispatch is not yet implemented in this Bashi version. The feature-group filter in orchestrator step 1.5 has not shipped. Selecting FDD would leave STATE.md in an inconsistent state.\n\nAvailable methodologies: waterfall, kanban."`
+- Stop.
+
+> **Remove this step** when Phase 2b (Scrum) and Phase 2c (FDD) ship their filter logic.
+
+### Step 2: Read Current State
+
+Read `.claude/project/STATE.md` to determine:
+- Current Methodology (from `## Methodology` section, default `Waterfall` if section is absent)
+- Active Task status (is anything `In Progress`?)
+
+### Step 3: Check Blocked Transitions
+
+Some methodology transitions are blocked because they have incompatible task grouping structures:
+
+| From | To | Blocked? | Message |
+|------|----|----------|---------|
+| FDD | Scrum | Yes | "Cannot switch directly from FDD to Scrum. These methodologies use incompatible task grouping. Switch to Waterfall first to flatten the queue, then to Scrum:\n  /methodology waterfall\n  /methodology scrum" |
+| Scrum | FDD | Yes | "Cannot switch directly from Scrum to FDD. These methodologies use incompatible task grouping. Switch to Waterfall first to flatten the queue, then to FDD:\n  /methodology waterfall\n  /methodology fdd" |
+
+If the transition is blocked: print the message and stop.
+
+### Step 4: Check Preconditions
+
+Evaluate these warnings (warn but do not block):
+
+| Condition | Message |
+|-----------|---------|
+| Active Task has Status = `In Progress` | "A task is currently in progress. It will complete under the current methodology's rules. The new methodology takes effect on the next dispatch cycle." |
+| Target is same as current | "Already using [methodology]. No change needed." (then stop) |
+
+If a warning fires: print the warning, then proceed with the switch.
+
+### Step 5: Validate Methodology-Specific Parameters
+
+**Kanban:**
+- If `--wip` flag is provided, validate that the value is a positive integer (>= 1).
+- If `--wip 0` or a non-positive value: print `"WIP limit must be at least 1."` and stop.
+- If no `--wip` flag: default WIP limit is 3.
+
+**Scrum:**
+- No additional parameters in Phase 1. Sprint sizing is handled by the project-manager agent when `/run-project` processes the first sprint planning cycle.
+
+**FDD:**
+- No additional parameters in Phase 1. Feature grouping is handled during task breakdown.
+
+### Step 6: Update STATE.md
+
+#### 6a: Create or update the `## Methodology` section
+
+If `## Methodology` does not exist in STATE.md, insert it after `## Framework Mode` and before `## Current Mode`:
+
+```markdown
+---
+
+## Methodology
+
+| Methodology | Description | Active |
+|-------------|-------------|--------|
+| Waterfall | Sequential task processing, no batching or limits | |
+| Kanban | Continuous flow with WIP limits, priority-pull dispatch | |
+| Scrum | Sprint-based dispatch with timebox boundaries | |
+| FDD | Feature-driven, feature-group-first decomposition | |
+```
+
+Then set `**YES**` on the target methodology row.
+
+If `## Methodology` already exists:
+- Remove `**YES**` from the currently active row.
+- Add `**YES**` to the target methodology row.
+
+#### 6b: Set methodology-specific fields
+
+**Kanban:** Add or update a `WIP Limit` field below the methodology table:
+```markdown
+> WIP Limit: 3
+```
+
+**Waterfall:** Remove any methodology-specific fields (WIP Limit, Sprint metadata) if present.
+
+#### 6c: Update Methodology History
+
+If `## Methodology History` does not exist, create it at the bottom of STATE.md:
+
+```markdown
+---
+
+## Methodology History
+
+| Date | From | To | Reason |
+|------|------|----|--------|
+```
+
+Append a row with the current date, old methodology, new methodology, and `"User switched via /methodology"`.
+
+### Step 7: Print Confirmation
+
+```
+Methodology switched: [Old] → [New]
+
+[Methodology-specific message]
+```
+
+Where methodology-specific messages are:
+
+- **Waterfall:** "Tasks will be processed sequentially from the queue. No batching or WIP constraints."
+- **Kanban:** "Dispatch uses priority-pull with a WIP limit of [N]. The orchestrator will block new task selection when [N] tasks are in progress."
+- **Scrum:** "Sprint-based dispatch is active. The project-manager will prompt for sprint planning on the next /run-project cycle."
+- **FDD:** "Feature-driven dispatch is active. Tasks will be grouped by feature and processed feature-by-feature."
+
+---
+
+## Migration Logic
+
+### Kanban → Waterfall
+
+1. Remove `> WIP Limit: N` line from STATE.md (below the Methodology table).
+2. Tasks remain in queue as-is. Selection reverts to sequential row-order.
+
+### Waterfall → Kanban
+
+1. No structural change to the task queue.
+2. Add `> WIP Limit: [N]` below the Methodology table (default 3, or user-specified via `--wip`).
+3. Selection switches to priority-pull.
+
+### Scrum → Kanban
+
+1. Read SPRINT.md to find all sprint-assigned tasks.
+2. Merge sprint tasks and backlog into a single flat Next Task Queue, preserving priority values and original order within each priority level.
+3. Remove sprint metadata from STATE.md (Sprint number, Sprint End Date, Sprint Goal — if present).
+4. Remove `Sprint` column from Next Task Queue table (if present).
+5. SPRINT.md is NOT deleted (preserves history) but is no longer consulted by the dispatch filter.
+6. Add `> WIP Limit: [N]` (default 3, or ask user).
+7. Print: `"Sprint boundaries dissolved. [N] tasks merged into prioritized queue. WIP limit set to [limit]."`
+
+### Kanban → Scrum
+
+1. Remove `> WIP Limit: N` from STATE.md.
+2. Ask user: "How many tasks per sprint?" (suggest default based on completed task velocity if available).
+3. Ask user: "Sprint duration in weeks?" (default: 2).
+4. Take the top N tasks from the queue and assign them to Sprint 1.
+5. Create or update SPRINT.md with Sprint 1 metadata (goal, start date, end date, task list).
+6. Add `Sprint` column to Next Task Queue if not present. Mark Sprint 1 tasks with `S1`.
+7. Add sprint metadata to STATE.md: `> Sprint: 1` and `> Sprint End Date: [calculated]`.
+8. Print: `"Sprint 1 created with [N] tasks. Sprint ends [date]."`
+
+### FDD → Kanban
+
+1. Dissolve feature groups. Remove the `Feature` column from Next Task Queue.
+2. Tasks flatten into a single queue, preserving priority and order.
+3. Add `> WIP Limit: [N]` (default 3, or ask user).
+4. Print: `"Feature groups dissolved. [N] tasks in prioritized queue. WIP limit set to [limit]."`
+
+### Kanban → FDD
+
+1. Remove `> WIP Limit: N` from STATE.md.
+2. Ask user to assign tasks to feature groups (or auto-group by file path prefix if tasks contain path hints).
+3. Add `Feature` column to Next Task Queue.
+
+### FDD ↔ Scrum
+
+Blocked. See Step 3 (blocked transitions).
+
+---
+
+## Examples
+
+```
+/methodology kanban --wip 5
+/methodology scrum
+/methodology waterfall
+/methodology fdd
+```

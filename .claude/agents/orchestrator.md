@@ -167,10 +167,10 @@ After loading the primary skill via MCP, auto-load supplementary context:
 - If supplementary exceeds 2400 tokens: skip examples first, then reduce to 1 pattern.
 - **Parallel dispatch:** Reduce to 1 pattern + 0 examples per agent (save tokens for work).
 
-### Cortex-Only Skills
+### MCP-Preferred Skills
 
-When auto-classification via MCP returns a skill ID that doesn't exist in REGISTRY.md (e.g., SKL-0037+), this is a Cortex-only skill:
-- Execute directly from MCP content (no file fallback available).
+When auto-classification via MCP returns a skill ID not in REGISTRY.md, treat it as an MCP-preferred skill:
+- Execute from MCP content. If a local SKILL.md also exists (e.g., SKL-0037+), prefer the MCP version but fall back to local if MCP is unavailable.
 - Use the `owner` field from the MCP catalog response for agent routing.
 - If `owner` is missing: fall back to `orchestration-routing.md` keyword matching.
 
@@ -326,6 +326,17 @@ For each cycle (up to Max Cycles This Run):
    - a) Highest-priority unprocessed event (high → normal → low, FIFO within each level; events without a priority field are `normal`)
    - b) Next goal-aligned task proposal (if Goal Alignment is active)
    - c) Next queued task (from Next Task Queue in STATE.md)
+
+1.5. **Apply Methodology Filter.** Read `## Methodology` from STATE.md (default: Waterfall if the section is absent). Load the active methodology's dispatch policy from `.claude/rules/methodology-policies.md`.
+
+   - **Waterfall:** No filter — pass through to step 2. This is the default and matches pre-methodology behavior exactly.
+   - **Kanban:** Check WIP limit. Count tasks with Status = `In Progress` (Active Task + any Parallel Task Slots with Status = `Dispatched`). If count >= WIP Limit (from STATE.md `> WIP Limit: N`), do not select a new task. Print: `"WIP limit reached ([count]/[limit]). Complete an in-progress task before starting new work."` Set `Last Run Status = WIP Limit` and stop the cycle. Otherwise, reorder eligible candidates by priority (highest first, ignoring queue position).
+   - **Scrum:** Check sprint scope. If the selected task is not in the current sprint (per SPRINT.md or the `Sprint` column in Next Task Queue), skip it and try the next eligible task. If all sprint tasks are completed, emit `SPRINT_COMPLETE` event and stop. If `Sprint End Date` has passed, emit `SPRINT_TIMEBOX_EXPIRED` and stop.
+   - **FDD:** Check feature group. If the current feature group (per the `Feature` column in Next Task Queue) has incomplete tasks, only select from that group. If the feature group is done, emit `FEATURE_COMPLETE` and stop for a feature review gate.
+   - **Invalid value:** If the methodology field contains an unrecognized value, log a warning (`"Unrecognized methodology '[value]' in STATE.md. Falling back to Waterfall."`) and treat as Waterfall.
+
+   If the filter blocks task selection: set `Last Run Status` with the reason and stop the current cycle.
+   If the filter passes: proceed to step 2 with the selected (and possibly reordered) unit of work.
 
 2. **Route the work** using the canonical Dispatch Chain:
    - Events: REGISTRY trigger → event-hooks → routing-table. Tasks: Skill column → REGISTRY trigger → routing-table

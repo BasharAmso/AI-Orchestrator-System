@@ -43,6 +43,7 @@ Full algorithm: `.claude/agents/orchestrator.md` § "Dispatch Chain (Canonical)"
 | `/start` | `.claude/commands/start.md` |
 | `/setup` | `.claude/commands/setup.md` |
 | `/set-mode` | `.claude/commands/set-mode.md` |
+| `/methodology` | `.claude/commands/methodology.md` |
 | `/status` | `.claude/commands/status.md` |
 | `/clone-framework` | `.claude/commands/clone-framework.md` |
 | `/cleanup` | `.claude/commands/cleanup.md` |

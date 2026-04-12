@@ -6,7 +6,7 @@
                                          "hooks":  [
                                                        {
                                                            "type":  "command",
-                                                           "command":  "\"C:\\\\Program Files\\\\Git\\\\bin\\\\bash.exe\" --noprofile --norc .claude/hooks/pre-bash-firewall.sh"
+                                                           "command":  "bash --noprofile --norc .claude/hooks/pre-bash-firewall.sh"
                                                        }
                                                    ]
                                      },
@@ -15,7 +15,7 @@
                                          "hooks":  [
                                                        {
                                                            "type":  "command",
-                                                           "command":  "\"C:\\\\Program Files\\\\Git\\\\bin\\\\bash.exe\" --noprofile --norc .claude/hooks/pre-bash-git-guard.sh"
+                                                           "command":  "bash --noprofile --norc .claude/hooks/pre-bash-git-guard.sh"
                                                        }
                                                    ]
                                      },
@@ -24,7 +24,7 @@
                                          "hooks":  [
                                                        {
                                                            "type":  "command",
-                                                           "command":  "\"C:\\\\Program Files\\\\Git\\\\bin\\\\bash.exe\" --noprofile --norc .claude/hooks/pre-write-secrets-scan.sh"
+                                                           "command":  "bash --noprofile --norc .claude/hooks/pre-write-secrets-scan.sh"
                                                        }
                                                    ]
                                      },
@@ -33,7 +33,7 @@
                                          "hooks":  [
                                                        {
                                                            "type":  "command",
-                                                           "command":  "\"C:\\\\Program Files\\\\Git\\\\bin\\\\bash.exe\" --noprofile --norc .claude/hooks/pre-write-size-guard.sh"
+                                                           "command":  "bash --noprofile --norc .claude/hooks/pre-write-size-guard.sh"
                                                        }
                                                    ]
                                      }
@@ -44,7 +44,7 @@
                                           "hooks":  [
                                                         {
                                                             "type":  "command",
-                                                            "command":  "\"C:\\\\Program Files\\\\Git\\\\bin\\\\bash.exe\" --noprofile --norc .claude/hooks/post-edit-quality.sh"
+                                                            "command":  "bash --noprofile --norc .claude/hooks/post-edit-quality.sh"
                                                         }
                                                     ]
                                       },
@@ -53,7 +53,7 @@
                                           "hooks":  [
                                                         {
                                                             "type":  "command",
-                                                            "command":  "\"C:\\\\Program Files\\\\Git\\\\bin\\\\bash.exe\" --noprofile --norc .claude/hooks/post-mcp-failure.sh"
+                                                            "command":  "bash --noprofile --norc .claude/hooks/post-mcp-failure.sh"
                                                         }
                                                     ]
                                       }
@@ -64,7 +64,7 @@
                                    "hooks":  [
                                                  {
                                                      "type":  "command",
-                                                     "command":  "\"C:\\\\Program Files\\\\Git\\\\bin\\\\bash.exe\" --noprofile --norc .claude/hooks/final-validation.sh"
+                                                     "command":  "bash --noprofile --norc .claude/hooks/final-validation.sh"
                                                  }
                                              ]
                                },
@@ -73,7 +73,7 @@
                                    "hooks":  [
                                                  {
                                                      "type":  "command",
-                                                     "command":  "\"C:\\\\Program Files\\\\Git\\\\bin\\\\bash.exe\" --noprofile --norc .claude/hooks/stop-cost-tracker.sh"
+                                                     "command":  "bash --noprofile --norc .claude/hooks/stop-cost-tracker.sh"
                                                  }
                                              ]
                                }
@@ -83,7 +83,7 @@
                                          "hooks":  [
                                                        {
                                                            "type":  "command",
-                                                           "command":  "\"C:\\\\Program Files\\\\Git\\\\bin\\\\bash.exe\" --noprofile --norc .claude/hooks/pre-compact.sh"
+                                                           "command":  "bash --noprofile --norc .claude/hooks/pre-compact.sh"
                                                        }
                                                    ]
                                      }
@@ -94,7 +94,7 @@
                                            "hooks":  [
                                                          {
                                                              "type":  "command",
-                                                             "command":  "\"C:\\\\Program Files\\\\Git\\\\bin\\\\bash.exe\" --noprofile --norc .claude/hooks/post-subagent-validation.sh"
+                                                             "command":  "bash --noprofile --norc .claude/hooks/post-subagent-validation.sh"
                                                          }
                                                      ]
                                        }
@@ -104,7 +104,7 @@
                                            "hooks":  [
                                                          {
                                                              "type":  "command",
-                                                             "command":  "\"C:\\\\Program Files\\\\Git\\\\bin\\\\bash.exe\" --noprofile --norc .claude/hooks/session-start.sh"
+                                                             "command":  "bash --noprofile --norc .claude/hooks/session-start.sh"
                                                          }
                                                      ]
                                        }

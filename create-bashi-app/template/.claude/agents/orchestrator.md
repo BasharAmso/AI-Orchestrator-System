@@ -327,6 +327,17 @@ For each cycle (up to Max Cycles This Run):
    - b) Next goal-aligned task proposal (if Goal Alignment is active)
    - c) Next queued task (from Next Task Queue in STATE.md)
 
+1.5. **Apply Methodology Filter.** Read `## Methodology` from STATE.md (default: Waterfall if the section is absent). Load the active methodology's dispatch policy from `.claude/rules/methodology-policies.md`.
+
+   - **Waterfall:** No filter — pass through to step 2. This is the default and matches pre-methodology behavior exactly.
+   - **Kanban:** Check WIP limit. Count tasks with Status = `In Progress` (Active Task + any Parallel Task Slots with Status = `Dispatched`). If count >= WIP Limit (from STATE.md `> WIP Limit: N`), do not select a new task. Print: `"WIP limit reached ([count]/[limit]). Complete an in-progress task before starting new work."` Set `Last Run Status = WIP Limit` and stop the cycle. Otherwise, reorder eligible candidates by priority (highest first, ignoring queue position).
+   - **Scrum:** Check sprint scope. If the selected task is not in the current sprint (per SPRINT.md or the `Sprint` column in Next Task Queue), skip it and try the next eligible task. If all sprint tasks are completed, emit `SPRINT_COMPLETE` event and stop. If `Sprint End Date` has passed, emit `SPRINT_TIMEBOX_EXPIRED` and stop.
+   - **FDD:** Check feature group. If the current feature group (per the `Feature` column in Next Task Queue) has incomplete tasks, only select from that group. If the feature group is done, emit `FEATURE_COMPLETE` and stop for a feature review gate.
+   - **Invalid value:** If the methodology field contains an unrecognized value, log a warning (`"Unrecognized methodology '[value]' in STATE.md. Falling back to Waterfall."`) and treat as Waterfall.
+
+   If the filter blocks task selection: set `Last Run Status` with the reason and stop the current cycle.
+   If the filter passes: proceed to step 2 with the selected (and possibly reordered) unit of work.
+
 2. **Route the work** using the canonical Dispatch Chain:
    - Events: REGISTRY trigger → event-hooks → routing-table. Tasks: Skill column → REGISTRY trigger → routing-table
 

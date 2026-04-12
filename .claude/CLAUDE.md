@@ -29,6 +29,7 @@
 | `.claude/rules/knowledge-policy.md` | When to read/write knowledge files |
 | `.claude/rules/context-policy.md` | Chat context conservation and artifact persistence |
 | `.claude/rules/user-consent.md` | Never auto-select when a procedure says to ask the user |
+| `.claude/rules/methodology-policies.md` | Dispatch policy per methodology (Waterfall, Kanban, Scrum, FDD) |
 
 ## Knowledge Base (`.claude/project/knowledge/`)
 
@@ -55,6 +56,7 @@
 | `/start` | `.claude/commands/start.md` |
 | `/setup` | `.claude/commands/setup.md` |
 | `/set-mode` | `.claude/commands/set-mode.md` |
+| `/methodology` | `.claude/commands/methodology.md` |
 | `/status` | `.claude/commands/status.md` |
 | `/clone-framework` | `.claude/commands/clone-framework.md` |
 | `/cleanup` | `.claude/commands/cleanup.md` |
