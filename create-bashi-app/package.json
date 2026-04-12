@@ -1,6 +1,6 @@
 {
   "name": "create-bashi-app",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "Set up Bashi in any project. 600+ skills across 26 domains via Cortex MCP. Standalone: 12 agents, 37 skills, 20 commands, 11 hooks. Light (--light): MCP-connected, skills load on-demand.",
   "bin": {
     "create-bashi-app": "./bin/create-bashi-app.js"
