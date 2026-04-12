@@ -135,7 +135,7 @@
                     },
     "env":  {
                 "AI_MEMORY_PATH":  "~/Projects/AI-Memory",
-                "BASHI_PATH":  "~/Projects/bashi",
+                "BASHI_PATH":  "~/Projects/Bashi",
                 "ECC_HOOK_PROFILE":  "standard",
                 "FIREWALL_MODE":  "blocklist",
                 "BASHI_OVERNIGHT_MODE":  "false"

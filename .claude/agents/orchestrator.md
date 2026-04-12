@@ -239,14 +239,14 @@ If no unprocessed events exist:
 
 1. **Promote** the next task from the Next Task Queue in `STATE.md` to Active Task.
 2. Set Status = `In Progress` and Started = current timestamp.
-3. **Route the task** using the Dispatch Chain:
+    3. **Route the task** using the Dispatch Chain:
    - **B) Skills Lookup (task-assigned first):**
      - If the task row has a `Skill` column with a valid `SKL-XXXX` ID: load the skill via § Skill Loading and execute its procedure.
      - If the task has no Skill ID (or `—`): attempt **auto-classification** before falling back:
        1. **Files mode:** Read the task description and REGISTRY.md skill list. Match domain keywords against skill names and descriptions (e.g., "API endpoint" → SKL-0006 Backend Development). Reference `.claude/project/knowledge/TASK-FORMAT.md` § Common Mappings.
        2. **MCP mode:** Call `search_knowledge` with task description, `mode="catalog"`, `category="skills"`, `budget=1000`. Pick highest-scoring result with category = "skills". Apply difficulty-based preference if user profile exists (see § Smart Context Enhancement).
        3. If a single skill matches with high confidence: assign it, write the Skill ID back to the task row in STATE.md, and log: `"Auto-classified: [task] → [SKL-XXXX] ([skill name])"`.
-       4. If multiple skills match or no clear match: skip classification and proceed directly to **C) Direct Agent Routing** (fallback). Do not re-enter trigger matching.
+        4. If multiple skills match or no clear match: continue to **B.5) Cortex Skill Discovery** before direct routing. Do not re-enter trigger matching.
      - If `REGISTRY.md` is missing or stale: warn the user to run `/fix-registry` and proceed to fallback.
    - **C) Fallback:** If no match from B, use `orchestration-routing.md` fallback.
 4. **Execute** the routed skill/action.

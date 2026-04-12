@@ -369,9 +369,9 @@ Bashi is built from ten building blocks:
 | **Commands** | `.claude/commands/` | Entry points you type (like `/run-project`). 20 commands available. |
 | **State** | `.claude/project/STATE.md` | Single source of truth: current task, mode, phase, history |
 | **Events** | `.claude/project/EVENTS.md` | Queue of things that happened or need to happen |
-| **Skills** | `.claude/skills/` | 28 built in reusable procedures for specific tasks (writing a PRD, designing a database, etc.) |
+| **Skills** | `.claude/skills/` | 32 built in reusable procedures for specific tasks (writing a PRD, designing a database, etc.) |
 | **Custom Skills** | `custom-skills/` | 8 user created skills (security, marketing, growth). Survive framework upgrades. |
-| **Registry** | `.claude/skills/REGISTRY.md` | Index that maps event types to skills (36 total) |
+| **Registry** | `.claude/skills/REGISTRY.md` | Index that maps event types to skills (40 total including custom skills) |
 | **Rules** | `.claude/rules/` | Governance: how tasks are routed, when security checks run, how context is managed |
 | **Agents** | `.claude/agents/` | 12 specialized roles that execute skills (Builder, Reviewer, Deployer, Product Manager, etc.) |
 | **Hooks** | `.claude/hooks/` | 11 automatic safety guards that fire on every file write, git operation, and session event |
