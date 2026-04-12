@@ -194,3 +194,22 @@ Standard tags for categorizing feedback. Orchestrator picks the closest match.
 | `scope-creep` | Agent did more than asked |
 | `missing-docs` | No documentation for new functionality |
 | `other` | Doesn't fit above categories |
+
+---
+
+## Methodology Circuit Breakers
+
+> Active ONLY when a methodology is explicitly set in STATE.md via `/methodology`.
+> These compose with (do not replace) the global Circuit Breakers above.
+> Evaluation order: global breakers first, then methodology breakers. Any single breaker firing stops execution.
+
+| Methodology | Breaker | Type | Default | Status |
+|-------------|---------|------|---------|--------|
+| Kanban | WIP limit reached | Soft stop (selection gate) | WIP = 3 | **Enforced** — filter logic in orchestrator step 1.5 |
+| Scrum | Sprint boundary reached | Hard stop | Active | **Enforced** — filter logic in orchestrator step 1.5 |
+| Scrum | Sprint timebox expired | Hard stop | Active | **Enforced** — filter logic in orchestrator step 1.5 |
+| FDD | Feature group boundary | Hard stop | Active | **Enforced** — filter logic in orchestrator step 1.5 |
+
+> **Kanban WIP:** Set via `/methodology kanban --wip N`. Enforced in orchestrator step 1.5.
+> **Scrum:** Sprint boundary and timebox breakers enforced in orchestrator step 1.5. Sprint metadata set via `/methodology scrum`.
+> **FDD:** Feature group boundary enforced in orchestrator step 1.5. Feature metadata set via `/methodology fdd`.

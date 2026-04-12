@@ -56,7 +56,10 @@ Turn a pile of tasks into an ordered, trackable plan — and keep it honest as w
 | Mode | Triggered by | Output |
 |------|-------------|--------|
 | New project plan | "plan this project", PRD just created | Full SPRINT.md from scratch |
-| Sprint planning | "plan this sprint", new cycle start | Next sprint tasks + estimates |
+| Sprint planning | "plan this sprint", new cycle start, `SPRINT_COMPLETE` | Next sprint tasks + estimates |
+| Sprint review | `SPRINT_COMPLETE`, `SPRINT_TIMEBOX_EXPIRED` | Sprint retrospective + next sprint proposal |
+| Feature review | `FEATURE_COMPLETE` | Feature review gate + next feature proposal |
+| Feature planning | New feature group start | Feature task verification + dependency check |
 | Status check | "what's the status", "are we on track" | Progress summary + risk update |
 | Stakeholder update | "write a status update" | Plain-language summary (no jargon) |
 | Re-prioritization | "we're behind", "scope change" | Revised task order + impact assessment |
@@ -75,8 +78,26 @@ Turn a pile of tasks into an ordered, trackable plan — and keep it honest as w
    - Note: what's done, in progress, not started, blocked
    - Check previous blockers for resolution status; flag overdue ones for escalation
 
+2.5. **Check active methodology** (read `## Methodology` from STATE.md, default Waterfall if absent):
+   - **Waterfall/Kanban:** No methodology-specific planning behavior. Proceed normally.
+   - **Scrum:** Read sprint metadata from STATE.md (`> Sprint:`, `> Sprint End Date:`, `> Sprint Goal:`). If sprint metadata exists, scope planning to the current sprint. If triggered by `SPRINT_COMPLETE` or `SPRINT_TIMEBOX_EXPIRED`, enter Sprint Review mode (see step 3).
+   - **FDD:** Read feature metadata from STATE.md (`> Current Feature:`, `> Feature Count:`). If feature metadata exists, scope planning to the current feature group. If triggered by `FEATURE_COMPLETE`, enter Feature Review mode (see step 3).
+
 3. **Build or update the plan:**
    - **New project:** Goal, Milestones table, Current Sprint (tasks with owner/estimate/status), Backlog, Risks table, Assumptions
+   - **Sprint review** (Scrum, triggered by `SPRINT_COMPLETE` or `SPRINT_TIMEBOX_EXPIRED`):
+     1. Summarize completed vs incomplete tasks for the ended sprint.
+     2. Calculate velocity: tasks completed / sprint duration.
+     3. Update SPRINT.md with sprint results and velocity data.
+     4. Propose next sprint: ask user how many tasks (suggest based on velocity), which backlog tasks to pull in, and sprint goal.
+     5. On user approval: increment `> Sprint:` in STATE.md, set new `> Sprint End Date:`, update `> Sprint Goal:`, re-tag tasks in Next Task Queue (`S[N]` for new sprint, `—` for remaining backlog).
+   - **Sprint planning** (Scrum, new sprint start): Same as sprint review step 4-5 but without the retrospective.
+   - **Feature review** (FDD, triggered by `FEATURE_COMPLETE`):
+     1. Summarize completed tasks for the finished feature group.
+     2. Update FEATURES.md — set the feature's Review status to `Reviewed`.
+     3. Present review to user for approval. On approval, update Review status to `Approved` and advance `> Current Feature:` in STATE.md to the next feature group.
+     4. If all feature groups are approved, note that all features are complete.
+   - **Feature planning** (FDD, new feature group): Present the next feature group's tasks, verify ordering and dependencies, update estimates if needed.
    - **Status check:** Overall status (on track/at risk/behind), completed, in progress, blocked, risks updated, next actions
    - **Stakeholder update:** Plain language — what's done, what's next, decisions needed
    - **Blocker escalation:** Subject line, what's blocked, what's needed, by when, impact if delayed

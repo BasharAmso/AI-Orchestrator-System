@@ -125,6 +125,13 @@ designer
 - [ ] UX decisions logged to DECISIONS.md
 - [ ] STATE.md updated
 
+## Knowledge Enhancement (MCP mode)
+
+If Cortex MCP is available:
+1. Call `search_knowledge` with query derived from task (e.g., "onboarding patterns mobile", "navigation patterns SaaS", "form design best practices"), category="ux-design"
+2. If relevant results found, call `get_fragment` on the top result
+3. Apply as supplementary context (does not override this skill's procedure)
+
 ## Output Contract
 
 | Field | Value |

@@ -107,7 +107,7 @@ Build growth infrastructure — landing pages, SEO, referral mechanics, waitlist
    - Testimonial cards with avatar, name, role, quote
    - Animated stat counters (e.g., "500+ users" counting up on scroll)
 
-   **Cross-reference:** Premium tier must also pass the frontend-dev Visual Polish checklist (Steps 4A-4F in `.claude/skills/frontend-dev/SKILL.md`).
+   **Cross-reference:** Premium tier must also pass the Design Quality Checklist (`.claude/skills/frontend-dev/CHECKLIST.md`), including the Anti-Patterns section.
 
 3. **SEO foundations:**
    - SEO component on all public pages (title, description, OG tags, Twitter card, structured data)
@@ -155,6 +155,13 @@ builder
 - [ ] Growth events tracked
 - [ ] Visual Tier applied ([Clean | Premium])
 - [ ] STATE.md updated
+
+## Knowledge Enhancement (MCP mode)
+
+If Cortex MCP is available:
+1. Call `search_knowledge` with query derived from task (e.g., "landing page patterns SaaS", "conversion optimization", "social proof design"), category="ux-design"
+2. If relevant results found, call `get_fragment` on the top result
+3. Apply as supplementary context (does not override this skill's procedure)
 
 ## Output Contract
 

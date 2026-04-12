@@ -28,6 +28,9 @@
 | PITCH_DECK_REQUESTED | product-manager | Orchestrator | Investor/stakeholder pitch outline (SKL-0036) |
 | GAME_DEV_REQUESTED | builder | Orchestrator | Build game feature: adventure, sandbox, action, or educational mode (SKL-0038) |
 | REWORK_REQUESTED | (original agent) | Reviewer | Re-execute task with review feedback attached. Original agent and skill ID are in the event description. Max 2 rework attempts per task (see RUN_POLICY.md). |
+| SPRINT_COMPLETE | project-manager | Orchestrator | All tasks in the current sprint are completed. Triggers sprint review and prompts user to start next sprint via `/methodology sprint-next` or `/run-project`. |
+| SPRINT_TIMEBOX_EXPIRED | project-manager | Orchestrator | Sprint end date has passed with incomplete tasks. Triggers sprint review; incomplete tasks carry over to the next sprint. |
+| FEATURE_COMPLETE | reviewer | Orchestrator | All tasks in the current feature group are completed. Triggers feature review gate; orchestrator advances to next feature group after review approval. |
 
 ---
 

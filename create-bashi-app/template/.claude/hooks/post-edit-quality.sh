@@ -3,7 +3,8 @@
 # Always exits 0 — this hook reports issues, it does not block
 
 set -uo pipefail
-echo "$(basename "${BASH_SOURCE[0]}")" >> /tmp/bashi-hook-usage.log 2>/dev/null || true
+BASHI_TMP="${TMPDIR:-${TMP:-${TEMP:-/tmp}}}"
+echo "$(basename "${BASH_SOURCE[0]}")" >> "$BASHI_TMP/bashi-hook-usage.log" 2>/dev/null || true
 
 INPUT=$(cat)
 # shellcheck source=lib/detect-python.sh
@@ -258,7 +259,7 @@ if [ -n "$PROJECT_ROOT" ]; then
 fi
 
 # --- Strategic compact suggestion ---
-EDIT_COUNTER="/tmp/aos-edit-count"
+EDIT_COUNTER="$BASHI_TMP/aos-edit-count"
 COUNT=0
 [ -f "$EDIT_COUNTER" ] && COUNT=$(cat "$EDIT_COUNTER" 2>/dev/null || echo "0")
 COUNT=$((COUNT + 1))

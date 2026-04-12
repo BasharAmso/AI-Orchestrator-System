@@ -16,7 +16,7 @@ cd your-project
 npx create-bashi-app --light
 ```
 
-**Standalone** (37 built-in skills, no setup needed):
+**Standalone** (32 built-in skills, no setup needed):
 ```
 cd your-project
 npx create-bashi-app
@@ -70,7 +70,7 @@ No programming languages to learn, no build tools, no package managers. The fram
 
 ### Standalone (no setup needed)
 
-37 built-in skills, works everywhere:
+32 built-in skills, works everywhere:
 
 1. `cd your-project`
 2. `npx create-bashi-app`
@@ -90,7 +90,7 @@ The framework loads ~700 tokens at startup (0.07% of the context window). Skills
   agents/              12 specialized AI agents (builder, reviewer, coach, etc.)
   commands/            20 entry point commands
   rules/               4 routing and governance policies
-  skills/              37 built-in task procedures + registry
+  skills/              32 built-in task procedures + registry
   hooks/               11 automatic guards (security, quality, session mgmt)
   project/
     STATE.md           Current project status (single source of truth)

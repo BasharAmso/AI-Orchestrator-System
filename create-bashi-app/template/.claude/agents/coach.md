@@ -121,11 +121,11 @@ One command at a time. Explain what it does and what happens automatically after
 
 ### Step 5 — Surface usage insights (when relevant)
 
-If session usage data is available (from `/save` or `/tmp/bashi-hook-usage.log`), use it to suggest underused capabilities:
+If session usage data is available (from `/save` or the bashi-hook-usage.log in the system temp directory), use it to suggest underused capabilities:
 
 - "You've been building heavily but haven't run a security audit — want to trigger one?"
 - "The reviewer agent hasn't been used this session — consider running `/run-project` with a code review task."
-- "You have 26 skills but only used 2 this session — that's normal for focused work, but `/framework-review` can identify dead weight over time."
+- "You have 40 skills but only used 2 this session — that's normal for focused work, but `/framework-review` can identify dead weight over time."
 
 Only surface these when they add value — don't force usage of every component.
 
@@ -137,7 +137,7 @@ When the user asks how something works, explain it directly:
 |---------|-----------|
 | **Commands** | User-invoked entry points — the only thing you directly trigger |
 | **Agents** | 12 specialists the Orchestrator delegates to based on task type |
-| **Skills** | 26 step-by-step procedures that fire when events match triggers in the REGISTRY |
+| **Skills** | 40 step-by-step procedures that fire when events match triggers in the REGISTRY |
 | **Hooks** | 11 automatic guards that run on Claude Code events (PreToolUse, PostToolUse, Stop, SessionStart) — you never invoke these |
 | **Rules** | 4 always-on policies loaded every session — routing, events, knowledge, context |
 | **State** | STATE.md is the single source of truth — every action reads and updates it |
