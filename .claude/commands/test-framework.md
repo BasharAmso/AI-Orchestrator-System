@@ -233,6 +233,7 @@ Compare `.claude/` against `create-bashi-app/template/.claude/` and flag drift.
    - `.claude/project/knowledge/DECISIONS.md`
    - `.claude/project/knowledge/RESEARCH.md`
    - `.claude/project/knowledge/OPEN_QUESTIONS.md`
+   - `.claude/project/IDENTITY.md`
    - `.claude/settings.local.json`
    - Any `__pycache__/` directories
    - Any `.pyc` files

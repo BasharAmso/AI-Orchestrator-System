@@ -70,62 +70,16 @@ Core implementation:
 
 ### Step 4 — Visual Polish Pass (Mandatory)
 
-After the component works correctly, apply these checks. **This step is not optional.**
+After the component works correctly, run the Design Quality Checklist. **This step is not optional.**
 
-#### 4A. Typography Rhythm
-
-| Check | What to Do |
-|-------|-----------|
-| Font pairing | Use a deliberate serif + sans-serif pairing OR a single family with weight contrast. Never rely on system defaults alone. |
-| Size scale | Headings should have clear hierarchy — at least 3 distinct sizes with noticeable jumps (not 16px → 18px → 20px). |
-| Line height | Body text: 1.5-1.7. Headings: 1.1-1.3. Tight headings + relaxed body creates rhythm. |
-| Letter spacing | Uppercase labels need positive tracking (0.05-0.15em). Large headings can use slight negative tracking. |
-| One "wow" text moment | At least one headline, quote, or stat should be oversized, italic, or styled distinctly to break the grid. |
-
-#### 4B. Scroll Animations
-
-| Check | What to Do |
-|-------|-----------|
-| Section reveals | Content sections should animate in on scroll — fade-up, slide-in, or scale. Use Framer Motion, AOS, or CSS `@keyframes` with Intersection Observer. |
-| Staggered children | Lists, grids, and card groups should stagger their entrance (50-100ms delay between items). |
-| Parallax (optional) | Hero images or background elements can scroll at a different rate for depth. Use sparingly — one parallax element max. |
-| Respect `prefers-reduced-motion` | Wrap all animations in a motion-preference check. Users who disable motion see instant renders. |
-
-#### 4C. Micro-Interactions
-
-| Check | What to Do |
-|-------|-----------|
-| Button hover | Buttons should have a visible hover state beyond color change — slight scale (1.02-1.05), shadow lift, or fill animation. |
-| Image hover | Gallery/portfolio images should respond to hover — zoom, overlay fade, or caption reveal. |
-| Focus indicators | Interactive elements need visible focus rings that match the design language (not default browser blue). |
-| Transitions | All state changes (hover, active, focus, open/close) should use `transition-all duration-200` minimum. No instant snaps. |
-| Cursor | Consider `cursor-pointer` on all clickable non-link elements. |
-
-#### 4D. Visual Depth
-
-| Check | What to Do |
-|-------|-----------|
-| Layering | At least one section should have overlapping elements — a card that bleeds over a section boundary, text over an image, or a floating accent. |
-| Shadows | Cards and elevated elements need subtle shadows (`shadow-sm` to `shadow-lg`). Avoid flat designs where everything is on the same plane. |
-| Gradients | Use subtle background gradients to separate sections instead of hard color blocks. Gradient overlays on hero images add depth. |
-| Texture (optional) | Subtle noise/grain overlay, dot patterns, or background shapes can add personality. Don't overdo it — one texture element per page. |
-| Whitespace | Generous padding between sections (py-16 to py-24). Tight spacing looks cheap; breathing room looks premium. |
-
-#### 4E. Color & Contrast
-
-| Check | What to Do |
-|-------|-----------|
-| Limited palette | 1 primary, 1 accent, 2-3 neutrals. More than 5 colors looks chaotic. |
-| Contrast ratio | Text on backgrounds must meet WCAG 2.1 AA (4.5:1 normal, 3:1 large). |
-| Dark sections | At least one section should use an inverted color scheme (dark background, light text) for visual variety. |
-| Accent usage | The accent color should appear sparingly — CTAs, highlights, decorative elements. Not on large surfaces. |
-
-#### 4F. Component Library
-
-When a project uses shadcn/ui, Radix, or a similar component library:
-- **Use it.** Don't rebuild what exists.
-- Customize through the theme/token layer, not by overriding styles.
-- When no library is specified, **suggest shadcn/ui for React/Next.js projects** — it provides beautiful defaults with Tailwind customization. Log this to DECISIONS.md.
+Run every section of `.claude/skills/frontend-dev/CHECKLIST.md`:
+- Typography Rhythm
+- Color & Contrast
+- Scroll Animations
+- Micro-Interactions
+- Visual Depth
+- Component Library
+- Anti-Patterns (flag and fix any matches)
 
 ### Step 5 — Final Quality Check
 
@@ -191,6 +145,13 @@ builder
 - [ ] **Color palette limited and contrast-checked**
 - [ ] At least one visual moment that would make someone pause
 - [ ] STATE.md updated
+
+## Knowledge Enhancement (MCP mode)
+
+If Cortex MCP is available:
+1. Call `search_knowledge` with query derived from task (e.g., "color palette for fintech", "typography for dashboard", "animation patterns React"), category="ux-design"
+2. If relevant results found, call `get_fragment` on the top result
+3. Apply as supplementary context (does not override this skill's procedure)
 
 ## Output Contract
 

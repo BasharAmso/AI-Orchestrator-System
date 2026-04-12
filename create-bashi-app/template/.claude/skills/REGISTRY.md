@@ -29,7 +29,7 @@
 | SKL-0015 | Security Audit | 1.0 | reviewer | `.claude/skills/security-audit/` | SECURITY_REVIEW_REQUESTED |
 | SKL-0016 | Code Review | 2.0 | reviewer | `.claude/skills/code-review/` | CODE_REVIEW_REQUESTED |
 | SKL-0017 | Test Writing | 2.0 | reviewer | `.claude/skills/test-writing/` | TEST_REQUESTED |
-| SKL-0018 | UAT Testing | 3.0 | reviewer | `.claude/skills/uat-testing/` | UAT_REQUESTED, READY_FOR_ACCEPTANCE_TESTING |
+| SKL-0018 | User Acceptance Testing | 3.0 | reviewer | `.claude/skills/uat-testing/` | UAT_REQUESTED, READY_FOR_ACCEPTANCE_TESTING |
 | SKL-0019 | Refactoring | 1.0 | fixer | `.claude/skills/refactoring/` | REFACTOR_REQUESTED |
 | SKL-0020 | Bug Investigation | 1.0 | fixer | `.claude/skills/bug-investigation/` | BUG_REPORTED |
 | SKL-0021 | Deployment & Ship | 3.0 | deployer | `.claude/skills/deployment/` | DEPLOYMENT_REQUESTED, RELEASE_READY, SHIP_REQUESTED |
@@ -40,27 +40,30 @@
 | SKL-0026 | Team Retro | 2.0 | orchestrator | `.claude/skills/retro/` | RETRO_REQUESTED |
 | SKL-0027 | Problem Stress Test | 1.0 | product-manager | `.claude/skills/problem-stress-test/` | PROBLEM_VALIDATION_REQUESTED |
 | SKL-0028 | GDD Writing | 1.0 | product-manager | `.claude/skills/gdd-writing/` | GDD_CREATION_REQUESTED |
+| SKL-0037 | Friction Audit | 1.0 | reviewer | `.claude/skills/friction-audit/` | FRICTION_AUDIT_REQUESTED |
+| SKL-0038 | Game Development | 1.0 | builder | `.claude/skills/game-dev/` | GAME_DEV_REQUESTED, GAME_FEATURE_REQUESTED |
+| SKL-0039 | Token Audit | 1.0 | reviewer | `.claude/skills/token-audit/` | TOKEN_AUDIT_REQUESTED |
+| SKL-0040 | Skill Creator | 1.0 | orchestrator | `.claude/skills/skill-creator/` | SKILL_CREATION_REQUESTED |
 
 ### Custom Skills
 
 | Skill ID | Name | Version | Owner | Folder | Triggers |
 |----------|------|---------|-------|--------|----------|
-| SKL-0029 | Insecure Defaults Detection | 1.0 | reviewer | `custom-skills/insecure-defaults/` | INSECURE_DEFAULTS_CHECK_REQUESTED |
-| SKL-0030 | Differential Security Review | 1.0 | reviewer | `custom-skills/differential-security-review/` | DIFF_SECURITY_REVIEW_REQUESTED |
-| SKL-0031 | Supply Chain Audit | 1.0 | reviewer | `custom-skills/supply-chain-audit/` | SUPPLY_CHAIN_AUDIT_REQUESTED |
+| SKL-0029 | Insecure Defaults Detection | 1.1 | reviewer | `custom-skills/insecure-defaults/` | INSECURE_DEFAULTS_CHECK_REQUESTED |
+| SKL-0030 | Differential Security Review | 1.1 | reviewer | `custom-skills/differential-security-review/` | DIFF_SECURITY_REVIEW_REQUESTED |
+| SKL-0031 | Supply Chain Audit | 1.1 | reviewer | `custom-skills/supply-chain-audit/` | SUPPLY_CHAIN_AUDIT_REQUESTED |
 | SKL-0032 | SEO Audit | 1.0 | builder | `custom-skills/seo-audit/` | SEO_AUDIT_REQUESTED |
 | SKL-0033 | Copywriting | 1.0 | builder | `custom-skills/copywriting/` | COPYWRITING_REQUESTED |
 | SKL-0034 | Launch Checklist | 1.0 | builder | `custom-skills/launch-checklist/` | LAUNCH_CHECK_REQUESTED |
-| SKL-0035 | Competitor Analysis | 1.0 | product-manager | `custom-skills/competitor-analysis/` | COMPETITOR_ANALYSIS_REQUESTED |
+| SKL-0035 | Competitor Analysis | 1.1 | product-manager | `custom-skills/competitor-analysis/` | COMPETITOR_ANALYSIS_REQUESTED |
 | SKL-0036 | Pitch Deck | 1.0 | product-manager | `custom-skills/pitch-deck/` | PITCH_DECK_REQUESTED |
-
-| SKL-0038 | Game Development | 1.0 | builder | `.claude/skills/game-dev/` | GAME_DEV_REQUESTED, GAME_FEATURE_REQUESTED |
 
 ---
 
 ## Stats
 
-- **Built-in Skills:** 29
+- **Built-in Skills:** 32
 - **Custom Skills:** 8
-- **Total Skills:** 37
-- **Last Refreshed:** 2026-03-30
+- **Total Skills:** 40
+- **Triggers Mapped:** 49
+- **Last Refreshed:** 2026-04-09

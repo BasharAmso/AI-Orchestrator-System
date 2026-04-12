@@ -1,13 +1,13 @@
-# CLAUDE.md — Bashi Context Index
+# CLAUDE.md - Bashi Context Index
 
 > This file is loaded automatically on every session. Keep it concise.
 
 ## Project Identity
 
 - **Template:** Bashi
-- **Problem:** The Syntax Wall (you can architect and direct — but writing code line-by-line blocks shipping)
+- **Problem:** The Syntax Wall (you can architect and direct - but writing code line-by-line blocks shipping)
 - **Method:** AI Orchestration Framework (agents, skills, hooks, and state machine for structured AI development)
-- **Tool:** Bashi (this template — software development variant)
+- **Tool:** Bashi (this template - software development variant)
 
 ## Key Files
 
@@ -82,7 +82,7 @@ To stay token-efficient, load context incrementally:
 | **Running the system** | + `STATE.md` + `EVENTS.md` + `REGISTRY.md` |
 | **Session start** | Scan `AI-Memory/lessons/` for entries relevant to the current task |
 | **Session start** | Load `~/.bashi/user-profile.md` if it exists (adapts output style, experience level, role) |
-| **MCP available** | Query Cortex MCP instead of reading `.claude/agents/` and `.claude/skills/` (see orchestrator.md § Knowledge Source Detection) |
+| **MCP available** | Query Cortex MCP instead of reading `.claude/agents/` and `.claude/skills/` (see orchestrator.md Section Knowledge Source Detection) |
 
 > Do NOT load all files at once. Read only what the current task requires.
 
@@ -94,5 +94,6 @@ To stay token-efficient, load context incrementally:
 - Default mode is Semi-Autonomous: one unit of work, then stop.
 - When the user asks a framework question, requests guidance, or describes a goal without specifying a command, follow the coach agent procedure at `.claude/agents/coach.md`.
 - For first-time orientation, run `/start` first; the coach handles follow-up conversation.
+- **Skill invocation reminder:** When the user triggers a task conversationally ("build this," "write X," "do the next task") and that task is in the Next Task Queue with a Skill assigned - remind them to run `/run-project` first. Conversational execution bypasses the skill's procedure, reference files, quality gates, and Definition of Done. Only proceed without `/run-project` if the user explicitly acknowledges and accepts this tradeoff.
 
 > Architecture primitives, dispatch chain, and full command reference: `.claude/REFERENCE.md`

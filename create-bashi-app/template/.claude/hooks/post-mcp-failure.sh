@@ -4,7 +4,8 @@
 # Always exits 0 — advisory only, never blocks
 
 set -uo pipefail
-echo "$(basename "${BASH_SOURCE[0]}")" >> /tmp/bashi-hook-usage.log 2>/dev/null || true
+BASHI_TMP="${TMPDIR:-${TMP:-${TEMP:-/tmp}}}"
+echo "$(basename "${BASH_SOURCE[0]}")" >> "$BASHI_TMP/bashi-hook-usage.log" 2>/dev/null || true
 
 INPUT=$(cat)
 # shellcheck source=lib/detect-python.sh
