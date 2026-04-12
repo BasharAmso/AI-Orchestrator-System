@@ -27,23 +27,6 @@ If `<methodology>` is not one of `waterfall`, `kanban`, `scrum`, `fdd`:
 - Print: `"Invalid methodology. Use: waterfall, kanban, scrum, or fdd."`
 - Stop.
 
-### Step 1.5: Check Implementation Status
-
-Some methodologies have documented dispatch policies but their orchestrator filter logic has not shipped yet. Block selection until the filter is implemented:
-
-| Methodology | Status | Guard |
-|-------------|--------|-------|
-| Waterfall | Shipped | — |
-| Kanban | Shipped | — |
-| Scrum | Shipped | — |
-| FDD | Not yet implemented | Block with message |
-
-If the target methodology is `fdd`:
-- Print: `"FDD dispatch is not yet implemented in this Bashi version. The feature-group filter in orchestrator step 1.5 has not shipped. Selecting FDD would leave STATE.md in an inconsistent state.\n\nAvailable methodologies: waterfall, kanban, scrum."`
-- Stop.
-
-> **Remove this step** when Phase 2c (FDD) ships its filter logic.
-
 ### Step 2: Read Current State
 
 Read `.claude/project/STATE.md` to determine:
@@ -87,7 +70,10 @@ If a warning fires: print the warning, then proceed with the switch.
 - Store the answers as `sprint_size`, `sprint_duration`, `sprint_goal` for use in Step 6b.
 
 **FDD:**
-- No additional parameters in Phase 1. Feature grouping is handled during task breakdown.
+- If the Next Task Queue is empty: print `"No tasks in queue. Add tasks first, then run /methodology fdd."` and stop.
+- Present the task queue to the user and ask: "Group these tasks into features. A feature is a user-visible capability (e.g., 'User Authentication', 'Dashboard', 'Export')."
+- If tasks contain file path hints (e.g., `src/auth/`, `src/dashboard/`), suggest auto-grouping by path prefix. Ask user to confirm or override.
+- Record the feature assignments as `feature_groups` (a mapping of feature name → task numbers) for use in Step 6b.
 
 ### Step 6: Update STATE.md
 
@@ -146,7 +132,33 @@ If `## Methodology` already exists:
    *(no data yet — populated after first sprint completes)*
    ```
 
-**Waterfall:** Remove any methodology-specific fields (WIP Limit, Sprint metadata) if present. Remove `Sprint` column from Next Task Queue if present.
+**FDD:** Perform feature setup using the assignments collected in Step 5:
+
+1. Add `Feature` column to the Next Task Queue if not present. Tag each task with its feature group (`F1`, `F2`, etc.) per the user's assignments. Ungrouped tasks get `—`.
+2. Add feature metadata below the Methodology table:
+   ```markdown
+   > Current Feature: F1
+   > Feature Count: [number of feature groups]
+   ```
+3. Create `.claude/project/knowledge/FEATURES.md` with the feature plan:
+   ```markdown
+   # Feature Plan
+
+   ## F1: [Feature Name]
+   - **Description:** [one-line description]
+   - **Tasks:** [list of F1-tagged task descriptions from Next Task Queue]
+   - **Review:** Pending
+
+   ## F2: [Feature Name]
+   - **Description:** [one-line description]
+   - **Tasks:** [list of F2-tagged task descriptions]
+   - **Review:** Pending
+
+   ## Ungrouped Backlog
+   - [any tasks tagged —]
+   ```
+
+**Waterfall:** Remove any methodology-specific fields (WIP Limit, Sprint metadata, Feature metadata) if present. Remove `Sprint` or `Feature` column from Next Task Queue if present.
 
 #### 6c: Update Methodology History
 
@@ -221,11 +233,23 @@ Where methodology-specific messages are:
 3. Add `> WIP Limit: [N]` (default 3, or ask user).
 4. Print: `"Feature groups dissolved. [N] tasks in prioritized queue. WIP limit set to [limit]."`
 
+### Waterfall → FDD
+
+1. Follow the feature decomposition prompts from Step 5 (FDD section).
+2. Apply Step 6b (FDD section): add Feature column, metadata, and create FEATURES.md.
+
 ### Kanban → FDD
 
 1. Remove `> WIP Limit: N` from STATE.md.
-2. Ask user to assign tasks to feature groups (or auto-group by file path prefix if tasks contain path hints).
-3. Add `Feature` column to Next Task Queue.
+2. Follow the feature decomposition prompts from Step 5 (FDD section).
+3. Apply Step 6b (FDD section): add Feature column, metadata, and create FEATURES.md.
+4. Print: `"WIP limit removed. [N] tasks grouped into [M] features. Starting with F1."`
+
+### FDD → Waterfall
+
+1. Remove feature metadata from STATE.md (`> Current Feature:`, `> Feature Count:`).
+2. Remove the `Feature` column from the Next Task Queue (all tasks become flat backlog).
+3. FEATURES.md is preserved as history but no longer consulted.
 
 ### FDD ↔ Scrum
 

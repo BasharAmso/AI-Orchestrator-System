@@ -162,13 +162,105 @@ Tasks with `—` in the Sprint column are backlog items — not assigned to any 
 
 ## FDD Policy
 
-> Implemented in Phase 2.
+**Selection:** Feature-group-scoped. Tasks are organized into feature groups identified by a `Feature` column in the Next Task Queue (e.g., `F1`, `F2`). The orchestrator selects tasks only from the **current feature group** — the lowest-numbered incomplete feature. Within a group, respect queue row order (FIFO). Tasks with `—` in the Feature column are ungrouped backlog and are never selected while any feature group has incomplete tasks.
 
-**Selection:** Feature-group-scoped. Tasks are organized into feature groups (identified by a `Feature` column in the Next Task Queue). Select only from the current feature group. Within a group, respect queue order.
+**Feature boundary:** When all tasks tagged with the current feature group are completed (no remaining tasks with that feature tag in the Next Task Queue), emit `FEATURE_COMPLETE` event to EVENTS.md and stop. The reviewer agent runs a feature review gate before the orchestrator advances to the next feature group. The user must approve the review before dispatch resumes.
 
-**Feature boundary:** When all tasks in the current feature group are completed, emit `FEATURE_COMPLETE` event and stop for a feature review gate before proceeding to the next group.
+**Feature advancement:** After a successful feature review, the orchestrator advances `> Current Feature:` in STATE.md to the next feature group. If no more feature groups remain, all features are complete — the orchestrator emits `BUILD_COMPLETE`.
 
 **Circuit Breakers:** Feature group boundary (hard stop). Composes with global breakers via AND-logic.
+
+**Missing feature data at dispatch time:** If FDD is the active methodology but no feature assignment source exists (no `Feature` column in Next Task Queue AND no FEATURES.md), the orchestrator must not silently fall through to Waterfall. Instead:
+1. Print: `"FDD is active but no feature assignments found. Run /methodology fdd to set up feature groups, or /methodology waterfall to switch back."`
+2. Set `Last Run Status = Missing Feature Data` and stop the cycle.
+
+### FDD Feature Metadata
+
+When FDD is active, STATE.md contains these fields below the Methodology table:
+
+```markdown
+> Current Feature: F1
+> Feature Count: 3
+```
+
+FEATURES.md (created by `/methodology fdd` or the project-manager agent) contains the feature list:
+- Feature number, name, and one-line description
+- Task IDs mapping to Next Task Queue entries
+- Review status per feature (Pending / Reviewed / Approved)
+
+### FDD Feature Column Format
+
+When FDD is active, the Next Task Queue gains a `Feature` column:
+
+```markdown
+| # | Task | Priority | Skill | Feature |
+|---|------|----------|-------|---------|
+| 1 | Design data model | High | SKL-0008 | F1 |
+| 2 | Build API endpoints | High | SKL-0006 | F1 |
+| 3 | Create dashboard UI | Medium | SKL-0005 | F2 |
+| 4 | Add export feature | Medium | SKL-0006 | F2 |
+| 5 | Write integration tests | Low | SKL-0017 | F3 |
+| 6 | Performance optimization | Low | SKL-0019 | — |
+```
+
+Tasks with `—` in the Feature column are ungrouped backlog — not assigned to any feature. They are dispatched only after all numbered feature groups are complete.
+
+### FDD Feature Decomposition
+
+Feature groups should be organized by **user-visible capability**, not by technical layer. Each feature group delivers a slice of end-to-end functionality:
+
+- **Good:** F1 = "User authentication" (schema + API + UI + tests)
+- **Bad:** F1 = "All database tasks", F2 = "All API tasks"
+
+When creating features from a task queue, group tasks that share a common user-facing outcome. Tasks within a feature should be ordered so dependencies come first.
+
+### Migration: Switching to FDD
+
+**From Waterfall:**
+1. If the Next Task Queue is empty: print `"No tasks in queue. Add tasks first, then run /methodology fdd."` and stop.
+2. Present the current task queue to the user and ask: "Group these tasks into features. A feature is a user-visible capability (e.g., 'User Authentication', 'Dashboard', 'Export')."
+3. If tasks contain file path hints (e.g., `src/auth/`, `src/dashboard/`), suggest auto-grouping by path prefix. Ask user to confirm or override.
+4. Add `Feature` column to Next Task Queue. Tag each task with its feature group (`F1`, `F2`, etc.). Ungrouped tasks get `—`.
+5. Add feature metadata to STATE.md: `> Current Feature: F1`, `> Feature Count: [N]`.
+6. Create `.claude/project/knowledge/FEATURES.md` with the feature plan:
+   ```markdown
+   # Feature Plan
+
+   ## F1: [Feature Name]
+   - **Description:** [one-line description]
+   - **Tasks:** [list of task descriptions from queue]
+   - **Review:** Pending
+
+   ## F2: [Feature Name]
+   - **Description:** [one-line description]
+   - **Tasks:** [list of task descriptions from queue]
+   - **Review:** Pending
+
+   ## Ungrouped Backlog
+   - [any tasks tagged —]
+   ```
+
+**From Kanban:**
+1. Remove `> WIP Limit: N` from STATE.md.
+2. Follow the same feature decomposition prompts as Waterfall → FDD (steps 1-6 above).
+
+**From Scrum:** Blocked — must route through Waterfall first.
+
+### Migration: Switching away from FDD
+
+**To Waterfall:**
+1. Remove feature metadata from STATE.md (`> Current Feature:`, `> Feature Count:`).
+2. Remove the `Feature` column from the Next Task Queue (all tasks become flat backlog).
+3. FEATURES.md is preserved as history but no longer consulted.
+
+**To Kanban:**
+1. Dissolve feature groups. Remove the `Feature` column.
+2. Tasks flatten into a single queue, preserving priority and order.
+3. Remove feature metadata from STATE.md.
+4. Add `> WIP Limit: [N]` (default 3, or ask user).
+5. FEATURES.md preserved as history.
+
+**To Scrum:** Blocked — must route through Waterfall first.
 
 ---
 
@@ -182,6 +274,7 @@ These are enforced by the `/methodology` command and by the orchestrator at disp
 | Methodology value must be one of: Waterfall, Kanban, Scrum, FDD | Orchestrator step 1.5 | Fall back to Waterfall with warning |
 | FDD ↔ Scrum direct switch blocked | `/methodology` command | Reject with migration instructions |
 | Sprint metadata required for Scrum | `/doctor` (Phase 3) | Flag as error |
+| Feature metadata required for FDD | `/doctor` (Phase 3) | Flag as error |
 
 ---
 

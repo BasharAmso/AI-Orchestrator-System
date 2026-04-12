@@ -251,6 +251,18 @@ Result:
 
 > This test catches template sync drift early. Run `/clone-framework` or manually copy drifted files to resolve.
 
+#### T21. FDD Feature Group Filter (Mock)
+
+Simulate the FDD feature-group filter from orchestrator step 1.5:
+
+1. Read `.claude/rules/methodology-policies.md` and verify the FDD Policy section exists and contains: Feature Metadata, Feature Column Format, Feature Decomposition, and Migration subsections.
+2. Verify the policy states that the orchestrator selects tasks only from the current feature group (lowest-numbered incomplete feature).
+3. Mock scenario: Current Feature = F1, task queue has tasks tagged F1, F2, and `—`. Verify the policy would select only F1-tagged tasks and skip F2 and `—` tasks.
+4. Mock scenario: All F1-tagged tasks are completed. Verify the policy would emit `FEATURE_COMPLETE` and stop.
+5. Read `.claude/rules/event-hooks.md` and verify `FEATURE_COMPLETE` is routed to `reviewer`.
+
+Result: `PASS` if policy file is well-formed, both mock scenarios resolve correctly, and event routing exists. `FAIL` with details.
+
 ### Step 6: Print Results
 
 ```
@@ -278,8 +290,9 @@ Result:
 | T18 | Kanban WIP=0 validation | [PASS/FAIL] |
 | T19 | Corrupted methodology value | [PASS/FAIL] |
 | T20 | Template sync check | [PASS/WARN/SKIP] |
+| T21 | FDD feature group filter (mock) | [PASS/FAIL] |
 
-**Result: [X/20 passed]** - [All clear / X issues need attention]
+**Result: [X/21 passed]** - [All clear / X issues need attention]
 ```
 
 If any tests failed, add a `### Issues` section listing each failure with a suggested fix command.

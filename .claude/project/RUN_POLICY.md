@@ -208,8 +208,8 @@ Standard tags for categorizing feedback. Orchestrator picks the closest match.
 | Kanban | WIP limit reached | Soft stop (selection gate) | WIP = 3 | **Enforced** — filter logic in orchestrator step 1.5 |
 | Scrum | Sprint boundary reached | Hard stop | Active | **Enforced** — filter logic in orchestrator step 1.5 |
 | Scrum | Sprint timebox expired | Hard stop | Active | **Enforced** — filter logic in orchestrator step 1.5 |
-| FDD | Feature group boundary | Hard stop | Active | Documented — enforced when FDD filter ships |
+| FDD | Feature group boundary | Hard stop | Active | **Enforced** — filter logic in orchestrator step 1.5 |
 
 > **Kanban WIP:** Set via `/methodology kanban --wip N`. Enforced in orchestrator step 1.5.
 > **Scrum:** Sprint boundary and timebox breakers enforced in orchestrator step 1.5. Sprint metadata set via `/methodology scrum`.
-> **FDD:** Breaker definition is documented here for completeness. It is NOT yet enforced — the orchestrator step 1.5 filter logic for FDD has not shipped. Selecting FDD via `/methodology` is blocked until its filter logic is implemented.
+> **FDD:** Feature group boundary enforced in orchestrator step 1.5. Feature metadata set via `/methodology fdd`.
