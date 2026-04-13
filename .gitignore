@@ -42,6 +42,9 @@ AI-Memory/
 .claude/project/knowledge/OPEN_QUESTIONS.md
 .claude/project/RUN_POLICY.md
 
+# ----- MCP server caches -----
+.playwright-mcp/
+
 # ----- Node / Python artifacts (if projects use them) -----
 node_modules/
 __pycache__/
