@@ -80,6 +80,7 @@ To stay token-efficient, load context incrementally:
 | **Research-backed claims** | + `RESEARCH.md` |
 | **Uncertainty or ambiguity** | + `OPEN_QUESTIONS.md` |
 | **Running the system** | + `STATE.md` + `EVENTS.md` + `REGISTRY.md` |
+| **Non-Waterfall dispatch** | + `SPRINT.md` (Scrum) or `FEATURES.md` (FDD) — methodology-policies.md is already auto-loaded as a rule |
 | **Session start** | Scan `AI-Memory/lessons/` for entries relevant to the current task |
 | **Session start** | Load `~/.bashi/user-profile.md` if it exists (adapts output style, experience level, role) |
 | **MCP available** | Query Cortex MCP instead of reading `.claude/agents/` and `.claude/skills/` (see orchestrator.md Section Knowledge Source Detection) |
@@ -92,8 +93,24 @@ To stay token-efficient, load context incrementally:
 - Every action must update STATE before completing.
 - Events are processed oldest-first (FIFO).
 - Default mode is Semi-Autonomous: one unit of work, then stop.
+- Default methodology is Waterfall. Run `/methodology` to switch.
 - When the user asks a framework question, requests guidance, or describes a goal without specifying a command, follow the coach agent procedure at `.claude/agents/coach.md`.
 - For first-time orientation, run `/start` first; the coach handles follow-up conversation.
-- **Skill invocation reminder:** When the user triggers a task conversationally ("build this," "write X," "do the next task") and that task is in the Next Task Queue with a Skill assigned - remind them to run `/run-project` first. Conversational execution bypasses the skill's procedure, reference files, quality gates, and Definition of Done. Only proceed without `/run-project` if the user explicitly acknowledges and accepts this tradeoff.
+- When a queued task has a Skill assigned, remind the user to run `/run-project` — conversational execution bypasses skill procedures and quality gates. Proceed only if the user explicitly accepts the tradeoff.
+
+## Methodology (optional)
+
+Default is **Waterfall** (sequential task execution — no extra config needed). Run `/methodology <name>` to switch:
+
+| Methodology | Best For | Setup |
+|-------------|----------|-------|
+| **Waterfall** | Sequential execution, solo work | Default — no setup |
+| **Kanban** | Continuous flow, async work, parallel worktrees | Sets WIP limit |
+| **Scrum** | Time-bounded delivery with planned reviews | Creates SPRINT.md, sets sprint duration |
+| **FDD** | User-facing capabilities delivered as feature slices | Creates FEATURES.md, groups tasks by feature |
+
+- Dispatch policy details: `.claude/rules/methodology-policies.md`
+- Orchestrator filter: `orchestrator.md` step 1.5
+- FDD and Scrum cannot switch directly — route through Waterfall first.
 
 > Architecture primitives, dispatch chain, and full command reference: `.claude/REFERENCE.md`
