@@ -315,6 +315,28 @@ Once determined, create `PROJECT_TYPE.md` **only if it does not already exist** 
 - **Initialized:** YYYY-MM-DD
 ```
 
+### Step 4b: Update Project Identity
+
+After Step 4 confirms the project type, update IDENTITY.md and CLAUDE.md with the user's actual project description. This ensures the auto-loaded context describes *this* project, not the generic Bashi template.
+
+1. **Update IDENTITY.md** — overwrite the `## Fields` section with:
+   - **Project:** The project name from Step 3 auto-detection (or the user's description if clearer)
+   - **Purpose:** The user's answer from Step 4.3 ("What brings you here today?") — condensed to one sentence
+   - **Stack:** Infer from the confirmed project type and any tech mentioned by the user (e.g., "Next.js app" → "Next.js"). If uncertain, keep `[Fill in after architecture decisions]`.
+   - **Status:** `Not Started`
+
+2. **Update CLAUDE.md Project Identity section** — replace the `## Project Identity` block in `.claude/CLAUDE.md` with:
+   ```markdown
+   ## Project Identity
+
+   - **Project:** [project name]
+   - **Purpose:** [one-sentence purpose from user's description]
+   - **Stack:** [inferred or placeholder]
+   - **Framework:** Bashi v[read from FRAMEWORK_VERSION]
+   ```
+
+3. If IDENTITY.md or CLAUDE.md already have non-placeholder values (i.e., not `(set by /setup)` and not the generic Bashi template text), skip — don't overwrite user-customized identity.
+
 ### Step 5: Create Project-Type Folders (Idempotent)
 
 Create each directory only if it does not already exist. Never delete or modify existing directories.
