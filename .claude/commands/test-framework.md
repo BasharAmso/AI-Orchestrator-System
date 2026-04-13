@@ -251,6 +251,31 @@ Result:
 
 > This test catches template sync drift early. Run `/clone-framework` or manually copy drifted files to resolve.
 
+#### T20-git. Uncommitted Sync Set Check
+
+Detect when files in the sync set are modified in working tree but not committed — the blind spot that let 44175e7 ship with unstaged changes.
+
+1. Run: `git status --porcelain -- .claude/ create-bashi-app/template/.claude/`
+2. From the output, keep only lines starting with ` M`, `M`, `A`, `D`, `R` (tracked file changes). Discard `??` (untracked).
+3. Filter out the same exclusion list as T20:
+   - `.claude/project/STATE.md`
+   - `.claude/project/EVENTS.md`
+   - `.claude/project/RUN_POLICY.md`
+   - `.claude/project/session-log.csv`
+   - `.claude/project/knowledge/DECISIONS.md`
+   - `.claude/project/knowledge/RESEARCH.md`
+   - `.claude/project/knowledge/OPEN_QUESTIONS.md`
+   - `.claude/project/IDENTITY.md`
+   - `.claude/settings.local.json`
+   - Any `__pycache__/` directories
+   - Any `.pyc` files
+4. If any files remain after filtering, report:
+   `T20-git: WARN (N files have uncommitted changes: <list up to 5>)`
+5. If no files remain:
+   `T20-git: PASS (no uncommitted tracked changes in sync set)`
+
+T20-git is **informational only** — it does not cause the overall test suite to fail. It warns so the user can commit before a release.
+
 #### T21. FDD Feature Group Filter (Mock)
 
 Simulate the FDD feature-group filter from orchestrator step 1.5:
@@ -290,6 +315,7 @@ Result: `PASS` if policy file is well-formed, both mock scenarios resolve correc
 | T18 | Kanban WIP=0 validation | [PASS/FAIL] |
 | T19 | Corrupted methodology value | [PASS/FAIL] |
 | T20 | Template sync check | [PASS/WARN/SKIP] |
+| T20-git | Uncommitted sync set check | [PASS/WARN] |
 | T21 | FDD feature group filter (mock) | [PASS/FAIL] |
 
 **Result: [X/21 passed]** - [All clear / X issues need attention]
