@@ -3,7 +3,8 @@
 # Exit code 0 = always allow compaction to proceed
 
 set -uo pipefail
-echo "$(basename "${BASH_SOURCE[0]}")" >> /tmp/bashi-hook-usage.log 2>/dev/null || true
+BASHI_TMP="${TMPDIR:-${TMP:-${TEMP:-/tmp}}}"
+echo "$(basename "${BASH_SOURCE[0]}")" >> "$BASHI_TMP/bashi-hook-usage.log" 2>/dev/null || true
 
 FRAMEWORK_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 CLAUDE_DIR="$FRAMEWORK_ROOT/.claude"

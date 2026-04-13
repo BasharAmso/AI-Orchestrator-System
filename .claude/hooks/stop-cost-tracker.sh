@@ -4,7 +4,8 @@
 # Always exits 0 - reporting only, never blocks
 
 set -uo pipefail
-echo "$(basename "${BASH_SOURCE[0]}")" >> /tmp/bashi-hook-usage.log 2>/dev/null || true
+BASHI_TMP="${TMPDIR:-${TMP:-${TEMP:-/tmp}}}"
+echo "$(basename "${BASH_SOURCE[0]}")" >> "$BASHI_TMP/bashi-hook-usage.log" 2>/dev/null || true
 
 FRAMEWORK_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 LOG_FILE="$FRAMEWORK_ROOT/.claude/project/session-log.csv"
@@ -15,12 +16,12 @@ if [ ! -f "$LOG_FILE" ]; then
 fi
 
 # Session timing: read start time written by session-start hook
-START_FILE="/tmp/aos-session-start-time"
+START_FILE="$BASHI_TMP/aos-session-start-time"
 NOW=$(date +%s)
 TODAY=$(date "+%Y-%m-%d")
 END_FMT=$(date "+%H:%M")
 HOOKS_FIRED=0
-[ -f "/tmp/bashi-hook-usage.log" ] && HOOKS_FIRED=$(wc -l < /tmp/bashi-hook-usage.log | tr -d ' ')
+[ -f "$BASHI_TMP/bashi-hook-usage.log" ] && HOOKS_FIRED=$(wc -l < "$BASHI_TMP/bashi-hook-usage.log" | tr -d ' ')
 
 if [ -f "$START_FILE" ]; then
   START_TIME=$(cat "$START_FILE" 2>/dev/null || echo "$NOW")
@@ -59,7 +60,7 @@ if [ "$ELAPSED" -gt 0 ]; then
   # System notification - 5-minute cooldown prevents spam on every response stop
   PROJECT_NAME=$(basename "$FRAMEWORK_ROOT")
   NOTIF_COOLDOWN=300
-  LAST_NOTIF_FILE="/tmp/aos-last-stop-notif"
+  LAST_NOTIF_FILE="$BASHI_TMP/aos-last-stop-notif"
   SHOULD_NOTIFY=true
   if [ -f "$LAST_NOTIF_FILE" ]; then
     LAST_NOTIF=$(cat "$LAST_NOTIF_FILE" 2>/dev/null || echo "0")

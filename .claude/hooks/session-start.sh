@@ -3,8 +3,9 @@
 # Exit code 0 - informational only
 
 set -euo pipefail
-: > /tmp/bashi-hook-usage.log 2>/dev/null || true
-echo "$(basename "${BASH_SOURCE[0]}")" >> /tmp/bashi-hook-usage.log 2>/dev/null || true
+BASHI_TMP="${TMPDIR:-${TMP:-${TEMP:-/tmp}}}"
+: > "$BASHI_TMP/bashi-hook-usage.log" 2>/dev/null || true
+echo "$(basename "${BASH_SOURCE[0]}")" >> "$BASHI_TMP/bashi-hook-usage.log" 2>/dev/null || true
 
 FRAMEWORK_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 CLAUDE_DIR="$FRAMEWORK_ROOT/.claude"
@@ -129,8 +130,8 @@ else
   echo "Run /setup in any project to create it, or set AI_MEMORY_PATH in your shell profile."
 fi
 
-date +%s > /tmp/aos-session-start-time
-echo "0" > /tmp/aos-edit-count
+date +%s > "$BASHI_TMP/aos-session-start-time"
+echo "0" > "$BASHI_TMP/aos-edit-count"
 
 PROJECT_NAME=$(basename "$FRAMEWORK_ROOT")
 if command -v powershell.exe &>/dev/null; then
